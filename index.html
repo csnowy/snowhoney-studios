@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Snowhoney Studios — Go live in 7 days (Home + Order Flow)</title>
+  <meta name="description" content="Snowhoney Studios builds fast, clean one‑page websites for small businesses. Pick a package, complete your brief, and pay — all in one place." />
+  <meta name="theme-color" content="#F5B700" />
+  <!-- Favicon / App Icons -->
+  <link rel="icon" href="icon.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="stylesheet" href="styles.css">
+  
+</head>
+<body>
+  <div class="scroll-bg"></div>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Snowhoney Studios home">
+        <!-- Logo: snowman into honey jar -->
+        <img class="logo" src="icon.png" alt="Snowhoney Studios logo" width="34" height="34" loading="eager"/>
+        <h1>Snowhoney Studios</h1>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#packages">Packages</a>
+        <a href="#process">Process</a>
+        <a href="#work">Work</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="menu-btn" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+    <div id="mobileMenu" class="mobile-menu hidden" role="dialog" aria-modal="true" aria-label="Mobile menu">
+      <a href="#packages">Packages</a>
+      <a href="#process">Process</a>
+      <a href="#work">Work</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <!-- ===== HOME (Marketing) ===== -->
+  <main id="top">
+    <section class="hero">
+      <div class="container wrap">
+        <h2 class="title hero-title">Go live in 7 days — with a webpage just like this!</h2>
+
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <span class="badge" style="margin-bottom: 30px;"><i></i><span>7-Day Launch — 1, 2, or 3 Page Sites</span></span>
+            <p class="lead">
+              Send us your content. We’ll design and build your website in just 7 days — flat fee, no surprises.
+            </p>
+
+            <p class="lead">
+              Want to be hands-off? Let <b>Snowhoney Studios</b> launch and host your site for a monthly fee! This means we'll handle <b>ALL</b> of the website stuff, including updates, uptime monitoring, and small edits as you request (varies per plan).
+            </p>
+
+            <div class="cta">
+              <a class="btn primary" href="#packages">View Packages →</a>
+            </div>
+
+            <p class="small" style="color:var(--muted); margin-top:10px">
+              Timeline starts from the day we receive your content.
+            </p>
+          </div>
+
+          <div class="hero-art">
+            <img class="hero-img" src="logo.png" alt="Snowhoney Studios logo" loading="lazy"/>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="packages">
+      <div class="container">
+        <h3 class="section-title">Packages</h3>
+        <p class="section-sub">Fixed‑scope one‑page sites. Fast turnaround. Prices in <b>CAD</b> (plus tax).</p>
+        <div class="grid cols-3">
+          <!-- One Page -->
+          <div class="card">
+            <div class="badge" style="margin-bottom:10px"><i></i> One-Page Site</div>
+            <div class="price">$499 CAD</div>
+            <div class="inc">7-day turnaround • 2 revisions</div>
+            <ul class="list">
+              <li><span class="tick"><svg viewBox="0 0 20 20"><path d="M7.5 13.5..."/></svg></span>Mobile-first design</li>
+              <li><span class="tick"><svg viewBox="0 0 20 20"><path d="M7.5 13.5..."/></svg></span>Any content we have on our page!</li>
+              <li><span class="tick"><svg viewBox="0 0 20 20"><path d="M7.5 13.5..."/></svg></span>Basic SEO</li>
+            </ul>
+            <div class="cta" style="margin-top:12px">
+              <button class="btn primary" onclick="startOrder('One-Page Site',499)">Buy One-Page →</button>
+            </div>
+          </div>
+
+          <!-- Two Page -->
+          <div class="card" style="border:2px solid var(--honey)">
+            <div class="badge" style="margin-bottom:10px"><i></i> Two-Page Site</div>
+            <div class="price">$899 CAD</div>
+            <div class="inc">7-day turnaround • 2 revisions per page</div>
+            <ul class="list">
+              <li><span class="tick"><svg viewBox="0 0 20 20"><path d="M7.5 13.5..."/></svg></span>Everything in One-Page</li>
+              <li><span class="tick"><svg viewBox="0 0 20 20"><path d="M7.5 13.5..."/></svg></span>Extra page for services or products</li>
+            </ul>
+            <div class="cta" style="margin-top:12px">
+              <button class="btn primary" onclick="startOrder('Two-Page Site',899)">Buy Two-Page →</button>
+            </div>
+          </div>
+
+          <!-- Three Page -->
+          <div class="card">
+            <div class="badge" style="margin-bottom:10px"><i></i> Three-Page Site</div>
+            <div class="price">$1,299 CAD</div>
+            <div class="inc">7-day turnaround • 2 revisions per page</div>
+            <ul class="list">
+              <li><span class="tick"><svg viewBox="0 0 20 20"><path d="M7.5 13.5..."/></svg></span>Everything in Two-Page</li>
+              <li><span class="tick"><svg viewBox="0 0 20 20"><path d="M7.5 13.5..."/></svg></span>Additional custom page</li>
+            </ul>
+            <div class="cta" style="margin-top:12px">
+              <button class="btn primary" onclick="startOrder('Three-Page Site',1299)">Buy Three-Page →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mockup -->
+        <div class="card" style="margin-top:14px">
+          <div class="badge" style="margin-bottom:10px"><i></i> Mockup Only</div>
+          <div class="price">$49 CAD</div>
+          <div class="inc">1–2 day turnaround • PNG preview</div>
+          <p class="small">Get a visual draft of your site before committing to a full build.</p>
+          <div class="cta" style="margin-top:12px">
+            <button class="btn secondary" onclick="startOrder('Mockup Only',99)">Order Mockup →</button>
+          </div>
+        </div>
+
+        </div>
+
+        <!-- Hosting Plans -->
+        <div class="grid" style="grid-template-columns:minmax(0, 720px); justify-content:center; margin-top:100px">
+          <div class="card" style="padding:24px">
+            <h4 style="margin:0 0 10px; font-size:22px">Want to let us handle <b>ALL</b> the website stuff?</h4>
+            <p class="section-sub">Let <b>Snowhoney Studios</b> host your site! (Options available at checkout)</p>
+
+            <div class="grid cols-3" style="margin-top:16px">
+              <div class="card" style="padding:16px">
+                <div class="badge"><i></i> Basic Hosting</div>
+                <div class="price">$29/mo</div>
+                <div class="inc">Hosting • Updates • Uptime • 15 min edits</div>
+              </div>
+
+              <div class="card" style="padding:16px; border:2px solid var(--honey)">
+                <div class="badge"><i></i> Grow Hosting</div>
+                <div class="price">$79/mo</div>
+                <div class="inc">Everything in Basic + Analytics Report & 1 content change per month</div>
+              </div>
+
+              <div class="card" style="padding:16px">
+                <div class="badge"><i></i> Local SEO Hosting</div>
+                <div class="price">$119–$209/mo</div>
+                <div class="inc">GBP optimization • Citations • Monthly backlink</div>
+              </div>
+          </div>
+        </div>
+          <p class="small" style="margin-top:12px; color:var(--muted)">
+            You’ll pick your hosting plan during checkout — or choose to host yourself.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="process" style="padding-top:36px">
+      <div class="container">
+        <h3 class="section-title">Process</h3>
+        <p class="section-sub">Clear, simple, and fast.</p>
+        <div class="steps">
+          <div class="step"><b>1) Kickoff</b> Choose a package and fill out our personalization form.</div>
+          <div class="step"><b>2) Build</b> We craft the page, you relax.</div>
+          <div class="step"><b>3) Review</b> We will make revisions if you so desire, varying amounts per your package.</div>
+          <div class="step"><b>4) Launch</b> Choose if you'd like us to host your site, or try doing it yourself!.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="container">
+        <h3 class="section-title">Recent Work (samples)</h3>
+        <p class="section-sub">A few clean, conversion‑ready layouts.</p>
+        <div class="work">
+          <img class="shot" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='400'%3E%3Crect width='640' height='400' fill='%23E6F4FB'/%3E%3C/svg%3E" alt="Sample site 1" loading="lazy"/>
+          <img class="shot" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='400'%3E%3Crect width='640' height='400' fill='%23FFFFFF'/%3E%3C/svg%3E" alt="Sample site 2" loading="lazy"/>
+          <img class="shot" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='400'%3E%3Crect width='640' height='400' fill='%23FFE08A'/%3E%3C/svg%3E" alt="Sample site 3" loading="lazy"/>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <h3 class="section-title">FAQ</h3>
+        <details>
+          <summary>How fast can I launch?</summary>
+          <p>7 days from your order AT MOST! If not, we guarantee a FULL refund AND your webpage - no cost! However, if you need it sooner we have a rush fee available!</p>
+        </details>
+        <details>
+          <summary>What do you need from me?</summary>
+          <p>Business name, services, locations, 2–3 photos, and how you want people to contact you (call, form, booking link). You'll be prompted with a form containing all of this and more once a plan is selected!</p>
+        </details>
+        <details>
+          <summary>Who owns the website?</summary>
+          <p>You do! We keep your base template for future edits you may need; you own your copy, images, and domain (website address).</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== ORDER FLOW (Hidden until a package is chosen) ===== -->
+  <section id="brief" class="hidden">
+  <div class="container" style="max-width: 800px;">
+    <div class="card" style="padding:20px">
+      <form id="briefForm">
+
+        <!-- === 1. BUSINESS BASICS === -->
+        <h4 class="form-section">Business Basics</h4>
+        <div class="row">
+          <div>
+            <label>Business name <span style="color:red">*</span></label>
+            <input name="businessName" maxlength="50" placeholder="e.g., Prairie Dental" required />
+          </div>
+          <div>
+            <label>Primary contact email <span style="color:red">*</span></label>
+            <input type="email" name="contactEmail" maxlength="100" placeholder="you@business.ca" required />
+          </div>
+        </div>
+        <div class="row">
+          <div><label>Contact phone</label><input name="phone" maxlength="30" placeholder="(###) ###-####" /></div>
+          <div><label>Business address / service area</label><input name="address" maxlength="100" placeholder="123 Main St, City" /></div>
+        </div>
+
+        <!-- === 2. BRAND & CONTENT === -->
+        <h4 class="form-section">Brand & Content</h4>
+        <div class="row">
+          <div><label>Tagline / slogan</label><input name="tagline" maxlength="150" placeholder="Short phrase you love" /></div>
+          <div>
+            <label>Main call-to-action</label>
+            <select name="cta">
+              <option value="call">Call now</option>
+              <option value="book">Book online</option>
+              <option value="email">Email us</option>
+            </select>
+          </div>
+        </div>
+        <label>Services</label>
+        <textarea name="services" maxlength="800" placeholder="List your 3-6 key services"></textarea>
+
+        <div class="row">
+          <div><label>About</label><textarea name="about" maxlength="800" placeholder="1–3 short paragraphs"></textarea></div>
+          <div><label>Locations</label><textarea name="locations" maxlength="800" placeholder="Where you operate"></textarea></div>
+        </div>
+        <div class="row">
+          <div><label>Brand colors</label><input name="colors" maxlength="200" placeholder="Or, leave that to us!" /></div>
+          <div><label>Fonts</label><input name="fonts" maxlength="200" placeholder="e.g., Inter, Source Sans" /></div>
+        </div>
+        <div class="row">
+          <div><label>Logos</label><input type="file" name="logos" accept="image/*" multiple /></div>
+          <div><label>Other images</label><input type="file" name="images" accept="image/*" multiple /></div>
+        </div>
+
+        <!-- === 3. ONLINE PRESENCE === -->
+        <h4 class="form-section">Online Presence</h4>
+        <div class="row">
+          <div><label>Social links</label><input name="social" maxlength="200" placeholder="Facebook, Instagram..." /></div>
+          <div><label>Booking link</label><input name="booking" maxlength="200" placeholder="Calendly, Square, etc." /></div>
+        </div>
+        <div class="row">
+          <div><label>Competitors / inspirations</label><textarea name="inspo" maxlength="600" placeholder="Paste 2–4 URLs you like"></textarea></div>
+          <div><label>Tone & style</label><textarea name="tone" maxlength="400" placeholder="Warm, professional, etc."></textarea></div>
+        </div>
+        <div class="row">
+          <div>
+            <label>Domain status</label>
+            <select name="domain">
+              <option value="have">I already own a domain</option>
+              <option value="need">I need help getting a domain</option>
+            </select>
+          </div>
+          <div><label>Timeline notes</label><input name="timeline" maxlength="200" placeholder="Any deadlines" /></div>
+        </div>
+
+        <!-- === 4. E-COMMERCE (optional) === -->
+        <h4 class="form-section selling-header">
+          Want to sell products or services on this site?
+          <input type="checkbox" id="sellingCheckbox" name="sellingOnline" value="yes" />
+        </h4>
+
+        <div id="sellingSection" class="hidden">
+          <div class="row">
+            <div><label>Legal business name</label><input name="legalName" maxlength="150" placeholder="Exact name on bank account" /></div>
+            <div><label>Bank account number / IBAN</label><input name="accountNumber" maxlength="40" /></div>
+          </div>
+          <div class="row">
+            <div><label>Routing / transit number</label><input name="routingNumber" maxlength="20" /></div>
+            <div><label>SWIFT / institution code</label><input name="swiftCode" maxlength="20" /></div>
+          </div>
+          <div class="row">
+            <div><label>Customer payment options</label><input name="paymentOptions" maxlength="200" placeholder="Credit, debit, PayPal" /></div>
+            <div>
+              <label>Payout method</label>
+              <select name="payoutMethod">
+                <option value="">Select</option>
+                <option value="direct">Direct Deposit</option>
+                <option value="paypal">PayPal</option>
+                <option value="stripe">Stripe</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Item + Cost Table -->
+          <div class="selling-table">
+            <label>Products / Services</label>
+            <table>
+              <thead><tr><th>Item / Service</th><th>Cost</th></tr></thead>
+              <tbody id="itemsTableBody">
+                <tr>
+                  <td><input name="item[]" maxlength="100" placeholder="Website Design" /></td>
+                  <td><input name="cost[]" maxlength="20" placeholder="$499" /></td>
+                </tr>
+              </tbody>
+            </table>
+            <button type="button" class="btn secondary small" onclick="addRow()">+ Add another</button>
+          </div>
+        </div>
+
+        <!-- === 5. EXTRAS === -->
+        <h4 class="form-section">Extras</h4>
+        <label>Anything else?</label>
+        <textarea name="notes" maxlength="1000" placeholder="Requests, sections, compliance needs, etc."></textarea>
+
+        <div class="note">If you missed anything, feel free to email us later!</div>
+
+        <div class="cta" style="margin-top:14px">
+          <button type="button" class="btn secondary" onclick="document.getElementById('brief').classList.add('hidden'); location.hash='#packages'">← Back to packages</button>
+          <button type="button" class="btn primary" onclick="submitBrief()">Finished!</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+
+
+          <div>
+            <label>Anything else?</label>
+            <textarea name="notes" maxlength="1000" placeholder="Requests, sections to include, compliance needs, languages, etc."></textarea>
+          </div>
+
+          <div class="note">If you missed anything, feel free to email us at 'blank'.</div>
+
+          <div class="cta" style="margin-top:14px">
+            <button type="button" class="btn secondary" onclick="document.getElementById('brief').classList.add('hidden'); location.hash='#packages'">← Back to packages</button>
+            <button type="button" class="btn primary" onclick="submitBrief()">Finished!</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="payment" class="hidden">
+    <div class="container">
+      <div class="card" style="padding:20px">
+        <h3 class="section-title" style="margin-top:0">Payment & hosting</h3>
+        <p class="section-sub">Confirm your order and choose hosting. You’ll be taken to our secure checkout next.</p>
+        <div class="summary">
+          <div class="line"><strong>Package</strong><span id="sumPackage">—</span></div>
+          <div class="line"><strong>Price</strong><span id="sumPrice">—</span></div>
+          <div class="line"><strong>Business</strong><span id="sumBusiness">—</span></div>
+          <hr/>
+          <div><strong>Hosting options</strong></div>
+          <label class="opt"><input class="radio" type="radio" name="hosting" value="none" checked> I’ll handle hosting myself</label>
+          <label class="opt"><input class="radio" type="radio" name="hosting" value="basic"> Host with you — Basic $49/mo</label>
+          <label class="opt"><input class="radio" type="radio" name="hosting" value="grow"> Host with you — Grow $99/mo</label>
+          <div class="note">Hosting includes updates, monitoring, and support. Cancel anytime.</div>
+        </div>
+        <div class="cta" style="margin-top:14px">
+          <button class="btn secondary" onclick="document.getElementById('payment').classList.add('hidden'); document.getElementById('brief').classList.remove('hidden'); location.hash='#brief'">← Back to brief</button>
+          <button class="btn primary" onclick="goCheckout()">Proceed to payment</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer" style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:16px; padding:28px 0; color:#475569">
+      <div>
+        <b>Snowhoney Studios</b>
+        <div class="small">© <span id="y"></span> Snowhoney Studios. All rights reserved.</div>
+      </div>
+      <div>
+        <div class="small">Business hours</div>
+        <div class="small">Mon–Fri: 7am–5pm</div>
+      </div>
+      <div>
+        <div class="small">Made with 🍯 & ❄️</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

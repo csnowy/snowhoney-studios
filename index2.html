@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snowhoney Studios</title>
+  <style>
+    /* === BRAND COLORS === */
+    :root {
+      --snow: #f8f9fa;
+      --honey: #dca73f;
+      --teal: #399e9c;
+      --dark: #29343b;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--snow);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Press Start 2P', cursive; /* use Orange Gummy if you have the file */
+      color: var(--dark);
+      text-align: center;
+    }
+
+    /* === HERO SECTION === */
+    .hero {
+      background: linear-gradient(to bottom, var(--snow), var(--honey));
+      padding: 80px 20px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+    .btn-primary {
+      background: var(--honey);
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: #c48d2e;
+    }
+
+    /* === SECTIONS === */
+    section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+    }
+    .step {
+      flex: 1 1 250px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .why-item {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .portfolio {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .portfolio img {
+      width: 300px;
+      border-radius: 10px;
+      border: 2px solid var(--honey);
+    }
+
+    .pricing {
+      text-align: center;
+      background: var(--teal);
+      color: white;
+      border-radius: 10px;
+      padding: 40px;
+    }
+
+    .testimonials {
+      display: grid;
+      gap: 20px;
+    }
+    .testimonial {
+      background: white;
+      border-left: 5px solid var(--honey);
+      padding: 20px;
+      border-radius: 6px;
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--dark);
+      color: var(--snow);
+      text-align: center;
+      padding: 20px;
+    }
+    footer a {
+      color: var(--honey);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Your Website. Ready in 7 Days.</h1>
+    <p>Skip the $100/hr agencies. Snowhoney builds you a stunning single-page website, fast and stress-free.</p>
+    <button class="btn-primary">Get Started Today</button>
+    <p><small>Need more than one page? Request a custom quote.</small></p>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step"><h3>1. Choose Package 🐝</h3><p>Select your 1-page website plan.</p></div>
+      <div class="step"><h3>2. Submit Content ❄️</h3><p>Send us your text, logos, and photos.</p></div>
+      <div class="step"><h3>3. Launch in 7 Days 🍯</h3><p>We design, build, and publish your site.</p></div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section>
+    <h2>Why Snowhoney?</h2>
+    <div class="why-grid">
+      <div class="why-item"><strong>7-Day Guarantee</strong><p>We deliver fast, every time.</p></div>
+      <div class="why-item"><strong>Flat Price</strong><p>No hourly surprises or hidden fees.</p></div>
+      <div class="why-item"><strong>Conversion-Focused</strong><p>Sites that look good and get results.</p></div>
+      <div class="why-item"><strong>Local + Friendly</strong><p>Proudly based in Saskatoon.</p></div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section>
+    <h2>Recent Work</h2>
+    <div class="portfolio">
+      <img src="example1.jpg" alt="Cafe site">
+      <img src="example2.jpg" alt="Contractor site">
+      <img src="example3.jpg" alt="Artist site">
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing">
+    <h2>Pricing</h2>
+    <p><strong>Single-Page Website</strong></p>
+    <p>Flat fee (ex: $995 CAD)</p>
+    <p>Includes mobile-friendly design, SEO basics, hosting setup.</p>
+    <p><em>Delivered in 7 Days</em></p>
+    <button class="btn-primary">Start My 7-Day Site</button>
+    <p style="margin-top:20px;">Need more pages? Add pages anytime, request a quote.</p>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <h2>What Clients Say</h2>
+    <div class="testimonials">
+      <div class="testimonial">“Snowhoney had my new café site online in less than a week. Customers found me instantly.” – Jane, Cafe Owner</div>
+      <div class="testimonial">“No hidden fees, no stress. Just a clean, professional site.” – Alex, Contractor</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="text-align:center; background: linear-gradient(to right, var(--snow), var(--honey)); padding:60px;">
+    <h2>Your Business Deserves to Shine Online</h2>
+    <button class="btn-primary">Launch My 7-Day Website Now</button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Snowhoney Studios 🍯❄️ | Saskatoon, Canada</p>
+    <p><a href="#">About</a> | <a href="#">Portfolio</a> | <a href="#">Request Quote</a> | <a href="#">Contact</a></p>
+  </footer>
+
+</body>
+</html>
