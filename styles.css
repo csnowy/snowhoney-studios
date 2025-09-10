@@ -9,6 +9,7 @@
     /* Brand palette */
     --snow:#ffffff;          /* snow white */
     --ice:#E6F4FB;           /* ice blue */
+    --icy: #c3e9fd;         /* bluer ice */
     --coal:#111827;          /* coal black */
     --honey:#F5B700;         /* honey gold */
     --honey-amber:#FFC94D;   /* lighter honey */
@@ -97,8 +98,66 @@ ul.list{margin:0; padding:0; list-style:none}
 .step b{display:block; margin-bottom:6px}
 
 /* Work grid */
-.work{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
-.shot{aspect-ratio:16/10; border-radius:12px; background:linear-gradient(180deg, #e6f4fb, #ffffff); border:1px solid #e5e7eb}
+.work-carousel {
+  position: relative;
+  overflow: hidden; /* hide anything outside */
+  width: 100%;
+}
+
+.work-track {
+  display: flex;
+  transition: transform 0.4s ease;
+}
+.work-track::-webkit-scrollbar { display: none; }
+
+.work-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--snow);
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--coal);
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+}
+.work-arrow.left {
+  left: 8px;
+}
+.work-arrow.right {
+  right: 8px;
+}
+.work-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.shot {
+  flex: 0 0 50%;         /* each image = half of carousel width */
+  padding: 0 10px;       /* space on left & right (so 20px total gap) */
+  box-sizing: border-box;
+}
+.shot img {
+  width: 100%;
+  aspect-ratio: 16 / 10; /* consistent ratio */
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  background: #fff;
+  display: block;
+}
+/* Hover effect to make them feel interactive */
+.shot:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+}
+
 
 /* FAQ */
 details{background:var(--snow); border:1px solid #e5e7eb; border-radius:12px; padding:14px 16px}
@@ -161,6 +220,30 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
 
 .selling-table th {
   background: var(--ice);
+}
+
+/* Hosting option styles */
+.hosting-option {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.hosting-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.hosting-option.selected {
+  border: 2px solid var(--honey);
+  background: linear-gradient(180deg, #fffef5, #fff);
+  box-shadow: 0 6px 16px rgba(245,183,0,.25);
+}
+
+.btn.secondary.small.selected {
+  border-color: var(--honey);
+  background: #fffef5;
+  font-weight: 700;
 }
 
 /* Payment summary */
