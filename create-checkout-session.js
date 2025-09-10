@@ -8,6 +8,7 @@ const PRICE_MAP = {
   "One-Page Site": process.env.PRICE_ONEPAGE,   // e.g. price_1...
   "Two-Page Site": process.env.PRICE_TWOPAGE,
   "Three-Page Site": process.env.PRICE_THREEPAGE,
+  "Mockup Only": process.env.PRICE_MOCKUP,
 
   // subscriptions (monthly hosting):
   "Basic Hosting": process.env.PRICE_HOST_BASIC,    // recurring

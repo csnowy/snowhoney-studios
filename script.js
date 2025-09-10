@@ -219,7 +219,7 @@ async function goCheckout(){
       businessName: state.brief?.businessName || ''
     };
 
-    const res = await fetch('/api/create-checkout-session', {
+    const res = await fetch('/.netlify/functions/create-checkout-session', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(payload)
