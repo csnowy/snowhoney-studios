@@ -246,6 +246,20 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
   font-weight: 700;
 }
 
+/* Center the "Hosting Options" header (only inside hosting block) */
+#hostingBlock > h4.form-section {
+  text-align: center;
+}
+
+#hostingBlock > p { text-align: center; }
+
+/* Center the self-host button */
+.self-host-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px; /* keeps your spacing */
+}
+
 /* Payment summary */
 .summary{display:grid; gap:12px}
 .line{display:flex; align-items:center; justify-content:space-between}
@@ -310,6 +324,40 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
     height: auto;
 }
 
+/* Hosting: make cards narrower & centered */
+.hosting-grid{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.hosting-grid .hosting-option{
+  width: 260px;              /* narrower card width */
+}
+
+/* Domain input area: narrow & centered */
+.domain-wrap{
+  max-width: 520px;          /* narrower block */
+  margin: 20px auto 0;       /* center it */
+}
+.domain-wrap .stack{
+  display: grid;
+  gap: 10px;                 /* spacing between inputs */
+}
+
+/* Small button helper */
+.btn.small{
+  min-height: 40px;
+  padding: 10px 14px;
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+/* Mobile: cards can go full width if needed */
+@media (max-width: 520px){
+  .hosting-grid .hosting-option{ width: 100%; }
+  .domain-wrap{ max-width: 100%; }
+}
 
 /* Responsive */
 @media (max-width: 950px){
@@ -328,4 +376,242 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
 }
 @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto}
+}
+
+/* ===========================
+   GLOBAL HOVER/FOCUS ENHANCERS
+   =========================== */
+
+/* Smooth transitions for interactive things */
+a, button, .btn, .card, .badge, .work-arrow, input, select, textarea, details, summary, .step {
+  transition:
+    transform 160ms ease,
+    box-shadow 200ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease;
+  will-change: transform;
+}
+
+/* Respect reduced-motion users */
+@media (prefers-reduced-motion: reduce){
+  a, button, .btn, .card, .badge, .work-arrow, input, select, textarea, details, summary, .step {
+    transition: none;
+  }
+}
+
+/* Only apply hover effects on devices that actually hover */
+@media (hover: hover) {
+
+  /* ---------- Buttons ---------- */
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.14);
+  }
+
+  .btn.primary:hover {
+    background: linear-gradient(180deg, var(--honey-amber), var(--honey));
+    box-shadow: 0 10px 28px rgba(245,183,0,.32);
+  }
+
+  .btn.secondary:hover {
+    background: #fffef8;
+    border-color: var(--honey);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+  }
+
+  /* Keep “selected” small secondary from losing its state on hover */
+  .btn.secondary.small.selected:hover {
+    background: #fffef5;
+    border-color: var(--honey);
+    box-shadow: 0 8px 20px rgba(245,183,0,.22);
+  }
+
+  /* ---------- Cards (package/hosting/payment/etc.) ---------- */
+  .card { border-color: rgba(17,24,39,.08); }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.16);
+    border-color: #e9eef6;
+  }
+
+  /* Don’t override explicitly selected hosting tiles */
+  .hosting-option:hover:not(.selected) {
+    border-color: var(--honey);
+    box-shadow: 0 12px 28px rgba(245,183,0,.22);
+    background: linear-gradient(180deg, #fffefb, #fff);
+  }
+
+  /* ---------- Badges & steps ---------- */
+  .badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+  }
+  .step:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+    border-color: #e7edf5;
+  }
+
+  /* ---------- Nav links ---------- */
+  nav a:hover {
+    color: var(--honey-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ---------- Carousel arrows ---------- */
+  .work-arrow:hover {
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+    border-color: var(--honey);
+  }
+
+  /* ---------- Form fields ---------- */
+  input:hover, textarea:hover, select:hover {
+    border-color: #cbd5e1; /* subtle hint; focus still goes full honey ring */
+  }
+
+  /* ---------- Payment summary lines (tiny nudge) ---------- */
+  .summary .line:hover {
+    color: #0f172a;
+  }
+}
+
+/* Visible keyboard focus (more obvious) */
+.btn:focus-visible,
+.card:focus-within,
+.work-arrow:focus-visible,
+.badge:focus-visible,
+summary:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--ring), 0 6px 18px rgba(0,0,0,0.10);
+  border-color: var(--honey);
+  border-radius: 12px;
+}
+
+/* Slightly sturdier pressed state for everything */
+.btn:active,
+.card:active,
+.work-arrow:active {
+  transform: translateY(0); /* cancels the hover lift for a “press” feel */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+/* ===== Brand corners on cards ===== */
+.card { position: relative; overflow: hidden; }
+
+/* Base corner icon */
+.card .corner {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 28px; height: 28px;
+  color: var(--honey-deep);    /* controls icon tint */
+  opacity: 0.16;               /* subtle by default */
+  transition: transform .18s ease, opacity .18s ease, color .18s ease;
+  pointer-events: none;
+}
+
+/* Lift & brighten on hover */
+.card:hover .corner {
+  opacity: 0.26;
+  transform: rotate(-6deg) scale(1.05);
+}
+
+/* Alternate placements */
+.corner.tl { left: 10px; right: auto; }
+.corner.bl { left: 10px; right: auto; top: auto; bottom: 10px; }
+.corner.br { top: auto; bottom: 10px; }
+
+/* Theming helpers (change tint per card) */
+.card--bee      .corner { color: var(--honey); }
+.card--snow     .corner { color: #9cc9ff; }
+.card--comb     .corner { color: #f2b700; }
+.card--jar      .corner { color: #d3960a; }
+
+/* Optional: ultra-light pattern sheen */
+.card.brand-sheen::before {
+  content: "";
+  position: absolute; inset: -1px;
+  background:
+    radial-gradient(600px 280px at 120% -20%, rgba(245,183,0,.10) 0%, transparent 60%),
+    radial-gradient(500px 240px at -10% -20%, rgba(156,201,255,.16) 0%, transparent 60%);
+  mix-blend-mode: multiply;
+  opacity: .06;
+  transition: opacity .18s ease;
+  pointer-events: none;
+}
+.card.brand-sheen:hover::before { opacity: .10; }
+
+@keyframes honey-wiggle {
+  0% { transform: rotate(-6deg) scale(1.05); }
+  50% { transform: rotate(-3deg) scale(1.08); }
+  100% { transform: rotate(-6deg) scale(1.05); }
+}
+@media (hover: hover){
+  .card:hover .corner { animation: honey-wiggle 700ms ease-in-out; }
+}
+
+/* Pixel-ish icon tuning */
+.corner.pixel { shape-rendering: crispEdges; }
+.corner.sm { width: 22px; height: 22px; }
+.corner.lg { width: 36px; height: 36px; }
+
+/* Extra brand tints if you want variety */
+.card--honey  .corner { color: var(--honey); }
+.card--ice    .corner { color: #9cc9ff; }
+.card--amber  .corner { color: var(--honey-amber); }
+
+/* Cards already have position/overflow from earlier steps; ensure: */
+.card { position: relative; overflow: hidden; }
+
+/* Keep main content above background decorations */
+.card-body { position: relative; z-index: 2; }
+
+/* PNG decorations */
+.dec{
+  position: absolute;
+  z-index: 1;                     /* under .card-body but above background */
+  width: var(--w, 36px);          /* default size; override via size classes or inline */
+  opacity: var(--o, .18);
+  pointer-events: none;           /* don’t block clicks */
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.06));
+  transform: rotate(var(--r, -4deg)) scale(var(--s, 1));
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+/* Corner anchors (tweak the 10px gutters as you like) */
+.dec-tl { top: 10px; left: 10px; transform: rotate(var(--r, 4deg)) scale(var(--s, 1.1));}
+.dec-tr { top: 10px; right: 10px; transform: rotate(var(--r, -4deg)) scale(var(--s, 0.9));}
+.dec-bl { bottom: 10px; left: 10px; }
+.dec-br { bottom: 40px; right: 10px; }
+.dec-tc { top: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
+.dec-bc { bottom: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
+.dec-cl { top: 2%; left: 800px; transform: translateX(-50%) rotate(var(--r, 0deg)) scale(var(--s, 1)); }
+.dec-cr { top: 10%; right: 100px; transform: translateY(-10%) rotate(var(--r, 0deg)) scale(var(--s, 0.9)); }
+.dec-c { top: 40%; left: 10%; transform: rotate(var(--r, 0deg)) scale(var(--s, 0.7)); }
+
+/* Quick size helpers */
+.dec-xs { --w: 22px; }
+.dec-sm { --w: 88px; }
+.dec-md { --w: 160px; }
+.dec-lg { --w: 236px; }
+
+/* Hover brighten + tiny lift */
+@media (hover: hover){
+  .card:hover .dec{
+    opacity: .30;
+    transform: rotate(var(--r, 4deg)) scale(calc(var(--s, 1) * 1.05));
+  }
+}
+
+/* Put a decoration *behind* everything (rare) */
+.dec.back { z-index: 0; opacity: .52; }
+
+/* Mobile: gently reduce sticker sizes */
+@media (max-width: 520px){
+  .dec-lg { --w: 48px; }
+  .dec-md { --w: 34px; }
 }

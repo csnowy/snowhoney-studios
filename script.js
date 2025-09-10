@@ -156,47 +156,99 @@ function selectHosting(plan, monthlyPrice, el){
     .forEach(btn => btn.classList.remove('selected'));
   el?.classList.add('selected');
 
-  // Show/hide domain inputs
   const domainInputs = document.getElementById("domainInputs");
+  const paymentEl = document.getElementById('payment');
+
   if(plan === 'self'){
+    // No domains needed — hide inputs, go straight to payment
     domainInputs.classList.add("hidden");
     state.domains = [];
+    paymentEl.classList.remove('hidden');
+    updateSummary();
+    paymentEl.scrollIntoView({behavior:"smooth"});
   } else {
+    // Managed hosting — show domain inputs, hide payment until Done
+    paymentEl.classList.add('hidden');
     domainInputs.classList.remove("hidden");
-    const d1 = document.querySelector('input[name="domain1"]')?.value.trim();
-    const d2 = document.querySelector('input[name="domain2"]')?.value.trim();
-    const d3 = document.querySelector('input[name="domain3"]')?.value.trim();
-    state.domains = [d1,d2,d3].filter(Boolean);
+    // focus first field for convenience
+    document.querySelector('input[name="domain1"]')?.focus();
+  }
+}
+
+function confirmDomains(){
+  const d1El = document.querySelector('input[name="domain1"]');
+  const d2El = document.querySelector('input[name="domain2"]');
+  const d3El = document.querySelector('input[name="domain3"]');
+
+  const d1 = d1El?.value.trim();
+  const d2 = d2El?.value.trim();
+  const d3 = d3El?.value.trim();
+
+  // Require at least the first domain
+  if(!d1){
+    // Use native validity UI if possible
+    if(d1El?.reportValidity){
+      d1El.setCustomValidity('Please enter at least one domain.');
+      d1El.reportValidity();
+      d1El.setCustomValidity('');
+    } else {
+      alert('Please enter at least one domain.');
+      d1El?.focus();
+    }
+    return;
   }
 
-  // Open payment + refresh numbers
+  state.domains = [d1, d2, d3].filter(Boolean);
+
+  // Now show payment & update summary
   const paymentEl = document.getElementById('payment');
   paymentEl.classList.remove('hidden');
   updateSummary();
   paymentEl.scrollIntoView({behavior:"smooth"});
 }
 
+
+
 async function goCheckout(){
-  // build the payload from your existing state
-  const payload = {
-    pkg: state.pkg,                      // "One-Page Site" | "Two-Page Site" | "Three-Page Site"
-    hosting: state.hosting || 'self',    // 'self' or a hosting plan
-    domains: state.domains || [],
-    email: state.brief?.contactEmail || '',
-    businessName: state.brief?.businessName || ''
-  };
+  try {
+    const payload = {
+      pkg: state.pkg,
+      hosting: state.hosting || 'self',
+      domains: state.domains || [],
+      email: state.brief?.contactEmail || '',
+      businessName: state.brief?.businessName || ''
+    };
 
-  const res = await fetch('/api/create-checkout-session', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(payload)
-  });
-  const { sessionId, publishableKey, error } = await res.json();
-  if(error){ alert(error); return; }
+    const res = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
 
-  const stripe = Stripe(publishableKey);
-  await stripe.redirectToCheckout({ sessionId });
+    if(!res.ok){
+      const text = await res.text();
+      throw new Error(`HTTP ${res.status} - ${text.slice(0,200)}`);
+    }
+
+    let data;
+    try { data = await res.json(); }
+    catch(e){ throw new Error('Response was not JSON. Is your API returning JSON?'); }
+
+    const { sessionId, publishableKey, error } = data;
+    if(error) throw new Error(error);
+    if(!sessionId) throw new Error('No sessionId returned from server.');
+    if(!publishableKey) throw new Error('No publishableKey returned from server.');
+
+    const stripe = Stripe(publishableKey);
+    const { error: redirectErr } = await stripe.redirectToCheckout({ sessionId });
+    if(redirectErr) throw redirectErr;
+
+  } catch(err){
+    console.error('Stripe error:', err);
+    alert('Stripe checkout failed:\n' + (err?.message || err));
+  }
 }
+
 
 
 
