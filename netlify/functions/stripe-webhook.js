@@ -5,6 +5,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 
 export async function handler(event) {
+  console.log("Loaded webhook secret?", process.env.STRIPE_WEBHOOK_SECRET ? "yes" : "no");
   try {
     const sig = event.headers["stripe-signature"];
     const body = event.body; // Netlify gives you raw string
