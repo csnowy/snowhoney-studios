@@ -19,19 +19,14 @@ const PRICE_MAP = {
 export async function handler(event) {
   try {
     if (event.httpMethod !== "POST") {
-      return {
-        statusCode: 405,
-        body: JSON.stringify({ error: "Method not allowed" }),
-      };
+      return { statusCode: 405, body: JSON.stringify({ error: "Method not allowed" }) };
     }
 
-    const { pkg, hosting, email, businessName, domains } = JSON.parse(event.body || "{}");
+    const parsed = JSON.parse(event.body || "{}");
+    const { pkg, hosting, email, businessName, domains, brief } = parsed;
 
     if (!pkg || !PRICE_MAP[pkg]) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Unknown package selection" }),
-      };
+      return { statusCode: 400, body: JSON.stringify({ error: "Unknown package selection" }) };
     }
 
     const oneTimePriceId = PRICE_MAP[pkg];
@@ -40,9 +35,7 @@ export async function handler(event) {
 
     // Build line items
     const line_items = [{ price: oneTimePriceId, quantity: 1 }];
-    if (recurringPriceId) {
-      line_items.push({ price: recurringPriceId, quantity: 1 });
-    }
+    if (recurringPriceId) line_items.push({ price: recurringPriceId, quantity: 1 });
 
     // Choose mode: 'payment' for one-time only, 'subscription' if hosting included
     const mode = recurringPriceId ? "subscription" : "payment";
@@ -61,11 +54,12 @@ export async function handler(event) {
       customer_update: { address: "auto" },
       allow_promotion_codes: true,
 
+      // ✅ correctly pass brief + other info
       metadata: {
         pkg,
-        hosting: hosting || "self",
-        businessName: businessName || "",
-        domains: (domains || []).join(","),
+        hosting,
+        domains: JSON.stringify(domains || []),
+        brief: JSON.stringify(brief || {}),
       },
 
       success_url: `${event.headers.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
@@ -81,9 +75,6 @@ export async function handler(event) {
     };
   } catch (err) {
     console.error("Stripe error:", err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Stripe error. Check server logs." }),
-    };
+    return { statusCode: 500, body: JSON.stringify({ error: "Stripe error. Check server logs." }) };
   }
 }

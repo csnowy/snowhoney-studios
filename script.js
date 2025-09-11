@@ -56,7 +56,14 @@ function submitBrief(){
 
 function goCheckout(){
     const hosting = (document.querySelector('input[name="hosting"]:checked')||{}).value || 'none';
-    const payload = {package: state.pkg, price: state.price, hosting, brief: state.brief};
+    const payload = {
+      pkg: state.pkg,
+      hosting: state.hosting || 'self',
+      domains: state.domains || [],
+      email: state.brief?.contactEmail || '',
+      businessName: state.brief?.businessName || '',
+      brief: state.brief   // include everything
+    };
     // In production, POST this payload to your server then redirect to Stripe Checkout.
     alert('Demo checkout data:\n'+JSON.stringify(payload, null, 2));
     // window.location.href = '/checkout'; // placeholder redirect
