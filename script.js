@@ -317,7 +317,7 @@ contactForm?.addEventListener("submit", async (e) => {
 
     if (!res.ok) throw new Error(await res.text());
 
-    alert("✅ Thanks! Your message has been sent. We'll reply soon.");
+    alert("✅ Thank you! Your message has been sent. We'll reply soon.");
     contactForm.reset();
   } catch (err) {
     console.error(err);
