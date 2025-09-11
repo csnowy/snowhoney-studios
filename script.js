@@ -256,9 +256,6 @@ async function goCheckout(){
   }
 }
 
-
-
-
 const TAX_RATE = 0.11; // adjust per province as needed
 
 function updateSummary(){
@@ -290,9 +287,40 @@ function updateSummary(){
   sumTotal.textContent = `$${total.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
 }
 
+function togglePlanFields(plan) {
+  document.getElementById("twoPageFields").classList.add("hidden");
+  document.getElementById("threePageFields").classList.add("hidden");
 
+  if (plan === "Two-Page Site") {
+    document.getElementById("twoPageFields").classList.remove("hidden");
+  }
+  if (plan === "Three-Page Site") {
+    document.getElementById("twoPageFields").classList.remove("hidden");
+    document.getElementById("threePageFields").classList.remove("hidden");
+  }
+}
 
+// Contact form submission
+const contactForm = document.getElementById("contactForm");
+contactForm?.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
+  const formData = new FormData(contactForm);
+  const payload = Object.fromEntries(formData.entries());
 
+  try {
+    const res = await fetch("/.netlify/functions/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
 
+    if (!res.ok) throw new Error(await res.text());
 
+    alert("✅ Thanks! Your message has been sent. We'll reply soon.");
+    contactForm.reset();
+  } catch (err) {
+    console.error(err);
+    alert("❌ Sorry, something went wrong sending your message. Please try again later.");
+  }
+});

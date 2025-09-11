@@ -68,7 +68,6 @@ p.lead{font-size:clamp(16px, 2.6vw, 18px); color:var(--muted); margin:0 0 16px}
 
 /* Hero */
 .hero{padding:84px 0 86px}
-.hero .wrap{display:grid; grid-template-columns:1.1fr .9fr; gap:e44px; align-items:center}
 .badge{display:inline-flex; align-items:center; gap:8px; background:var(--card); border:1px solid rgba(17,24,39,.08); border-radius:999px; padding:8px 22px; box-shadow:var(--shadow)}
 .badge i{width:8px; height:8px; background:var(--honey); border-radius:999px}
 .cta{display:flex; gap:12px; flex-wrap:wrap}
@@ -151,11 +150,17 @@ ul.list{margin:0; padding:0; list-style:none}
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
   background: #fff;
   display: block;
+  transition: transform 180ms ease, box-shadow 200ms ease;
 }
 /* Hover effect to make them feel interactive */
 .shot:hover {
   transform: scale(1.02);
   box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+}
+
+.shot:hover img {
+  transform: scale(1.04);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
 }
 
 
@@ -181,6 +186,55 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
   border-bottom: 1px solid #ddd;
   padding-bottom: 4px;
 }
+
+/* Form container */
+.form-card {
+  padding: 28px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+  border: 1px solid #e5e7eb;
+}
+
+/* Section headers */
+.form-card .form-section {
+  margin-top: 36px;
+  margin-bottom: 14px;
+  font-size: 20px;
+  font-weight: 700;
+  border-bottom: 2px solid var(--honey);
+  padding-bottom: 6px;
+  color: var(--coal);
+}
+
+/* Inputs */
+.form-card input,
+.form-card textarea,
+.form-card select {
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 12px 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-card input:focus,
+.form-card textarea:focus,
+.form-card select:focus {
+  border-color: var(--honey);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* Disclaimer text */
+.form-disclaimer {
+  margin-top: 22px;
+  padding: 14px;
+  background: var(--ice);
+  border-left: 4px solid var(--honey);
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
 
 .selling-header {
   display: flex;
@@ -275,19 +329,22 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
 .note{color:var(--muted); font-size:13px}
 
 /* === HERO — clean, non-overlapping layout === */
-.hero > .container.wrap{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas:
+.hero > .container.wrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
     "title"
     "panel";
-    gap: clamp(12px, 2vw, 24px);
+  gap: clamp(12px, 2vw, 24px);
+
+  justify-items: center;   /* ⬅️ centers children horizontally */
+  text-align: center;      /* ⬅️ centers text */
 }
 
 /* One-line, fluid title */
 .hero-title{
     grid-area: title;
-    margin: 0;
+    transform: translateX(-50px);
     line-height: 1.05;
     white-space: nowrap;
     font-size: clamp(20px, 4.8vw, 44px);
@@ -296,12 +353,17 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
 /* Panel: left = copy, right = logo */
 .hero-panel{
     grid-area: panel;
+    position: relative;
+    margin-left: -100px;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto; /* copy can shrink/wrap */
     align-items: center;
     gap: clamp(12px, 2vw, 28px);
     padding: clamp(56px, 3.2vw, 12px);
     border-radius: 16px;
+    transition: transform 160ms ease,
+              box-shadow 200ms ease,
+              border-color 160ms ease;
 
     /* same “package button” depth */
     background:
@@ -311,6 +373,12 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
     box-shadow:
     0 10px 24px rgba(0,0,0,.25),
     inset 0 1px 0 rgba(255,255,255,.78);
+}
+
+.hero-panel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.16);
+  border-color: var(--honey);
 }
 
 /* Make text wrap nicely; prevent pushing under the logo */
@@ -323,6 +391,25 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
     max-width: 100%;
     height: auto;
 }
+.hero-subtitle {
+  font-size: clamp(20px, 4vw, 28px);
+  margin: 12px 0;
+  font-weight: 700;
+  color: var(--coal);
+}
+
+.hero-points {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 20px;
+  text-align: left;   /* keeps bullets neat */
+  font-size: clamp(15px, 2.6vw, 18px);
+  line-height: 1.5;
+}
+.hero-points li {
+  margin-bottom: 8px;
+}
+
 /* Make hosting cards wider consistently */
 .grid.cols-3 > .card {
   min-width: 300px;     /* wider than before */
@@ -588,9 +675,9 @@ a:focus-visible {
 }
 
 /* Corner anchors (tweak the 10px gutters as you like) */
-.dec-tl { top: 10px; left: 10px; transform: rotate(var(--r, 4deg)) scale(var(--s, 1.1));}
+.dec-tl { top: 50px; right: 600px; transform: rotate(var(--r, 8deg)) scale(var(--s, 1.1));}
 .dec-tr { top: 10px; right: 10px; transform: rotate(var(--r, -4deg)) scale(var(--s, 0.9));}
-.dec-bl { bottom: 10px; left: 10px; }
+.dec-bl { bottom: 10px; left: 30px; }
 .dec-br { bottom: 40px; right: 10px; }
 .dec-tc { top: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
 .dec-bc { bottom: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
@@ -603,6 +690,7 @@ a:focus-visible {
 .dec-sm { --w: 88px; }
 .dec-md { --w: 160px; }
 .dec-lg { --w: 236px; }
+.dec-flag { --w: 200px; }
 
 /* Hover brighten + tiny lift */
 @media (hover: hover){
@@ -751,4 +839,30 @@ a:focus-visible {
   font-size: 14px;
   font-weight: 700;
   color: var(--honey-deep);
+}
+
+.steps .step {
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.steps .step:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.12);
+  border-color: var(--honey);
+}
+.steps .badge {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+/* Disable hover effects for form cards */
+form.card:hover,
+.card form:hover,
+#brief .card:hover,
+#payment .card:hover,
+#contact .card:hover {
+  transform: none !important;
+  box-shadow: var(--shadow) !important;  /* keep default */
+  border-color: rgba(17,24,39,.08) !important; /* normal border */
 }
