@@ -1,38 +1,18 @@
+// netlify/functions/stripe-webhook.js
 import Stripe from "stripe";
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2024-06-20",
 });
 
-// Support transporter (internal notifications)
-const supportTransporter = nodemailer.createTransport({
-  host: process.env.SMTP_SUPPORT_HOST,
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_SUPPORT_USER,
-    pass: process.env.SMTP_SUPPORT_PASS,
-  },
-});
-
-// Noreply transporter (customer confirmations)
-const noreplyTransporter = nodemailer.createTransport({
-  host: process.env.SMTP_NOREPLY_HOST,
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_NOREPLY_USER,
-    pass: process.env.SMTP_NOREPLY_PASS,
-  },
-});
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export async function handler(event) {
   try {
     const sig = event.headers["stripe-signature"];
-    const body = event.body; // raw string
+    const body = event.body; // raw string from Netlify
 
-    // Verify webhook signature
     const stripeEvent = stripe.webhooks.constructEvent(
       body,
       sig,
@@ -52,8 +32,10 @@ export async function handler(event) {
           console.error("Failed to parse brief metadata:", e);
         }
 
-        // 1) Internal notification → Support
-        const adminMessage = `
+        // -----------------------------
+        // 1) Internal notification
+        // -----------------------------
+        const messageText = `
 ✅ New Paid Order
 ───────────────────────────────
 Package: ${session.metadata.pkg}
@@ -67,36 +49,75 @@ Full Brief:
 ${JSON.stringify(briefData, null, 2)}
         `;
 
-        await supportTransporter.sendMail({
-          from: `"Snowhoney Studios Orders" <${process.env.SMTP_SUPPORT_USER}>`,
-          to: "support@snowhoneystudios.ca",
+        await sgMail.send({
+          to: process.env.SENDGRID_TO,
+          from: process.env.SENDGRID_FROM,
           subject: `New Order: ${session.metadata.pkg}`,
-          text: adminMessage,
+          text: messageText,
+          html: `<pre>${messageText}</pre>`,
         });
 
-        console.log("📧 Sent internal order email");
+        console.log("📧 Internal order email sent!");
 
-        // 2) Customer confirmation → Noreply
-        await noreplyTransporter.sendMail({
-          from: `"Snowhoney Studios" <${process.env.SMTP_NOREPLY_USER}>`,
-          to: session.customer_details.email,
-          subject: "Your Snowhoney order is confirmed!",
-          text: `Hi ${session.customer_details.name || "there"},
+        // -----------------------------
+        // 2) Customer confirmation
+        // -----------------------------
+        if (session.customer_details?.email) {
+          const customerEmail = session.customer_details.email;
+          const pkg = session.metadata.pkg;
 
-Thanks for your purchase of ${session.metadata.pkg} with Snowhoney Studios.
+          const customerText = `
+Hi ${briefData.businessName || "there"},
 
-We’ll be in touch soon with next steps. If you have questions, reply to support@snowhoneystudios.ca.
+Thank you for your purchase with Snowhoney Studios! 🐝❄️
 
-— Snowhoney Studios`,
-          html: `
-            <p>Hi ${session.customer_details.name || "there"},</p>
-            <p>Thanks for your purchase of <b>${session.metadata.pkg}</b> with <b>Snowhoney Studios</b>.</p>
-            <p>We’ll be in touch soon with next steps. If you have any questions, reply to <a href="mailto:support@snowhoneystudios.ca">support@snowhoneystudios.ca</a>.</p>
-            <p>🍯❄️<br/>— Snowhoney Studios</p>
-          `,
-        });
+Your order details:
+- Package: ${pkg}
+- Hosting: ${session.metadata.hosting}
+- Domains: ${session.metadata.domains || "—"}
 
-        console.log("📧 Sent confirmation email to customer");
+We’ll review your brief and start your project within the next 24 hours.  
+You’ll receive updates by email as we progress.
+
+— The Snowhoney Studios Team
+          `;
+
+          const customerHtml = `
+            <div style="font-family: Arial, sans-serif; color:#222; line-height:1.6;">
+              <h2 style="color:#F5B700;">Thanks for your order with Snowhoney Studios! 🐝❄️</h2>
+              <p>Hi ${briefData.businessName || "there"},</p>
+              <p>We’re excited to get started on your new website. Here’s a summary of your order:</p>
+              <ul style="margin:16px 0; padding-left:18px; color:#333;">
+                <li><b>Package:</b> ${pkg}</li>
+                <li><b>Hosting:</b> ${session.metadata.hosting}</li>
+                <li><b>Domains:</b> ${session.metadata.domains || "—"}</li>
+              </ul>
+              <p style="margin:16px 0; padding:12px; background:#FFF8E1; border-left:4px solid #F5B700; border-radius:6px;">
+                We’ll review your brief and begin work within 24 hours.  
+                Expect updates by email as we progress. 🛠️
+              </p>
+              <p style="margin-top:20px;">
+                Thanks again for trusting <b>Snowhoney Studios</b> — where ideas drip with honey and sparkle with snow. ✨
+              </p>
+              <br/>
+              <p>— The Snowhoney Studios Team</p>
+            </div>
+          `;
+
+          await sgMail.send({
+            to: customerEmail,
+            from: process.env.SENDGRID_FROM,
+            replyTo: process.env.SENDGRID_TO,
+            subject: "🐝❄️ Order Confirmation – Snowhoney Studios",
+            text: customerText,
+            html: customerHtml,
+          });
+
+          console.log(`📧 Confirmation email sent to ${customerEmail}`);
+        } else {
+          console.warn("⚠️ No customer email found in session.");
+        }
+
         break;
       }
 

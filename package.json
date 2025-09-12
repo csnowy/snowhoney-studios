@@ -2,6 +2,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.5",
     "nodemailer": "^7.0.6",
     "stripe": "^16.0.0"
   }
