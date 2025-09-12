@@ -26,13 +26,17 @@ function startOrder(name, price){
   const paymentEl = document.getElementById('payment');
 
   briefSection.classList.remove('hidden');
-  paymentEl?.classList.add('hidden');   // ← null-safe
+  paymentEl?.classList.add('hidden');
+
+  // ✅ Make sure the correct extra fields are shown
+  togglePlanFields(name);
 
   // Let layout paint, then scroll
   setTimeout(() => {
     briefSection.scrollIntoView({ behavior: "smooth", block: "start" });
   }, 50);
 }
+
 
 
 
@@ -324,3 +328,12 @@ contactForm?.addEventListener("submit", async (e) => {
     alert("❌ Sorry, something went wrong sending your message. Please try again later.");
   }
 });
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", function(e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute("href"))
+      ?.scrollIntoView({ behavior: "smooth" });
+  });
+});
+

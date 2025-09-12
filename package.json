@@ -2,6 +2,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "nodemailer": "^7.0.6",
     "stripe": "^16.0.0"
   }
 }
