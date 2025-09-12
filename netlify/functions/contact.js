@@ -69,7 +69,7 @@ Your message:
 
 We’ll get back to you as soon as possible (usually within 1–2 business days).
 
-In the meantime, thanks for checking out Snowhoney Studios — where ideas drip with honey and sparkle with snow. ✨
+In the meantime, thanks for checking out Snowhoney Studios — we hope to work with you soon! ✨
 
 — The Snowhoney Studios Team
     `;
