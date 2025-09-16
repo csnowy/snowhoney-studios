@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Snowhoney Studios — Go live in 7 days (Home + Order Flow)</title>
+  <title>Snowhoney Studios — Your Site Live In 7 Days</title>
   <meta name="description" content="Snowhoney Studios builds fast, clean one‑page websites for small businesses. Pick a package, complete your brief, and pay — all in one place." />
   <meta name="theme-color" content="#F5B700" />
   <!-- Favicon / App Icons -->
@@ -36,9 +36,10 @@
       <nav aria-label="Primary">
         <a href="#packages">Packages</a>
         <a href="#process">Process</a>
-        <a href="#work">Work</a>
+        <a href="#work">Reviews</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
+        <a href="#" id="subscriberDashboardLink">Subscriber Dashboard</a>
       </nav>
       <button class="menu-btn" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
         <span class="bar"></span>
@@ -49,9 +50,10 @@
     <div id="mobileMenu" class="mobile-menu hidden" role="dialog" aria-modal="true" aria-label="Mobile menu">
       <a href="#packages">Packages</a>
       <a href="#process">Process</a>
-      <a href="#work">Work</a>
+      <a href="#work">Reviews</a>
       <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
+      <a href="#" id="subscriberDashboardLinkMobile">Subscriber Dashboard</a>
     </div>
   </header>
 
@@ -75,7 +77,7 @@
             <ul class="hero-points">
               <li>⚡ Hosting options available</li>
               <li>📝 Order a mockup first — no big commitment</li>
-              <li>⏱ The timer starts ticking as soon as you checkout!</li>
+              <li>⏱ Our timer starts ticking as soon as you checkout!</li>
             </ul>
 
             <div class="cta">
@@ -94,25 +96,25 @@
     <section id="packages">
       <div class="container">
         <h3 class="section-title">Packages</h3>
-        <p class="section-sub">Get everything you see here and more! Prices don't include tax.</p>
+        <p class="section-sub">Get anything you see here and more! Prices don't include tax.</p>
         <div class="grid cols-3">
 
           <!-- One Page -->
           <div class="card brand-sheen">
             <img class="dec dec-br dec-md" src="Honeypot.webp" alt="" aria-hidden="true" />
             <div class="badge" style="margin-bottom:10px"><i></i> One-Page Site</div>
-            <div class="price"><span class="old-price">$599</span><span class="new-price">$499 CAD</span></div>
+            <div class="price"><span class="old-price">$799</span><span class="new-price">$699 CAD</span></div>
             <div class="inc">7-day turnaround • 2 revisions</div>
             <ul class="list">
-              <li><span class="tick">✔</span> Mobile-friendly responsive design</li>
-              <li><span class="tick">✔</span> Sleek graphic design with your branding</li>
-              <li><span class="tick">✔</span> Contact form wired directly to your email</li>
-              <li><span class="tick">✔</span> Basic e-commerce setup (up to 5 products/services)</li>
-              <li><span class="tick">✔</span> Basic SEO optimization</li>
+              <li><span class="tick">✔</span> Mobile-friendly layout</li>
+              <li><span class="tick">✔</span> Graphic design with your branding</li>
+              <li><span class="tick">✔</span> Any features we have on this website</li>
+              <li><span class="tick">✔</span> Basic SEO</li>
               <li><span class="tick">✔</span> 7-day free maintenance after launch</li>
             </ul>
-            <div class="cta" style="margin-top:12px">
-              <button class="btn primary" onclick="startOrder('One-Page Site',499)">Buy One-Page →</button>
+            <div class="cta" style="margin-top:12px; justify-content:space-between">
+              <button class="btn secondary small learn-more" data-plan="one-page">Learn More</button>
+              <button class="btn primary" onclick="startOrder('One-Page Site',699)">Buy One-Page →</button>
             </div>
           </div>
 
@@ -120,19 +122,19 @@
           <div class="card brand-sheen" style="border:2px solid var(--honey)">
             <img class="dec dec-c dec-lg" src="snowman_throw.webp" alt="" aria-hidden="true" />
             <div class="badge" style="margin-bottom:10px"><i></i> Two-Page Site</div>
-            <div class="price"><span class="old-price">$999</span><span class="new-price">$799 CAD</span></div>
+            <div class="price"><span class="old-price">$1199</span><span class="new-price">$999 CAD</span></div>
             <div class="inc">7-day turnaround • 2 revisions per page</div>
             <ul class="list">
               <li><span class="tick">✔</span> Everything in One-Page Site</li>
               <li><span class="tick">✔</span> Extra page for services or products</li>
-              <li><span class="tick">✔</span> Moderate e-commerce setup (up to 20 products/services)</li>
-              <li><span class="tick">✔</span> Contact form with spam protection (Google reCAPTCHA)</li>
+              <li><span class="tick">✔</span> Bigger e-commerce setup (up to 20 products/services)</li>
               <li><span class="tick">✔</span> Google Analytics integration</li>
               <li><span class="tick">✔</span> Advanced SEO optimization</li>
               <li><span class="tick">✔</span> 30-day free maintenance after launch</li>
             </ul>
-            <div class="cta" style="margin-top:12px">
-              <button class="btn primary" onclick="startOrder('Two-Page Site',799)">Buy Two-Page →</button>
+            <div class="cta" style="margin-top:12px; justify-content:space-between">
+              <button class="btn secondary small learn-more" data-plan="two-page">Learn More</button>
+              <button class="btn primary" onclick="startOrder('One-Page Site',999)">Buy Two-Page →</button>
             </div>
           </div>
 
@@ -140,18 +142,19 @@
           <div class="card brand-sheen">
             <img class="dec dec-tr dec-lg" src="bee_topright.webp" alt="" aria-hidden="true" />
             <div class="badge" style="margin-bottom:10px"><i></i> Three-Page Site</div>
-            <div class="price"><span class="old-price">$1199</span><span class="new-price">$999 CAD</span></div>
+            <div class="price"><span class="old-price">$1699</span><span class="new-price">$1399 CAD</span></div>
             <div class="inc">7-day turnaround • 2 revisions per page</div>
             <ul class="list">
               <li><span class="tick">✔</span> Everything in Two-Page Site</li>
               <li><span class="tick">✔</span> Additional fully custom page (e.g., blog, gallery, or FAQ)</li>
               <li><span class="tick">✔</span> Premium e-commerce setup (up to 50 products/services)</li>
               <li><span class="tick">✔</span> High-end local SEO (Google Business Profile, citations)</li>
-              <li><span class="tick">✔</span> Social media integration (feed or share buttons)</li>
+              <li><span class="tick">✔</span> Social media integration </li>
               <li><span class="tick">✔</span> 60-day free maintenance after launch</li>
             </ul>
-            <div class="cta" style="margin-top:12px">
-              <button class="btn primary" onclick="startOrder('Three-Page Site',999)">Buy Three-Page →</button>
+            <div class="cta" style="margin-top:12px; justify-content:space-between">
+              <button class="btn secondary small learn-more" data-plan="three-page">Learn More</button>
+              <button class="btn primary" onclick="startOrder('One-Page Site',1399)">Buy One-Page →</button>
             </div>
           </div>
         </div>
@@ -160,11 +163,12 @@
         <div class="card brand-sheen" style="margin-top:14px; border:4px solid var(--icy)">
             <img class="dec dec-cl dec-lg" src="bee_at_desk.webp" alt="" aria-hidden="true" />
           <div class="badge" style="margin-bottom:10px"><i></i> Mockup Only</div>
-          <div class="price"><span class="old-price">$49</span><span class="new-price">$39 CAD</span></div>
+          <div class="price"><span class="old-price">$149</span><span class="new-price">$99 CAD</span></div>
           <div class="inc">1–2 day turnaround • PDF preview</div>
           <p class="small">Get a visual draft of your site before committing to a full build.</p>
-          <div class="cta" style="margin-top:12px">
-            <button class="btn secondary" onclick="startOrder('Mockup Only',49)">Order Mockup →</button>
+          <div class="cta" style="margin-top:12px; justify-content:space-between">
+            <button class="btn secondary small learn-more" data-plan="mockup">Learn More</button>
+            <button class="btn primary" onclick="startOrder('Mockup Only',99)">Buy Mockup →</button>
           </div>
         </div>
 
@@ -179,28 +183,38 @@
             <div class="grid cols-3" style="margin-top:16px">
               <div class="card" style="padding:16px">
                 <div class="badge"><i></i> Basic </div>
-                <div class="price"><span class="old-price">$34/mo</span><span class="new-price">$29/mo</span></div>
+                <div class="price"><span class="old-price">$29/mo</span><span class="new-price">$24/mo</span></div>
                 <p class="small">(Discount applies until you cancel!)</p>
-                <div class="inc">Hosting • Updates • Uptime • 15 min edits</div>
+                <div class="inc">Hosting • Uptime • 15 min edits</div>
+                <div class="cta" style="margin-top:12px; justify-content:space-between">
+                  <button class="btn secondary small learn-more" data-plan="basic-hosting">Learn More</button>
+                </div>
               </div>
+              
 
               <div class="card" style="padding:16px; border:2px solid var(--honey)">
                 <div class="badge"><i></i> Boost </div>
-                <div class="price"><span class="old-price">$59/mo</span><span class="new-price">$49/mo</span></div>
+                <div class="price"><span class="old-price">$79/mo</span><span class="new-price">$69/mo</span></div>
                 <p class="small">(Discount applies until you cancel!)</p>
-                <div class="inc">Everything in Basic • Monthly Analytics Report • Content change once a month • 1 Business email</div>
+                <div class="inc">Everything in Basic • Domain Name Included • Monthly Analytics Report • Content change once a month • 1 Business email</div>
+                <div class="cta" style="margin-top:12px; justify-content:space-between">
+                  <button class="btn secondary small learn-more" data-plan="boost-hosting">Learn More</button>
+                </div>
               </div>
 
               <div class="card" style="padding:16px">
                 <div class="badge"><i></i> Dominate </div>
-                <div class="price"><span class="old-price">$99/mo</span><span class="new-price">$79/mo</span></div>
+                <div class="price"><span class="old-price">$149/mo</span><span class="new-price">$119/mo</span></div>
                 <p class="small">(Discount applies until you cancel!)</p>
-                <div class="inc">Everything in Boost • Unlimited Updates • Up to 5 Business Emails • Optimized Google Profile</div>
+                <div class="inc">Everything in Boost • Domain Name Included • Unlimited Updates • Up to 5 Business Emails • Optimized Google Profile</div>
+                <div class="cta" style="margin-top:12px; justify-content:space-between">
+                  <button class="btn secondary small learn-more" data-plan="dominate-hosting">Learn More</button>
+                </div>
               </div>
           </div>
         </div>
           <p class="small" style="margin-top:12px; color:var(--muted)">
-            We'll cover all hosting costs, emails and domain purchasing, no extra fees for you!
+            We'll cover all hosting costs, emails and domain purchasing, no extra fees for you! (emails and domain varies per plan)
           </p>
         </div>
 
@@ -582,8 +596,6 @@
     </div>
   </section>
 
-
-
   <footer>
     <div class="container footer" style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:16px; padding:28px 0; color:#475569">
       <div>
@@ -710,7 +722,63 @@
 
   </svg>
 
+  <div id="infoModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Client Dashboard Modal -->
+    <div id="subscriberModal" class="modal hidden">
+      <div class="modal-content subscriber-card">
+        <span class="modal-close">&times;</span>
+
+        <h2 class="subscriber-title">Subscriber Dashboard</h2>
+        <p class="subscriber-subtitle">Welcome back, valued subscriber ✨</p>
+
+        <!-- Choice Menu -->
+        <div id="dashboardChoices" class="dashboard-choices">
+          <button id="editOptionBtn" class="btn sub-btn">✏️ Request Website Edit</button>
+          <button id="cancelSubBtn" class="btn cancel-btn">❌ Cancel Subscription</button>
+        </div>
+
+        <!-- Hidden Edit Form -->
+        <form id="subscriberForm" class="hidden subscriber-form">
+          <h3 class="form-heading">Request an Edit</h3>
+
+          <label>Business Name</label>
+          <input type="text" name="businessName" required maxlength="100">
+
+          <label>Email</label>
+          <input type="email" name="contactEmail" required maxlength="120">
+
+          <label>Request Type</label>
+          <select name="requestType" required>
+            <option value="">Select one</option>
+            <option value="text">Text Update</option>
+            <option value="image">Image/Graphic Swap</option>
+            <option value="pricing">Pricing Change</option>
+            <option value="newSection">New Section</option>
+          </select>
+
+          <label>Details</label>
+          <textarea name="requestDetails" required minlength="20" maxlength="1000"></textarea>
+
+          <label>Attach Files (max 3 × 5MB)</label>
+          <input type="file" name="upload" multiple accept=".jpg,.jpeg,.png,.pdf">
+
+          <div class="cta">
+            <button type="submit" class="btn sub-btn">🚀 Submit Request</button>
+            <button type="button" id="backBtn" class="btn back-btn">⬅ Back</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
 
   <script src="script.js"></script>
+
 </body>
 </html>
