@@ -678,11 +678,11 @@ a:focus-visible {
 .dec-tl { top: 50px; right: 600px; transform: rotate(var(--r, 8deg)) scale(var(--s, 1.1));}
 .dec-tr { top: 10px; right: 10px; transform: rotate(var(--r, -4deg)) scale(var(--s, 0.9));}
 .dec-bl { bottom: 10px; left: 30px; }
-.dec-br { bottom: 40px; right: 10px; }
+.dec-br { bottom: 60px; right: 10px; }
 .dec-tc { top: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
 .dec-bc { bottom: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
 .dec-cl { top: 2%; left: 800px; transform: translateX(-50%) rotate(var(--r, 0deg)) scale(var(--s, 1)); }
-.dec-cr { top: 10%; right: 100px; transform: translateY(-10%) rotate(var(--r, 0deg)) scale(var(--s, 0.9)); }
+.dec-cr { top: 10%; right: 130px; transform: translateY(-10%) rotate(var(--r, 0deg)) scale(var(--s, 0.9)); }
 .dec-c { top: 30%; left: 20%; transform: rotate(var(--r, 0deg)) scale(var(--s, 0.7)); }
 
 /* Quick size helpers */
