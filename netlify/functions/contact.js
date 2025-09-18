@@ -1,6 +1,16 @@
 // netlify/functions/contact.js
 import sgMail from "@sendgrid/mail";
 
+async function sendEmail(msg) {
+  try {
+    await sgMail.send(msg);   // or sg.send(msg) if you used `import sg from "@sendgrid/mail"`
+    console.log("📧 Email sent:", msg.subject);
+  } catch (err) {
+    console.error("❌ SendGrid error:", err);
+    throw err;
+  }
+}
+
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export async function handler(event) {

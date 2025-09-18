@@ -2,6 +2,16 @@
 import sg from "@sendgrid/mail";
 sg.setApiKey(process.env.SENDGRID_API_KEY);
 
+async function sendEmail(msg) {
+  try {
+    await sg.send(msg);
+    console.log("📧 Email sent:", msg.subject);
+  } catch (err) {
+    console.error("❌ SendGrid error:", err);
+    throw err;
+  }
+}
+
 const SUPPORT_TO = process.env.SUPPORT_INBOX || "support@snowhoneystudios.ca";
 const FROM_EMAIL = process.env.SEND_FROM || "noreply@snowhoneystudios.ca";
 

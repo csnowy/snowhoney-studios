@@ -2,6 +2,16 @@
 import Stripe from "stripe";
 import sgMail from "@sendgrid/mail";
 
+async function sendEmail(msg) {
+  try {
+    await sgMail.send(msg);   // or sg.send(msg) if you used `import sg from "@sendgrid/mail"`
+    console.log("📧 Email sent:", msg.subject);
+  } catch (err) {
+    console.error("❌ SendGrid error:", err);
+    throw err;
+  }
+}
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2024-06-20",
 });
