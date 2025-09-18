@@ -75,7 +75,7 @@ export const handler = async (event) => {
       subject: "Your edit request has been received 🚀",
       html: buildBrandedEmail({
         title: "Edit Request Confirmed ✏️",
-        message: `Hi ${formData.businessName},<br><br>Thanks for submitting an edit request! Our team will review and make the updates shortly.<br><br><i>Request details:</i><br>${formData.requestDetails}`,
+        message: `Hi ${businessName},<br><br>Thanks for submitting an edit request! Our team will review and make the updates shortly.<br><br><i>Request details:</i><br>${requestDetails}`,
       }),
     });
 

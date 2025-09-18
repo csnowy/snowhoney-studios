@@ -64,7 +64,7 @@ export async function handler(event) {
       subject: "Thanks for contacting Snowhoney Studios ✨",
       html: buildBrandedEmail({
         title: "Message Received 📨",
-        message: `Hi ${formData.name},<br><br>Thanks for reaching out! We’ve received your message and our team will review it shortly.<br><br><i>Your message:</i><br>${formData.message}`,
+        message: `Hi ${name},<br><br>Thanks for reaching out! We’ve received your message and our team will review it shortly.<br><br><i>Your message:</i><br>${message}`,
       }),
     });
 
