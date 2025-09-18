@@ -661,6 +661,47 @@ const subDashBtnMobile = document.getElementById("subscriberDashboardLinkMobile"
 const subDashModal = document.getElementById("subscriberModal");
 const subDashClose = subDashModal?.querySelector(".modal-close");
 const cancelSubBtn = document.getElementById("cancelSubBtn");
+const cancelEmailWrap = document.getElementById("cancelEmailWrap");
+const cancelEmailInput = document.getElementById("cancelEmailInput");
+const cancelEmailSubmit = document.getElementById("cancelEmailSubmit");
+
+cancelSubBtn?.addEventListener("click", () => {
+  // Toggle visibility of the input area
+  cancelEmailWrap.classList.toggle("hidden");
+});
+
+// When user submits their email
+cancelEmailSubmit?.addEventListener("click", async () => {
+  const email = cancelEmailInput.value.trim();
+  if (!email) {
+    alert("Please enter your email.");
+    return;
+  }
+
+  try {
+    const res = await fetch("/.netlify/functions/create-portal-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("❌ Could not open billing portal: " + data.error);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("❌ Something went wrong. Please try again.");
+  }
+});
+
+// Hide the cancel email input if "Request Website Edit" is pressed
+editOptionBtn?.addEventListener("click", () => {
+  cancelEmailWrap.classList.add("hidden");
+  cancelEmailInput.value = ""; // clear field
+});
 
 function openSubDash(e) {
   e.preventDefault();
@@ -684,11 +725,6 @@ subDashModal?.addEventListener("click", (e) => {
     subDashModal.classList.add("hidden");
     document.body.classList.remove("modal-open"); // ✅ unlock
   }
-});
-
-// Stripe cancel link
-document.getElementById("cancelSubBtn")?.addEventListener("click", () => {
-  window.location.href = "https://billing.stripe.com/p/login/test_dRm4gA3QXdx55Qc7ef5J600";
 });
 
 window.addEventListener("keydown", (e) => {

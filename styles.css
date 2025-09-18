@@ -1331,3 +1331,26 @@ body.modal-open {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Cancel flow input styles */
+.cancel-email-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #374151;
+  background: #1f2937;      /* dark gray to match modal */
+  color: #f9fafb;
+  font-family: "KodeMono", monospace;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cancel-email-input::placeholder {
+  color: #9ca3af;
+}
+
+.cancel-email-input:focus {
+  outline: none;
+  border-color: var(--honey);
+  box-shadow: 0 0 0 3px rgba(245,183,0,0.4);
+}

@@ -430,7 +430,21 @@
         <!-- Choice Menu -->
         <div id="dashboardChoices" class="dashboard-choices">
           <button id="editOptionBtn" class="btn sub-btn">✏️ Request Website Edit</button>
-          <button id="cancelSubBtn" class="btn cancel-btn">❌ Cancel Subscription</button>
+          <button id="cancelSubBtn" class="btn cancel-btn">Manage Subscription</button>
+          <div id="cancelEmailWrap" class="hidden" style="margin-top:16px;">
+            <label for="cancelEmailInput" class="subscriber-subtitle" style="display:block; margin-bottom:6px; text-align:left;">
+              Enter the email you used at checkout
+            </label>
+            <input 
+              id="cancelEmailInput" 
+              type="email" 
+              placeholder="you@example.com"
+              class="cancel-email-input"
+            />
+            <button id="cancelEmailSubmit" class="btn sub-btn" style="margin-top:12px; width:100%;">
+              Open Billing Portal →
+            </button>
+          </div>
         </div>
 
         <!-- Hidden Edit Form -->
