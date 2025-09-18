@@ -37,7 +37,7 @@ ${message}
 
     await sgMail.send({
       to: process.env.SENDGRID_TO,         // your Zoho inbox
-      from: process.env.SENDGRID_FROM,     // verified noreply in SendGrid
+      from: `"Snowhoney Studios Support" <noreply@snowhoneystudios.ca>`,
       replyTo: email,                      // reply straight to sender
       subject: `📩 New Contact Form Message from ${name}`,
       text: internalText,
@@ -93,7 +93,7 @@ In the meantime, thanks for checking out Snowhoney Studios — we hope to work w
 
     await sgMail.send({
       to: email,                           // back to the sender
-      from: process.env.SENDGRID_FROM,     // noreply address
+      from: `"Snowhoney Studios Support" <noreply@snowhoneystudios.ca>`,     // noreply address
       replyTo: process.env.SENDGRID_TO,    // replies land in your support inbox
       subject: "🐝❄️ We’ve received your message – Snowhoney Studios",
       text: confirmText,

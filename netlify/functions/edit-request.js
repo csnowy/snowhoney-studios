@@ -59,7 +59,7 @@ export const handler = async (event) => {
 
     await sg.send({
       to: SUPPORT_TO,
-      from: FROM_EMAIL,
+      from: `"Snowhoney Studios Support" <noreply@snowhoneystudios.ca>`,
       subject,
       html,
       replyTo: contactEmail,
@@ -71,7 +71,7 @@ export const handler = async (event) => {
     // ==================
     await sg.send({
       to: contactEmail,
-      from: FROM_EMAIL,
+      from: `"Snowhoney Studios Support" <noreply@snowhoneystudios.ca>`,
       subject: `We received your request at Snowhoney Studios`,
       html: `
         <div style="font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial">
