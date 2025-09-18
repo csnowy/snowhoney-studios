@@ -1,16 +1,6 @@
-// netlify/functions/edit-request.js
+import { sendEmail, buildBrandedEmail } from "../utils/email.js";
 import sg from "@sendgrid/mail";
 sg.setApiKey(process.env.SENDGRID_API_KEY);
-
-async function sendEmail(msg) {
-  try {
-    await sg.send(msg);
-    console.log("📧 Email sent:", msg.subject);
-  } catch (err) {
-    console.error("❌ SendGrid error:", err);
-    throw err;
-  }
-}
 
 const SUPPORT_TO = process.env.SUPPORT_INBOX || "support@snowhoneystudios.ca";
 const FROM_EMAIL = process.env.SEND_FROM || "noreply@snowhoneystudios.ca";
@@ -80,7 +70,7 @@ export const handler = async (event) => {
     // Auto-Reply to Client
     // ==================
     await sendEmail({
-      to: formData.contactEmail,
+      to: contactEmail,
       from: `"Snowhoney Studios" <noreply@snowhoneystudios.ca>`,
       subject: "Your edit request has been received 🚀",
       html: buildBrandedEmail({
