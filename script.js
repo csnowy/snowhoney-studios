@@ -1,5 +1,59 @@
 // State
 const state = { pkg: null, price: 0, brief: {} };
+let currentStep = 0;
+const wizardSteps = ["wizard-step-brief", "wizard-step-hosting", "wizard-step-payment"];
+
+function openWizard() {
+  const wizard = document.getElementById("orderWizard");
+  wizard.classList.remove("hidden");
+  wizard.classList.add("show");
+  document.body.classList.add("modal-open");
+  currentStep = 0;
+  showWizardStep(currentStep);
+}
+
+function closeWizard() {
+  const wizard = document.getElementById("orderWizard");
+  wizard.classList.remove("show");
+  wizard.classList.add("hidden");
+  document.body.classList.remove("modal-open");
+}
+
+function showWizardStep(index) {
+  wizardSteps.forEach((id, i) => {
+    document.getElementById(id).classList.toggle("hidden", i !== index);
+  });
+}
+
+function nextWizardStep() {
+  if (currentStep < wizardSteps.length - 1) {
+    currentStep++;
+    showWizardStep(currentStep);
+  }
+}
+
+function prevWizardStep() {
+  if (currentStep > 0) {
+    // If we're at payment step and pkg = Mockup, jump back to brief
+    if (state.pkg === "Mockup Only" && currentStep === 2) {
+      currentStep = 0; // brief step
+      showWizardStep(currentStep);
+    } else {
+      currentStep--;
+      showWizardStep(currentStep);
+    }
+
+    // Reset Stripe checkout button if backing out of payment
+    if (wizardSteps[currentStep + 1] === "wizard-step-payment") {
+      const payBtn = document.querySelector('#wizard-step-payment .btn.primary');
+      if (payBtn) {
+        payBtn.textContent = "Pay with Stripe →";
+        payBtn.disabled = false;
+      }
+    }
+  }
+}
+
 
 // Mobile menu toggle
 const btn = document.querySelector('.menu-btn');
@@ -18,38 +72,37 @@ menu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
 document.getElementById('y').textContent = new Date().getFullYear();
 
 // Order flow
-function startOrder(name, price){
+function startOrder(name, price) {
   state.pkg = name; 
   state.price = price;
-
-  const briefSection = document.getElementById('brief');
-
-  briefSection.classList.remove('hidden');
-
-  // ✅ Make sure the correct extra fields are shown
-  togglePlanFields(name);
-
-  // Let layout paint, then scroll
-  setTimeout(() => {
-    briefSection.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, 50);
+  openWizard();
 }
 
 function submitBrief(){
   const form = document.getElementById('briefForm');
-  if(!form.reportValidity()) return;
+  if(!form.reportValidity()) {
+    const firstInvalid = form.querySelector(':invalid');
+    if (firstInvalid) {
+      firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+      firstInvalid.focus({ preventScroll: true });
+    }
+    return;
+  }
 
   const data = new FormData(form);
   state.brief = Object.fromEntries(data.entries());
 
-  // If payment UI exists, pre-fill it (no crash if it doesn't)
   updateSummary();
 
-  // Show Hosting choices
-  const hostBlock = document.getElementById('hostingBlock');
-  hostBlock.classList.remove('hidden');
-  hostBlock.scrollIntoView({behavior:"smooth"});
+  // 🚨 NEW: if package is "Mockup Only", skip hosting
+  if (state.pkg === "Mockup Only") {
+    currentStep = 2; // index of payment step
+    showWizardStep(currentStep);
+  } else {
+    nextWizardStep(); // go to hosting
+  }
 }
+
 
 window.addEventListener("scroll", () => {
   const scrollY = window.scrollY;
@@ -61,10 +114,23 @@ const sellingCheckbox = document.getElementById("sellingCheckbox");
 const sellingSection = document.getElementById("sellingSection");
 
 sellingCheckbox?.addEventListener("change", () => {
+  // grab all inputs inside selling section
+  const allFields = sellingSection.querySelectorAll("input, select, textarea");
+
   if (sellingCheckbox.checked) {
     sellingSection.classList.remove("hidden");
+
+    // re-enable required for marked fields
+    allFields.forEach(f => {
+      if (f.dataset.req === "true") {
+        f.setAttribute("required", "true");
+      }
+    });
   } else {
     sellingSection.classList.add("hidden");
+
+    // disable required when hidden
+    allFields.forEach(f => f.removeAttribute("required"));
   }
 });
 
@@ -136,63 +202,95 @@ document.querySelectorAll(".work-carousel").forEach(carousel => {
   updateScroll();
 });
 
-function selectHosting(plan, monthlyPrice, el){
+function selectHosting(plan, monthlyPrice, el) {
   state.hosting = plan;
   state.hostingPrice = monthlyPrice;
 
-  // Highlight selection
-  document.querySelectorAll('.hosting-option, .btn.secondary.small')
+  // highlight selected
+  document.querySelectorAll('.hosting-option, .self-host-wrap .btn')
     .forEach(btn => btn.classList.remove('selected'));
   el?.classList.add('selected');
 
-  const domainInputs = document.getElementById("domainInputs");
+  // reset domain sections
+  document.getElementById("domainInputs").classList.add("hidden");
+  document.getElementById("basicDomainBlock").classList.add("hidden");
+  document.getElementById("multiDomainBlock").classList.add("hidden");
+  document.getElementById("ownDomainBlock").classList.add("hidden");
 
   if(plan === 'self'){
-    // No domains needed — hide inputs, go straight to payment
-    domainInputs.classList.add("hidden");
-    state.domains = [];
+    state.domains = ['no domain'];
     updateSummary();
-  } else {
-    // Managed hosting — show domain inputs, hide payment until Done
-    domainInputs.classList.remove("hidden");
-    // focus first field for convenience
-    document.querySelector('input[name="domain1"]')?.focus();
+    nextWizardStep(); // go straight to payment
+    return;
+  }
+
+  // show domain area
+  document.getElementById("domainInputs").classList.remove("hidden");
+
+  if(plan === 'Basic Hosting'){
+    document.getElementById("basicDomainBlock").classList.remove("hidden");
+  } else if(plan === 'Boost Hosting' || plan === 'Dominate Hosting'){
+    document.getElementById("multiDomainBlock").classList.remove("hidden");
   }
 }
 
 function confirmDomains(){
-  const d1El = document.querySelector('input[name="domain1"]');
-  const d2El = document.querySelector('input[name="domain2"]');
-  const d3El = document.querySelector('input[name="domain3"]');
+  const d1 = document.querySelector('input[name="domain1"]').value.trim();
+  const d2 = document.querySelector('input[name="domain2"]').value.trim();
+  const d3 = document.querySelector('input[name="domain3"]').value.trim();
 
-  const d1 = d1El?.value.trim();
-  const d2 = d2El?.value.trim();
-  const d3 = d3El?.value.trim();
-
-  // Require at least the first domain
   if(!d1){
-    // Use native validity UI if possible
-    if(d1El?.reportValidity){
-      d1El.setCustomValidity('Please enter at least one domain.');
-      d1El.reportValidity();
-      d1El.setCustomValidity('');
-    } else {
-      alert('Please enter at least one domain.');
-      d1El?.focus();
-    }
+    alert('Please enter at least one domain.');
     return;
   }
-
-  state.domains = [d1, d2, d3].filter(Boolean);
-
-  // Now show payment & update summary
+  state.domains = [d1,d2,d3].filter(Boolean);
   updateSummary();
+  nextWizardStep();
 }
 
+function showOwnDomain(){
+  document.getElementById("multiDomainBlock").classList.add("hidden");
+  document.getElementById("ownDomainBlock").classList.remove("hidden");
+}
 
+function confirmOwnDomain(){
+  const own = document.querySelector('input[name="ownDomain"]').value.trim();
+  if(!own){
+    alert('Please enter your domain.');
+    return;
+  }
+  state.domains = [own];
+  updateSummary();
+  nextWizardStep();
+}
+
+function confirmBasicDomain(){
+  const d = document.querySelector('input[name="basicDomain"]').value.trim();
+  if(d){
+    state.domains = [d];
+  } else {
+    state.domains = ['no domain'];
+  }
+  updateSummary();
+  nextWizardStep();
+}
+
+function skipBasicDomain(){
+  state.domains = ['no domain'];
+  updateSummary();
+  nextWizardStep();
+}
 
 async function goCheckout(){
+  const payBtn = document.querySelector('#wizard-step-payment .btn.primary');
+  const originalText = payBtn?.textContent;
+
   try {
+    if (payBtn) {
+      payBtn.innerHTML = `Redirecting to Stripe… <span class="spinner"></span>`;
+      payBtn.disabled = true;
+    }
+
     const payload = {
       pkg: state.pkg,
       hosting: state.hosting || 'self',
@@ -218,8 +316,6 @@ async function goCheckout(){
 
     const { sessionId, publishableKey, error } = data;
     if(error) throw new Error(error);
-    if(!sessionId) throw new Error('No sessionId returned from server.');
-    if(!publishableKey) throw new Error('No publishableKey returned from server.');
 
     const stripe = Stripe(publishableKey);
     const { error: redirectErr } = await stripe.redirectToCheckout({ sessionId });
@@ -228,12 +324,14 @@ async function goCheckout(){
   } catch(err){
     console.error('Stripe error:', err);
     alert('Stripe checkout failed:\n' + (err?.message || err));
+    if (payBtn) {
+      payBtn.textContent = originalText;
+      payBtn.disabled = false;
+    }
   }
 }
 
-const TAX_RATE = 0.11; // adjust per province as needed
-
-function updateSummary(){
+function updateSummary() {
   const sumPackage = document.getElementById('sumPackage');
   const sumHosting = document.getElementById('sumHosting');
   const sumPrice   = document.getElementById('sumPrice');
@@ -241,26 +339,32 @@ function updateSummary(){
   const sumTotal   = document.getElementById('sumTotal');
   const sumBusiness= document.getElementById('sumBusiness');
 
-  if(!sumPackage) return; // payment UI not mounted yet
+  if(!sumPackage) return;
 
   sumBusiness.textContent = state.brief?.businessName || '—';
   sumPackage.textContent  = state.pkg || '—';
 
-  const hostingLabel = state.hosting
-    ? `${state.hosting}${state.hostingPrice ? ` ($${state.hostingPrice}/mo)` : ''}`
-    : 'Self-hosting';
+  // Hosting display
+  let hostingLabel;
+  if (state.pkg === "Mockup Only") {
+    hostingLabel = "— / Not included";
+  } else if (state.hosting) {
+    hostingLabel = `${state.hosting}${state.hostingPrice ? ` ($${state.hostingPrice}/mo)` : ''}`;
+  } else {
+    hostingLabel = "Self-hosting";
+  }
   sumHosting.textContent = hostingLabel;
 
   sumPrice.textContent = `$${state.price.toLocaleString()} CAD`;
 
-  // charge today: one-time package + first hosting month (if any)
-  const todayDue = (state.price || 0) + (state.hostingPrice || 0);
-  const tax = +(todayDue * TAX_RATE).toFixed(2);
-  const total = +(todayDue + tax).toFixed(2);
+  // ✅ Tax handled by Stripe
+  sumTax.textContent = "Calculated at checkout";
 
-  sumTax.textContent   = `$${tax.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
-  sumTotal.textContent = `$${total.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
+  // Total = just subtotal (package + first month hosting)
+  const todayDue = (state.price || 0) + (state.hostingPrice || 0);
+  sumTotal.textContent = `$${todayDue.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
 }
+
 
 function togglePlanFields(plan) {
   document.getElementById("twoPageFields").classList.add("hidden");
@@ -275,10 +379,21 @@ function togglePlanFields(plan) {
   }
 }
 
+function showPayment() {
+  const payment = document.getElementById("payment");
+  payment.classList.remove("hidden");
+  payment.scrollIntoView({ behavior: "smooth" });
+}
+
 // Contact form submission
 const contactForm = document.getElementById("contactForm");
 contactForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+  submitBtn.innerHTML = `Sending… <span class="spinner"></span>`;
+  submitBtn.disabled = true;
 
   const formData = new FormData(contactForm);
   const payload = Object.fromEntries(formData.entries());
@@ -297,14 +412,32 @@ contactForm?.addEventListener("submit", async (e) => {
   } catch (err) {
     console.error(err);
     alert("❌ Sorry, something went wrong sending your message. Please try again later.");
+  } finally {
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  }
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    const contactBtn = contactForm?.querySelector('button[type="submit"]');
+    if (contactBtn) {
+      contactBtn.textContent = "Send Message →";
+      contactBtn.disabled = false;
+    }
   }
 });
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function(e) {
     e.preventDefault();
-    document.querySelector(this.getAttribute("href"))
-      ?.scrollIntoView({ behavior: "smooth" });
+    const target = this.getAttribute("href");
+
+    // 🚫 Skip if href is just "#"
+    if (!target || target === "#") return;
+
+    const el = document.querySelector(target);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   });
 });
 
@@ -382,7 +515,7 @@ const planDetails = {
       <li><b>Everything in Basic Hosting.</b></li>
       <li><b>Your Domain Included! (see note)</b></li>
       <li><b>Monthly Analytics Report:</b> a simple site analytics summary (sessions, top pages, traffic sources, devices) with a few actionable notes.</li>
-      <li><b>Content Change (1×/month):</b> a larger update than a quick tweak—e.g., replace graphics or images, add a new section, or swap some pricing.</li>
+      <li><b>Content Change (2×/month):</b> a larger update than a quick tweak—e.g., replace graphics or images, add a new section, or swap some pricing.</li>
       <li><b>1 Business Email (Zoho Mail):</b> we’ll set up Zoho Mail in <u>your</u> Zoho account (or create one for you), configure DNS, and hand over admin access and credentials after setup.</li>
       <li><b>Ownership:</b> Zoho Mail and Analytics live in your accounts; we retain collaborator/admin access only as needed to help you.</li>
       <li><b>Cancel Anytime:</b> No long-term lock-in. If you leave, we’ll send you the site files and give you steps to redeploy elsewhere.</li>
@@ -414,20 +547,40 @@ document.querySelectorAll(".learn-more").forEach(btn => {
     const plan = btn.getAttribute("data-plan");
     modalBody.innerHTML = planDetails[plan] || "<p>Details coming soon.</p>";
     modal.classList.remove("hidden");
+    modal.classList.add("show");
+    document.body.classList.add("modal-open");
   });
 });
 
 // Close modal
-modalClose.addEventListener("click", () => modal.classList.add("hidden"));
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) modal.classList.add("hidden"); // click outside closes
+modalClose.addEventListener("click", () => {
+  modal.classList.remove("show");
+  modal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
 });
 
-const editForm = document.getElementById("editRequestForm");
-editForm?.addEventListener("submit", async (e) => {
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.classList.remove("show");
+    modal.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+  }
+});
+
+// ===== Subscriber Edit Request Form =====
+const subscriberForm = document.getElementById("subscriberForm");
+
+subscriberForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const formData = new FormData(editForm);
+  const submitBtn = subscriberForm.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+
+  // Set loading state with spinner
+  submitBtn.innerHTML = `Submitting… <span class="spinner"></span>`;
+  submitBtn.disabled = true;
+
+  const formData = new FormData(subscriberForm);
   const payload = Object.fromEntries(formData.entries());
 
   // Collect multiple files
@@ -438,9 +591,11 @@ editForm?.addEventListener("submit", async (e) => {
     if (!file || file.size === 0) continue;
     if (file.size > 5 * 1024 * 1024) {
       alert(`❌ File ${file.name} is too large. Max 5MB each.`);
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
       return;
     }
-    const base64 = await file.arrayBuffer().then(b => 
+    const base64 = await file.arrayBuffer().then(b =>
       btoa(String.fromCharCode(...new Uint8Array(b)))
     );
     attachments.push({
@@ -462,10 +617,41 @@ editForm?.addEventListener("submit", async (e) => {
 
     if (!res.ok) throw new Error(await res.text());
     alert("✅ Thanks! Your request has been emailed to support@snowhoneystudios.ca.");
-    editForm.reset();
+    subscriberForm.reset();
+
+    // Go back to dashboard choices
+    document.getElementById("dashboardChoices").classList.remove("hidden");
+    subscriberForm.classList.add("hidden");
   } catch (err) {
     console.error(err);
     alert("❌ Sorry, we couldn't send your request. Please email support@snowhoneystudios.ca directly.");
+  } finally {
+    // Reset button state
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  }
+});
+
+// ===== Toggle subscriber form =====
+const dashboardChoices = document.getElementById("dashboardChoices");
+const editOptionBtn = document.getElementById("editOptionBtn");
+const backBtn = document.getElementById("backBtn");
+
+editOptionBtn?.addEventListener("click", () => {
+  dashboardChoices.classList.add("hidden");
+  subscriberForm.classList.remove("hidden");
+});
+
+backBtn?.addEventListener("click", () => {
+  subscriberForm.classList.add("hidden");
+  dashboardChoices.classList.remove("hidden");
+
+  // Reset form + button state
+  subscriberForm.reset();
+  const submitBtn = subscriberForm.querySelector('button[type="submit"]');
+  if (submitBtn) {
+    submitBtn.textContent = "🚀 Submit Request";
+    submitBtn.disabled = false;
   }
 });
 
@@ -480,6 +666,7 @@ function openSubDash(e) {
   e.preventDefault();
   subDashModal.classList.remove("hidden");
   subDashModal.classList.add("show"); // or remove 'hidden' if you’re not using animations
+  document.body.classList.add("modal-open");
 }
 
 subDashBtn?.addEventListener("click", openSubDash);
@@ -487,19 +674,27 @@ subDashBtnMobile?.addEventListener("click", openSubDash);
 
 subDashClose?.addEventListener("click", () => {
   subDashModal.classList.remove("show");
+  subDashModal.classList.add("hidden");
+  document.body.classList.remove("modal-open"); // ✅ unlock
 });
 
 subDashModal?.addEventListener("click", (e) => {
-  if (e.target === subDashModal) subDashModal.classList.remove("show");
+  if (e.target === subDashModal) {
+    subDashModal.classList.remove("show");
+    subDashModal.classList.add("hidden");
+    document.body.classList.remove("modal-open"); // ✅ unlock
+  }
 });
 
 // Stripe cancel link
 document.getElementById("cancelSubBtn")?.addEventListener("click", () => {
-  window.location.href = "https://billing.stripe.com/p/login/<YOUR_PORTAL_ID>";
+  window.location.href = "https://billing.stripe.com/p/login/test_dRm4gA3QXdx55Qc7ef5J600";
 });
 
 window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") subDashModal.classList.remove("show");
+  if (e.key === "Escape") {
+    subDashModal.classList.remove("show");
+    subDashModal.classList.add("hidden");
+    document.body.classList.remove("modal-open"); // ✅ unlock
+  }
 });
-
-

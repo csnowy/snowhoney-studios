@@ -51,7 +51,7 @@ ${JSON.stringify(briefData, null, 2)}
 
         await sgMail.send({
           to: process.env.SENDGRID_TO,
-          from: process.env.SENDGRID_FROM,
+          from: `"Snowhoney Studios" <noreply@snowhoneystudios.ca>`,
           subject: `New Order: ${session.metadata.pkg}`,
           text: messageText,
           html: `<pre>${messageText}</pre>`,
@@ -106,7 +106,7 @@ You’ll receive updates by email as we progress.
 
           await sgMail.send({
             to: customerEmail,
-            from: process.env.SENDGRID_FROM,
+            from: `"Snowhoney Studios" <noreply@snowhoneystudios.ca>`,
             replyTo: process.env.SENDGRID_TO,
             subject: "🐝❄️ Order Confirmation – Snowhoney Studios",
             text: customerText,

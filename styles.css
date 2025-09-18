@@ -43,7 +43,7 @@ section[id]{scroll-margin-top:84px}
   z-index: -1;
   pointer-events: none;
 
-  background: url("background.png") no-repeat center top;
+  background: url("background.webp") no-repeat center top;
   background-size: cover;       /* stretches across width */
   background-attachment: scroll; /* scrolls with page */
   opacity: 0.1;                /* extra subtle */
@@ -283,17 +283,6 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
   text-align: left;
 }
 
-.hosting-option:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-.hosting-option.selected {
-  border: 2px solid var(--honey);
-  background: linear-gradient(180deg, #fffef5, #fff);
-  box-shadow: 0 6px 16px rgba(245,183,0,.25);
-}
-
 .btn.secondary.small.selected {
   border-color: var(--honey);
   background: #fffef5;
@@ -306,13 +295,6 @@ input:focus, textarea:focus, select:focus{outline:none; border-color:var(--honey
 }
 
 #hostingBlock > p { text-align: center; }
-
-/* Center the self-host button */
-.self-host-wrap {
-  display: flex;
-  justify-content: center;
-  margin-top: 16px; /* keeps your spacing */
-}
 
 /* Payment summary */
 .summary{display:grid; gap:12px}
@@ -795,7 +777,7 @@ a:focus-visible {
   content: "";
   position: absolute;
   inset: 0;
-  background: url('Honeycomb.png') repeat;
+  background: url('Honeycomb.webp') repeat;
   background-size: 20px;
   opacity: 0.1;   /* 👈 independent control */
   z-index: 0;
@@ -872,13 +854,22 @@ form.card:hover,
    ====================== */
 .modal {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(17,24,39,0.6); /* dark backdrop */
+  background: rgba(17,24,39,0.6);
   z-index: 1000;
   padding: 20px;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .modal.hidden {
@@ -1164,20 +1155,6 @@ form.card:hover,
   display: none;
 }
 
-/* Modal backdrop fade */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-}
-
 .modal.show {
   opacity: 1;
   pointer-events: auto;
@@ -1212,3 +1189,145 @@ form.card:hover,
   color: #000;
 }
 
+.wizard-step.hidden { display: none; }
+
+body.modal-open {
+  overflow: hidden;
+  height: 100vh; /* prevent background scroll on mobile */
+}
+
+#wizard-step-brief,
+#wizard-step-hosting,
+#wizard-step-payment {
+  overflow-y: auto;
+  max-height: 70vh;  /* leaves room for buttons/header */
+  padding-right: 6px; /* prevent scrollbar overlap */
+}
+
+/* Hosting section polish */
+.hosting-options {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hosting-option {
+  flex: 1 1 260px;   /* min width 260px, flexes smaller if needed */
+  max-width: 300px;  /* no card gets too huge */
+}
+
+.hosting-option.selected {
+  border: 2px solid var(--honey);
+  box-shadow: 0 0 8px rgba(245,183,0,0.4);
+}
+
+.self-host-wrap p {
+  margin-bottom: 10px;
+  color: var(--muted);
+}
+
+.domain-wrap h4 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+.domain-wrap input {
+  display: block;
+  margin: 8px 0;
+  padding: 8px 10px;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.domain-wrap .opt {
+  margin-top: 8px;
+}
+
+.stack {
+  margin-top: 12px;
+}
+
+.stack label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+#orderWizard .modal-content {
+  max-width: 1000px; /* wider for hosting step */
+}
+
+.hosting-options {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.hosting-option {
+  flex: 1 1 240px;
+  max-width: 280px;
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hosting-option:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.hosting-option.selected,
+.self-host-wrap .btn.selected {
+  border: 2px solid var(--honey);
+  box-shadow: 0 0 8px rgba(245,183,0,0.4);
+}
+
+.self-host-wrap {
+  margin: 16px 0 24px;
+  text-align: center;
+}
+
+.domain-wrap {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.domain-inline {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.domain-inline input {
+  flex: 1;
+}
+
+.domain-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* Simple loading spinner */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

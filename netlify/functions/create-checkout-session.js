@@ -12,8 +12,8 @@ const PRICE_MAP = {
 
   // subscriptions (monthly hosting):
   "Basic Hosting": process.env.PRICE_HOST_BASIC,
-  "Grow Hosting": process.env.PRICE_HOST_GROW,
-  "Local SEO Hosting": process.env.PRICE_HOST_SEO,
+  "Boost Hosting": process.env.PRICE_HOST_GROW,
+  "Dominate Hosting": process.env.PRICE_HOST_SEO,
 };
 
 export async function handler(event) {

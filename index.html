@@ -10,6 +10,21 @@
   <link rel="icon" href="icon.webp">
   <link rel="apple-touch-icon" href="logo.webp">
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://snowhoneystudios.ca/">
+  <meta property="og:title" content="Snowhoney Studios — Your Site Live In 7 Days">
+  <meta property="og:description" content="Fast, clean websites for small businesses. 7-day turnaround guaranteed or your money back.">
+  <meta property="og:image" content="https://snowhoneystudios.ca/social-preview.webp">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://snowhoneystudios.ca/">
+  <meta name="twitter:title" content="Snowhoney Studios — Your Site Live In 7 Days">
+  <meta name="twitter:description" content="Fast, clean websites for small businesses. 7-day turnaround guaranteed or your money back.">
+  <meta name="twitter:image" content="https://snowhoneystudios.ca/social-preview.webp">
+
   
 </head>
 
@@ -97,6 +112,9 @@
       <div class="container">
         <h3 class="section-title">Packages</h3>
         <p class="section-sub">Get anything you see here and more! Prices don't include tax.</p>
+        <div style="text-align:right; margin-bottom:10px;">
+          <a href="pages.html" class="btn secondary small">What Counts as a Page?</a>
+        </div>
         <div class="grid cols-3">
 
           <!-- One Page -->
@@ -133,7 +151,7 @@
             </ul>
             <div class="cta" style="margin-top:12px; justify-content:space-between">
               <button class="btn secondary small learn-more" data-plan="two-page">Learn More</button>
-              <button class="btn primary" onclick="startOrder('One-Page Site',999)">Buy Two-Page →</button>
+              <button class="btn primary" onclick="startOrder('Two-Page Site',999)">Buy Two-Page →</button>
             </div>
           </div>
 
@@ -152,7 +170,7 @@
             </ul>
             <div class="cta" style="margin-top:12px; justify-content:space-between">
               <button class="btn secondary small learn-more" data-plan="three-page">Learn More</button>
-              <button class="btn primary" onclick="startOrder('One-Page Site',1399)">Buy One-Page →</button>
+              <button class="btn primary" onclick="startOrder('Three-Page Site',1399)">Buy One-Page →</button>
             </div>
           </div>
         </div>
@@ -168,8 +186,6 @@
             <button class="btn secondary small learn-more" data-plan="mockup">Learn More</button>
             <button class="btn primary" onclick="startOrder('Mockup Only',99)">Buy Mockup →</button>
           </div>
-        </div>
-
         </div>
 
         <!-- Hosting Plans -->
@@ -376,225 +392,6 @@
     </section>
   </main>
 
-  <!-- ===== ORDER FLOW (Hidden until a package is chosen) ===== -->
-  <section id="brief" class="hidden">
-    <div class="container" style="max-width: 800px;">
-      <div class="card" style="padding:20px">
-        <form id="briefForm">
-
-          <!-- === 1. BUSINESS BASICS === -->
-          <h4 class="form-section">Business Basics</h4>
-          <div class="row">
-            <div>
-              <label>Business name <span style="color:red">*</span></label>
-              <input name="businessName" maxlength="50" placeholder="e.g., Prairie Dental" required />
-            </div>
-            <div>
-              <label>Primary contact email <span style="color:red">*</span></label>
-              <input type="email" name="contactEmail" maxlength="100" placeholder="you@business.ca" required />
-            </div>
-          </div>
-          <div class="row">
-            <div><label>Contact phone</label><input name="phone" maxlength="30" placeholder="(###) ###-####" /></div>
-            <div><label>Business address / service area</label><input name="address" maxlength="100" placeholder="123 Main St, City" /></div>
-          </div>
-
-          <!-- === 2. BRAND & CONTENT === -->
-          <h4 class="form-section">Brand & Content</h4>
-          <div class="row">
-            <div><label>Tagline / slogan</label><input name="tagline" maxlength="150" placeholder="Short phrase you love" /></div>
-            <div>
-              <label>Main call-to-action</label>
-              <select name="cta">
-                <option value="call">Call now</option>
-                <option value="book">Book online</option>
-                <option value="email">Email us</option>
-              </select>
-            </div>
-          </div>
-          <label>Services</label>
-          <textarea name="services" maxlength="800" placeholder="List your 3-6 key services"></textarea>
-
-          <div class="row">
-            <div><label>About</label><textarea name="about" maxlength="800" placeholder="1–3 short paragraphs"></textarea></div>
-            <div><label>Locations</label><textarea name="locations" maxlength="800" placeholder="Where you operate"></textarea></div>
-          </div>
-          <div class="row">
-            <div><label>Brand colors</label><input name="colors" maxlength="200" placeholder="Or, leave that to us!" /></div>
-            <div><label>Fonts</label><input name="fonts" maxlength="200" placeholder="e.g., Inter, Source Sans" /></div>
-          </div>
-          <div class="row">
-            <div><label>Logos</label><input type="file" name="logos" accept="image/*" multiple /></div>
-            <div><label>Other images</label><input type="file" name="images" accept="image/*" multiple /></div>
-          </div>
-
-          <!-- === 3. ONLINE PRESENCE === -->
-          <h4 class="form-section">Online Presence</h4>
-          <div class="row">
-            <div><label>Social links</label><input name="social" maxlength="200" placeholder="Facebook, Instagram..." /></div>
-            <div><label>Booking link</label><input name="booking" maxlength="200" placeholder="Calendly, Square, etc." /></div>
-          </div>
-          <div class="row">
-            <div><label>Competitors / inspirations</label><textarea name="inspo" maxlength="600" placeholder="Paste 2–4 URLs you like"></textarea></div>
-            <div><label>Tone & style</label><textarea name="tone" maxlength="400" placeholder="Warm, professional, etc."></textarea></div>
-          </div>
-
-          <!-- === 4. E-COMMERCE (optional) === -->
-          <h4 class="form-section selling-header">
-            Want to sell products or services on this site?
-            <input type="checkbox" id="sellingCheckbox" name="sellingOnline" value="yes" />
-          </h4>
-
-          <div id="sellingSection" class="hidden">
-            <div class="row">
-              <div><label>Legal business name</label><input name="legalName" maxlength="150" placeholder="Exact name on bank account" /></div>
-              <div><label>Bank account number / IBAN</label><input name="accountNumber" maxlength="40" /></div>
-            </div>
-            <div class="row">
-              <div><label>Routing / transit number</label><input name="routingNumber" maxlength="20" /></div>
-              <div><label>SWIFT / institution code</label><input name="swiftCode" maxlength="20" /></div>
-            </div>
-            <div class="row">
-              <div><label>Customer payment options</label><input name="paymentOptions" maxlength="200" placeholder="Credit, debit, PayPal" /></div>
-              <div>
-                <label>Payout method</label>
-                <select name="payoutMethod">
-                  <option value="">Select</option>
-                  <option value="direct">Direct Deposit</option>
-                  <option value="paypal">PayPal</option>
-                  <option value="stripe">Stripe</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Item + Cost Table -->
-            <div class="selling-table">
-              <label>Products / Services</label>
-              <table>
-                <thead><tr><th>Item / Service</th><th>Cost</th></tr></thead>
-                <tbody id="itemsTableBody">
-                  <tr>
-                    <td><input name="item[]" maxlength="100" placeholder="Website Design" /></td>
-                    <td><input name="cost[]" maxlength="20" placeholder="$499" /></td>
-                  </tr>
-                </tbody>
-              </table>
-              <button type="button" class="btn secondary small" onclick="addRow()">+ Add another</button>
-            </div>
-          </div>
-
-          <!-- Extra fields for Two-Page -->
-          <div id="twoPageFields" class="hidden">
-            <h4 class="form-section">Second Page Content</h4>
-            <label>What do you want this extra page to focus on?</label>
-            <textarea name="secondPage" placeholder="e.g., Services, Products, Gallery"></textarea>
-          </div>
-
-          <!-- Extra fields for Three-Page -->
-          <div id="threePageFields" class="hidden">
-            <h4 class="form-section">Third Page Content</h4>
-            <label>What should your third page contain?</label>
-            <textarea name="thirdPage" placeholder="e.g., Blog, FAQ, Testimonials"></textarea>
-          </div>
-
-
-          <!-- === 5. EXTRAS === -->
-          <h4 class="form-section">Extras</h4>
-          <label>Anything else?</label>
-          <textarea name="notes" maxlength="1000" placeholder="Requests, sections, compliance needs, etc."></textarea>
-
-          <div class="note">If you missed anything, feel free to email us later!</div>
-
-          <div class="form-disclaimer">
-            Don’t feel pressured to fill in every field. We’ll do our research and design around your business.  
-            You’ll always have <b>2 revisions per page</b> to adjust anything you don’t like.  
-            <br><br>
-            <b>All we really need to start:</b> your <b>company name</b> and <b>email</b>.
-          </div>
-
-          <div class="cta" style="margin-top:14px">
-            <button type="button" class="btn secondary" onclick="document.getElementById('brief').classList.add('hidden'); location.hash='#packages'">← Back to packages</button>
-            <button type="button" class="btn primary" onclick="submitBrief()">Finished!</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- === 6. HOSTING OPTIONS === -->
-     <div id="hostingBlock" class="hidden">
-      <h4 class="form-section">Hosting Options</h4>
-        <p>Select a hosting plan or choose to host yourself.</p>
-
-        <div id="hostingOptions" class="hosting-grid">
-          <button type="button" class="card hosting-option" onclick="selectHosting('Basic Hosting',29,this)">
-            <div class="badge"><i></i> Basic Hosting</div>
-            <div class="price">$29/mo</div>
-            <div class="inc">Hosting • Updates • Uptime • 15 min edits</div>
-          </button>
-
-          <button type="button" class="card hosting-option" onclick="selectHosting('Grow Hosting',49,this)">
-            <div class="badge"><i></i> Grow Hosting</div>
-            <div class="price">$49/mo</div>
-            <div class="inc">Everything in Basic + Analytics & 1 content change/month</div>
-          </button>
-
-          <button type="button" class="card hosting-option" onclick="selectHosting('Local SEO Hosting',79,this)">
-            <div class="badge"><i></i> Local SEO Hosting</div>
-            <div class="price">$79/mo</div>
-            <div class="inc">GBP optimization • Citations • Monthly backlink</div>
-          </button>
-        </div>
-
-      <div id="domainInputs" class="hidden domain-wrap">
-        <label>Please enter 3 desired domain names (in order of preference):</label>
-        <div class="stack">
-          <input name="domain1" placeholder="example1.ca" required />
-          <input name="domain2" placeholder="example2.ca" />
-          <input name="domain3" placeholder="example3.ca" />
-        </div>
-
-        <div class="cta" style="margin-top:10px">
-          <button type="button" class="btn primary small" onclick="confirmDomains()">Done →</button>
-        </div>
-      </div>
-
-      <div class="self-host-wrap">
-        <button type="button" class="btn secondary small" onclick="selectHosting('self',0,this)">
-          I’ll host myself
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== PAYMENT (hidden until hosting chosen) ===== -->
-  <section id="payment" class="hidden">
-    <div class="container" style="max-width:800px;">
-      <div class="card" style="padding:20px">
-        <h4 class="form-section">Payment</h4>
-
-        <div class="summary">
-          <div class="line"><strong>Business</strong><span id="sumBusiness">—</span></div>
-          <div class="line"><strong>Package</strong><span id="sumPackage">—</span></div>
-          <div class="line"><strong>Hosting</strong><span id="sumHosting">Self-hosting</span></div>
-          <div class="line"><strong>Subtotal</strong><span id="sumPrice">$0 CAD</span></div>
-          <div class="line"><span class="note">Taxes</span><span id="sumTax">$0 CAD</span></div>
-          <hr/>
-          <div class="line"><strong>Total due today</strong><span id="sumTotal">$0 CAD</span></div>
-        </div>
-
-        <p class="note" style="margin-top:10px">
-          If you selected a hosting plan, you will be charged <b>that hosting amount monthly</b> starting today.
-          You can cancel anytime.
-        </p>
-
-        <div class="cta" style="margin-top:14px">
-          <button class="btn secondary" onclick="document.getElementById('payment').classList.add('hidden'); document.getElementById('hostingBlock').scrollIntoView({behavior:'smooth'})">← Back</button>
-          <button class="btn primary" onclick="goCheckout()">Pay with Stripe →</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <footer>
     <div class="container footer" style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:16px; padding:28px 0; color:#475569">
       <div>
@@ -616,112 +413,7 @@
     </div>
   </footer>
 
-  <!-- Brand icon sprite (hidden) -->
-  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
-    <!-- Bee -->
-    <symbol id="icon-bee" viewBox="0 0 24 24">
-      <g fill="currentColor" stroke="currentColor" stroke-width="1">
-        <ellipse cx="12" cy="13" rx="5.4" ry="4.4"/>
-        <rect x="9" y="10.5" width="6" height="1.2" fill="#fff" opacity=".9"/>
-        <rect x="9" y="12.2" width="6" height="1.2" fill="#fff" opacity=".9"/>
-        <rect x="9" y="13.9" width="6" height="1.2" fill="#fff" opacity=".9"/>
-        <ellipse cx="9"  cy="8.6" rx="3.8" ry="2.4" fill="currentColor" opacity=".35"/>
-        <ellipse cx="15" cy="8.6" rx="3.8" ry="2.4" fill="currentColor" opacity=".35"/>
-        <circle  cx="12" cy="6.8" r="1.2"/>
-      </g>
-    </symbol>
-
-    <!-- Snowflake -->
-    <symbol id="icon-snowflake" viewBox="0 0 24 24">
-      <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none">
-        <path d="M12 2v20M12 12l6-3.5M12 12l-6-3.5M12 12l6 3.5M12 12l-6 3.5"/>
-        <path d="M9 3.5l3 2.2 3-2.2M9 20.5l3-2.2 3 2.2" />
-      </g>
-    </symbol>
-
-    <!-- Honey jar -->
-    <symbol id="icon-jar" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
-        <rect x="7" y="6" width="10" height="12" rx="2"/>
-        <path d="M7 8h10M9 6h6"/>
-        <path d="M8.5 12.6c1.2.9 2-.4 2.9.1s1.9.7 2.8-.3S16 11.9 16.7 13"/>
-      </g>
-    </symbol>
-
-    <!-- Honeycomb (triple hex) -->
-    <symbol id="icon-comb" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round">
-        <path d="M8 7l3-2 3 2v4l-3 2-3-2z"/>
-        <path d="M3 12l3-2 3 2v4l-3 2-3-2z"/>
-        <path d="M13 12l3-2 3 2v4l-3 2-3-2z"/>
-      </g>
-    </symbol>
-
-    <!-- Pixel-ish Snowhoney set -->
-    <symbol id="icon-snowman-px" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" shape-rendering="crispEdges">
-        <!-- body -->
-        <circle cx="12" cy="15.2" r="5.1"/>
-        <circle cx="12" cy="9" r="3.2"/>
-        <!-- honey pot hat -->
-        <rect x="8.6" y="4.1" width="6.8" height="2.2" rx="0.3"/>
-        <path d="M9 6.6h6c0 1.4-1.6 2.6-3 2.6s-3-1.2-3-2.6z" fill="currentColor" opacity=".22"/>
-        <!-- tiny drip -->
-        <path d="M14.6 6.6v1.8" />
-        <!-- coal buttons -->
-        <circle cx="12" cy="13.2" r=".5" fill="currentColor"/>
-        <circle cx="12" cy="15.2" r=".5" fill="currentColor"/>
-      </g>
-    </symbol>
-
-    <symbol id="icon-dipper-px" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" shape-rendering="crispEdges">
-        <path d="M3 12h8"/> <!-- handle -->
-        <rect x="11" y="9" width="8" height="6" rx="2" />
-        <path d="M13 10.5h4M13 12h4M13 13.5h4"/> <!-- grooves -->
-      </g>
-    </symbol>
-
-    <symbol id="icon-bee-px" viewBox="0 0 24 24">
-      <g shape-rendering="crispEdges">
-        <!-- wings -->
-        <ellipse cx="9" cy="9" rx="4" ry="2.6" fill="currentColor" opacity=".28"/>
-        <ellipse cx="15" cy="9" rx="4" ry="2.6" fill="currentColor" opacity=".28"/>
-        <!-- body -->
-        <rect x="7.5" y="11" width="9" height="6" rx="3" fill="currentColor"/>
-        <rect x="8.5" y="12" width="7" height="1.2" fill="#fff" opacity=".9"/>
-        <rect x="8.5" y="14" width="7" height="1.2" fill="#fff" opacity=".9"/>
-        <!-- head -->
-        <circle cx="8.4" cy="12" r="1.2" fill="currentColor"/>
-      </g>
-    </symbol>
-
-    <symbol id="icon-comb-px" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" shape-rendering="crispEdges">
-        <path d="M8 7l3-2 3 2v4l-3 2-3-2z"/>
-        <path d="M3 12l3-2 3 2v4l-3 2-3-2z"/>
-        <path d="M13 12l3-2 3 2v4l-3 2-3-2z"/>
-      </g>
-    </symbol>
-
-    <symbol id="icon-snowflake-px" viewBox="0 0 24 24">
-      <g stroke="currentColor" stroke-width="1.6" stroke-linecap="square" fill="none" shape-rendering="crispEdges">
-        <path d="M12 3v18M3 12h18M6 6l12 12M6 18L18 6"/>
-      </g>
-    </symbol>
-
-    <symbol id="icon-dev-px" viewBox="0 0 24 24">
-      <g fill="none" stroke="currentColor" stroke-width="1.6" shape-rendering="crispEdges" stroke-linejoin="round">
-        <rect x="3" y="5" width="18" height="12" rx="2"/>
-        <path d="M8.5 11l2-2M8.5 11l2 2"/>     <!-- <  -->
-        <path d="M15.5 11l-2-2M15.5 11l-2 2"/> <!--  > -->
-        <path d="M8 19h8"/>                     <!-- stand -->
-      </g>
-    </symbol>
-
-  </svg>
-
-  <div id="infoModal" class="modal hidden">
+  <div id="infoModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalBody">
     <div class="modal-content">
       <button class="modal-close" aria-label="Close">×</button>
       <div id="modalBody"></div>
@@ -729,11 +421,11 @@
   </div>
 
   <!-- Client Dashboard Modal -->
-    <div id="subscriberModal" class="modal hidden">
+    <div id="subscriberModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="subscriberModalTitle">
       <div class="modal-content subscriber-card">
-        <span class="modal-close">&times;</span>
+        <span class="modal-close" aria-label="Close">&times;</span>
 
-        <h2 class="subscriber-title">Subscriber Dashboard</h2>
+        <h2 id="subscriberModalTitle" class="subscriber-title">Subscriber Dashboard</h2>
         <p class="subscriber-subtitle">Welcome back, valued subscriber ✨</p>
 
         <!-- Choice Menu -->
@@ -775,9 +467,268 @@
       </div>
     </div>
 
+    <!-- Order Wizard Modal -->
+    <!-- ===== ORDER WIZARD MODAL ===== -->
+    <div id="orderWizard" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="orderWizardTitle">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeWizard()" aria-label="Close">×</button>
+
+        <!-- Step 1: Brief -->
+        <div class="wizard-step" id="wizard-step-brief">
+          <h3 id="orderWizardTitle"><b>Tell us about your website!</b></h3>
+            <form id="briefForm">
+
+            <div class="form-disclaimer">
+              Don’t feel pressured to fill in every field. We’ll do our research and design around your business.  
+              You’ll always have <b>2 revisions per page</b> to adjust anything you don’t like.  
+              <br><br>
+              <b>All we really need to start:</b> your <b>company name</b>, <b>province</b> and <b>email</b>.
+            </div>
+
+            <!-- === 1. BUSINESS BASICS === -->
+            <h4 class="form-section">Business Basics</h4>
+            <div class="row">
+              <div>
+                <label>Business name <span style="color:red">*</span></label>
+                <input name="businessName" maxlength="50" placeholder="e.g., Prairie Dental" required />
+              </div>
+              <div>
+                <label>Primary contact email <span style="color:red">*</span></label>
+                <input type="email" name="contactEmail" maxlength="100" placeholder="you@business.ca" required />
+              </div>
+            </div>
+            <div class="row">
+              <div><label>Contact phone</label><input name="phone" maxlength="30" placeholder="(###) ###-####" /></div>
+              <div><label>Business address / service area</label><input name="address" maxlength="100" placeholder="123 Main St, City" /></div>
+            </div>
+
+            <!-- === 2. BRAND & CONTENT === -->
+            <h4 class="form-section">Brand & Content</h4>
+            <div class="row">
+              <div><label>Tagline / slogan</label><input name="tagline" maxlength="150" placeholder="Short phrase you love" /></div>
+              <div>
+                <label>Main call-to-action</label>
+                <select name="cta">
+                  <option value="call">Call now</option>
+                  <option value="book">Book online</option>
+                  <option value="email">Email us</option>
+                </select>
+              </div>
+            </div>
+            <label>Services</label>
+            <textarea name="services" maxlength="800" placeholder="List your 3-6 key services"></textarea>
+
+            <div class="row">
+              <div><label>About</label><textarea name="about" maxlength="800" placeholder="1–3 short paragraphs"></textarea></div>
+              <div><label>Locations</label><textarea name="locations" maxlength="800" placeholder="Where you operate"></textarea></div>
+            </div>
+            <div class="row">
+              <div><label>Brand colors</label><input name="colors" maxlength="200" placeholder="Or, leave that to us!" /></div>
+              <div><label>Fonts</label><input name="fonts" maxlength="200" placeholder="e.g., Inter, Source Sans" /></div>
+            </div>
+            <div class="row">
+              <div><label>Logos</label><input type="file" name="logos" accept="image/*" multiple /></div>
+              <div><label>Other images</label><input type="file" name="images" accept="image/*" multiple /></div>
+            </div>
+
+            <!-- === 3. ONLINE PRESENCE === -->
+            <h4 class="form-section">Online Presence</h4>
+            <div class="row">
+              <div><label>Social links</label><input name="social" maxlength="200" placeholder="Facebook, Instagram..." /></div>
+              <div><label>Booking link</label><input name="booking" maxlength="200" placeholder="Calendly, Square, etc." /></div>
+            </div>
+            <div class="row">
+              <div><label>Competitors / inspirations</label><textarea name="inspo" maxlength="600" placeholder="Paste 2–4 URLs you like"></textarea></div>
+              <div><label>Tone & style</label><textarea name="tone" maxlength="400" placeholder="Warm, professional, etc."></textarea></div>
+            </div>
+
+            <!-- === 4. E-COMMERCE (optional) === -->
+            <h4 class="form-section selling-header">
+              Want to sell products or services on this site?
+              <input type="checkbox" id="sellingCheckbox" name="sellingOnline" value="yes" />
+            </h4>
+
+            <div id="sellingSection" class="hidden">
+              <!-- Business basics -->
+              <div class="row">
+                <div>
+                  <label>Legal business name <span style="color:red">*</span></label>
+                  <input name="legalName" maxlength="150" placeholder="Exact name on bank account" data-req="true" />
+                </div>
+                <div>
+                  <label>Business address <span style="color:red">*</span></label>
+                  <input name="businessAddress" maxlength="200" placeholder="123 Main St, City, Province" data-req="true" />
+                </div>
+              </div>
+
+              <div class="row">
+                <div>
+                  <label>Primary contact email <span style="color:red">*</span></label>
+                  <input type="email" name="businessEmail" maxlength="120" placeholder="you@business.ca" data-req="true" />
+                </div>
+                <div>
+                  <label>Contact phone</label>
+                  <input name="businessPhone" maxlength="30" placeholder="(###) ###-####" data-req="true"/>
+                </div>
+              </div>
+
+              <!-- Support info -->
+              <div class="row">
+                <div>
+                  <label>Customer support email (on receipts) <span style="color:red">*</span></label>
+                  <input type="email" name="supportEmail" maxlength="120" placeholder="support@business.ca" data-req="true" />
+                </div>
+                <div>
+                  <label>Refund / return policy link</label>
+                  <input type="url" name="refundPolicy" maxlength="200" placeholder="https://yoursite.ca/refunds" />
+                  <p class="note">If left blank, we’ll use our default Refund Policy page.</p>
+                </div>
+              </div>
+
+              <!-- Products & pricing -->
+              <div class="selling-table">
+                <label>Products / Services</label>
+                <table>
+                  <thead><tr><th>Item / Service</th><th>Price</th></tr></thead>
+                  <tbody id="itemsTableBody">
+                    <tr>
+                      <td><input name="item[]" maxlength="100" placeholder="Example: Website Design" data-req="true" /></td>
+                      <td><input name="cost[]" maxlength="20" placeholder="$499" data-req="true" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button type="button" class="btn secondary small" onclick="addRow()">+ Add another</button>
+              </div>
+
+              <div class="note">
+                ⚠️ Sensitive details like government ID, tax numbers, and bank account info are entered 
+                directly into Stripe by you. We’ll guide you through Stripe onboarding after your site is ready.
+              </div>
+            </div>
 
 
+            <!-- Extra fields for Two-Page -->
+            <div id="twoPageFields" class="hidden">
+              <h4 class="form-section">Second Page Content</h4>
+              <label>What do you want this extra page to focus on?</label>
+              <textarea name="secondPage" placeholder="e.g., Services, Products, Gallery"></textarea>
+            </div>
+
+            <!-- Extra fields for Three-Page -->
+            <div id="threePageFields" class="hidden">
+              <h4 class="form-section">Third Page Content</h4>
+              <label>What should your third page contain?</label>
+              <textarea name="thirdPage" placeholder="e.g., Blog, FAQ, Testimonials"></textarea>
+            </div>
+
+
+            <!-- === 5. EXTRAS === -->
+            <h4 class="form-section">Extras</h4>
+            <label>Anything else?</label>
+            <textarea name="notes" maxlength="1000" placeholder="Requests, sections, compliance needs, etc."></textarea>
+
+            <div class="note">If you missed anything, feel free to email us later!</div>          
+          </form>
+          <div class="cta" style="margin-top: 40px;"><button type="button" class="btn primary" onclick="submitBrief()">Next →</button></div>
+        </div>
+
+        <!-- STEP 2: HOSTING -->
+        <div class="wizard-step hidden" id="wizard-step-hosting">
+          <div id="hostingBlock" class="form-card">
+            <h4 class="form-section">Choose Hosting</h4>
+            <p>Select one of our managed hosting plans, or self-host if you prefer.</p>
+
+            <!-- Hosting plans -->
+            <div class="hosting-options">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Basic Hosting',29,this)">
+                <div class="badge">Basic Hosting</div>
+                <div class="price">$29/mo</div>
+                <div class="inc">Hosting • Uptime • Light edits</div>
+              </button>
+
+              <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',49,this)">
+                <div class="badge">Boost Hosting</div>
+                <div class="price">$49/mo</div>
+                <div class="inc">Domain • Monthly Report • 2 Content Changes • Email</div>
+              </button>
+
+              <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',79,this)">
+                <div class="badge">Dominate Hosting</div>
+                <div class="price">$79/mo</div>
+                <div class="inc">Domain • Unlimited Updates • 5 Emails • Google Profile</div>
+              </button>
+            </div>
+
+            <!-- Self-host -->
+            <div class="self-host-wrap">
+              <button type="button" class="btn secondary" onclick="selectHosting('self',0,this)">I’ll host myself</button>
+            </div>
+
+            <!-- DOMAIN INPUT AREA -->
+            <div id="domainInputs" class="hidden domain-wrap">
+
+              <!-- Basic plan domain input -->
+              <div id="basicDomainBlock" class="hidden">
+                <label>Your domain</label>
+                <div class="domain-inline">
+                  <input name="basicDomain" placeholder="yourdomain.ca">
+                  <button type="button" class="btn secondary small" onclick="skipBasicDomain()">I don’t have a domain</button>
+                </div>
+                <button type="button" class="btn primary" onclick="confirmBasicDomain()">Enter</button>
+              </div>
+
+              <!-- Boost/Dominate multi-domain input -->
+              <div id="multiDomainBlock" class="hidden">
+                <label>Enter up to 3 domains you’d like:</label>
+                <input name="domain1" placeholder="Domain #1 (required)">
+                <input name="domain2" placeholder="Domain #2 (optional)">
+                <input name="domain3" placeholder="Domain #3 (optional)">
+                <div class="domain-actions">
+                  <button type="button" class="btn primary small" onclick="confirmDomains()">Submit</button>
+                  <button type="button" class="btn secondary small" onclick="showOwnDomain()">Already have a domain</button>
+                </div>
+              </div>
+
+              <!-- Single own-domain input (after clicking “already have”) -->
+              <div id="ownDomainBlock" class="hidden">
+                <label>Your existing domain</label>
+                <input name="ownDomain" placeholder="mybusiness.ca">
+                <button type="button" class="btn primary" onclick="confirmOwnDomain()">Confirm</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta" style="margin-top:40px">
+            <button type="button" class="btn secondary" onclick="prevWizardStep()">← Back</button>
+          </div>
+        </div>
+
+
+        <!-- Step 3: Payment -->
+        <div class="wizard-step hidden" id="wizard-step-payment">
+          <div id="payment" class="form-card">
+            <h4 class="form-section">Payment Summary</h4>
+            <div class="summary">
+              <div class="line"><strong>Business</strong><span id="sumBusiness">—</span></div>
+              <div class="line"><strong>Package</strong><span id="sumPackage">—</span></div>
+              <div class="line"><strong>Hosting</strong><span id="sumHosting">Self-hosting</span></div>
+              <div class="line"><strong>Subtotal</strong><span id="sumPrice">$0 CAD</span></div>
+              <div class="line"><span class="note">Taxes</span><span id="sumTax">$0 CAD</span></div>
+              <hr/>
+              <div class="line"><strong>Total due today</strong><span id="sumTotal">$0 CAD</span></div>
+              <p class="note" style="margin-top:10px">
+                If you selected a hosting plan, you will be charged <b>that hosting amount monthly</b> starting today.
+                You can cancel anytime.
+              </p>
+            </div>
+          </div>
+          <div class="cta" style="margin-top:40px">
+            <button type="button" class="btn secondary" onclick="prevWizardStep()">← Back</button>
+            <button type="button" class="btn primary" onclick="goCheckout()">Pay with Stripe →</button>
+          </div>
+        </div>
+      </div>
+    </div>
   <script src="script.js"></script>
-
 </body>
 </html>
