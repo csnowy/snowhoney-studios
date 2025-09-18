@@ -69,36 +69,14 @@ export const handler = async (event) => {
     // ==================
     // Auto-Reply to Client
     // ==================
-    await sg.send({
-      to: contactEmail,
-      from: `"Snowhoney Studios Support" <noreply@snowhoneystudios.ca>`,
-      subject: `We received your request at Snowhoney Studios`,
-      html: `
-        <div style="font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial">
-          <h2>Thanks, we’ve received your edit request ✅</h2>
-          <p>Hi ${escapeHtml(businessName)},</p>
-          <p>Your request for <b>${escapeHtml(requestType)}</b> was received and added to our queue.</p>
-
-          <h3>Here’s a summary of what you sent us:</h3>
-          <ul>
-            <li><b>Business:</b> ${escapeHtml(businessName)}</li>
-            <li><b>Type:</b> ${escapeHtml(requestType)}</li>
-            <li><b>Details:</b><br>
-              <pre style="white-space:pre-wrap;font-family:inherit;border:1px solid #eee;padding:10px;border-radius:8px;background:#fafafa">
-${escapeHtml(requestDetails)}</pre>
-            </li>
-            <li><b>Files:</b> ${fileSummary || "None"}</li>
-          </ul>
-
-          <p>We’ll review your request and get back to you shortly.</p>
-
-          <hr>
-          <p style="color:#6b7280;font-size:13px">
-            Snowhoney Studios<br>
-            support@snowhoneystudios.ca
-          </p>
-        </div>
-      `,
+    await sendEmail({
+      to: formData.contactEmail,
+      from: `"Snowhoney Studios" <noreply@snowhoneystudios.ca>`,
+      subject: "Your edit request has been received 🚀",
+      html: buildBrandedEmail({
+        title: "Edit Request Confirmed ✏️",
+        message: `Hi ${formData.businessName},<br><br>Thanks for submitting an edit request! Our team will review and make the updates shortly.<br><br><i>Request details:</i><br>${formData.requestDetails}`,
+      }),
     });
 
     return {

@@ -23,81 +23,49 @@ export async function handler(event) {
     }
 
     // -----------------------------
-    // 1) Internal notification (to you)
+    // 1) Internal notification
     // -----------------------------
     const internalText = `
-📩 New Contact Form Message
-───────────────────────────────
-Name: ${name}
-Email: ${email}
+      📩 New Contact Form Message
+      ───────────────────────────────
+      Name: ${name}
+      Email: ${email}
 
-Message:
-${message}
-    `;
+      Message:
+      ${message}
+          `;
 
-    await sgMail.send({
-      to: process.env.SENDGRID_TO,         // your Zoho inbox
-      from: `"Snowhoney Studios Support" <noreply@snowhoneystudios.ca>`,
-      replyTo: email,                      // reply straight to sender
-      subject: `📩 New Contact Form Message from ${name}`,
-      text: internalText,
-      html: `
-        <h2>📩 New Contact Form Message</h2>
-        <p><b>Name:</b> ${name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Message:</b></p>
-        <blockquote style="border-left:3px solid #F5B700; padding-left:10px; color:#444;">
-          ${message.replace(/\n/g, "<br>")}
-        </blockquote>
-      `,
-    });
+          await sgMail.send({
+            to: process.env.SENDGRID_TO,         // your Zoho inbox
+            from: `"Snowhoney Studios Support" <noreply@snowhoneystudios.ca>`,
+            replyTo: email,                      // reply straight to sender
+            subject: `📩 New Contact Form Message from ${name}`,
+            text: internalText,
+            html: `
+              <h2>📩 New Contact Form Message</h2>
+              <p><b>Name:</b> ${name}</p>
+              <p><b>Email:</b> ${email}</p>
+              <p><b>Message:</b></p>
+              <blockquote style="border-left:3px solid #F5B700; padding-left:10px; color:#444;">
+                ${message.replace(/\n/g, "<br>")}
+              </blockquote>
+            `,
+          });
 
     console.log("📧 Internal contact form email sent!");
 
     // -----------------------------
-    // 2) Confirmation to the sender
-    // -----------------------------
-    const confirmText = `
-Hi ${name},
+    // 2) Confirmation to Sender
+    // -----------------------------    
 
-Thanks for reaching out to Snowhoney Studios! 🐝❄️
-
-We’ve received your message and our team will review it shortly.
-
-Your message:
-"${message}"
-
-We’ll get back to you as soon as possible (usually within 1–2 business days).
-
-In the meantime, thanks for checking out Snowhoney Studios — we hope to work with you soon! ✨
-
-— The Snowhoney Studios Team
-    `;
-
-    const confirmHtml = `
-      <div style="font-family: Arial, sans-serif; color: #222; line-height:1.6;">
-        <h2 style="color:#F5B700;">Thanks for contacting Snowhoney Studios! 🐝❄️</h2>
-        <p>Hi ${name},</p>
-        <p>We’ve received your message and our team will review it shortly.</p>
-        <p style="margin:16px 0; font-style:italic; border-left:3px solid #F5B700; padding-left:10px; color:#555;">
-          ${message.replace(/\n/g, "<br>")}
-        </p>
-        <p>We’ll get back to you as soon as possible (usually within 1–2 business days).</p>
-        <p style="margin-top:20px;">
-          Thanks for visiting <b>Snowhoney Studios</b> — where ideas drip with honey and sparkle with snow. ✨
-        </p>
-        <br/>
-        <p>— The Snowhoney Studios Team</p>
-      </div>
-    `;
-
-    await sgMail.send({
-      to: email,                           // back to the sender
-      from: `"Snowhoney Studios Support" <noreply@snowhoneystudios.ca>`,     // noreply address
-      replyTo: process.env.SENDGRID_TO,    // replies land in your support inbox
-      subject: "🐝❄️ We’ve received your message – Snowhoney Studios",
-      text: confirmText,
-      html: confirmHtml,
+    await sendEmail({
+      to: formData.email, // sender’s email
+      from: `"Snowhoney Studios" <noreply@snowhoneystudios.ca>`,
+      subject: "Thanks for contacting Snowhoney Studios ✨",
+      html: buildBrandedEmail({
+        title: "Message Received 📨",
+        message: `Hi ${formData.name},<br><br>Thanks for reaching out! We’ve received your message and our team will review it shortly.<br><br><i>Your message:</i><br>${formData.message}`,
+      }),
     });
 
     console.log(`📧 Confirmation email sent to ${email}`);
