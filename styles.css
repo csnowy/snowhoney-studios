@@ -1354,3 +1354,54 @@ body.modal-open {
   border-color: var(--honey);
   box-shadow: 0 0 0 3px rgba(245,183,0,0.4);
 }
+
+.notice-bubble {
+  background: var(--ice);
+  border-left: 4px solid var(--honey);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 14px 0 24px;
+  font-size: 14px;
+  color: var(--coal);
+  line-height: 1.5;
+  max-width: 720px;
+}
+.notice-bubble::before {
+  content: "💡 ";
+  font-size: 16px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.counter button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: var(--snow);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.counter button:hover {
+  background: var(--honey);
+  color: #000;
+}
+
+#wizard-step-hosting {
+  font-family: "KodeMono", monospace;
+}
+
+.show { display: flex; }
+
+.hidden {
+  display: none !important;
+}
+.show {
+  display: flex !important; /* since your hosting options use flex */
+}

@@ -76,6 +76,51 @@ function startOrder(name, price) {
   state.pkg = name; 
   state.price = price;
   openWizard();
+
+
+  const hostingTitle = document.getElementById("hostingTitle");
+  const hostingSubtitle = document.getElementById("hostingSubtitle");
+  const normalOpts = document.getElementById("normalHostingOptions");   // whole block
+  const upgradeOpts = document.getElementById("upgradeHostingOptions"); // whole block
+
+  if (name === "Two-Page Site" || name === "Three-Page Site") {
+  normalOpts.classList.add("hidden");
+  normalOpts.classList.remove("show");
+
+  upgradeOpts.classList.remove("hidden");
+  upgradeOpts.classList.add("show");
+
+  document.getElementById("stickWithBasicWrap").classList.remove("hidden");
+
+  hostingTitle.textContent = "Upgrade Hosting";
+  hostingSubtitle.textContent =
+    "Your package includes a free trial of Basic Hosting. You can upgrade to Boost or Dominate below, or stick with Basic.";
+  } else {
+    normalOpts.classList.remove("hidden");
+    normalOpts.classList.add("show");
+
+    upgradeOpts.classList.remove("show");
+    upgradeOpts.classList.add("hidden");
+
+    hostingTitle.textContent = "Choose Hosting";
+    hostingSubtitle.textContent =
+      "Select one of our managed hosting plans, or self-host if you prefer.";
+  }
+
+  openWizard();
+}
+
+function stickWithBasic() {
+  state.hosting = "Basic Hosting";
+  state.hostingPrice = 0; // free trial during package
+
+  // highlight selection
+  document.querySelectorAll(".hosting-option").forEach(b => b.classList.remove("selected"));
+  document.getElementById("stickWithBasicWrap").querySelector("button").classList.add("selected");
+
+  // Show multi-domain block (same as Boost/Dominate flow)
+  document.getElementById("domainInputs").classList.remove("hidden");
+  document.getElementById("multiDomainBlock").classList.remove("hidden");
 }
 
 function submitBrief(){
@@ -103,6 +148,13 @@ function submitBrief(){
   }
 }
 
+state.extraPages = 0;
+function changeExtraPages(delta) {
+  const newCount = (state.extraPages || 0) + delta;
+  state.extraPages = Math.max(0, newCount); // no negatives
+  document.getElementById("extraPagesCount").textContent = state.extraPages;
+  updateSummary();
+}
 
 window.addEventListener("scroll", () => {
   const scrollY = window.scrollY;
@@ -296,7 +348,8 @@ async function goCheckout(){
       hosting: state.hosting || 'self',
       domains: state.domains || [],
       email: state.brief?.contactEmail || '',
-      businessName: state.brief?.businessName || ''
+      businessName: state.brief?.businessName || '',
+      extraPages: state.extraPages || 0
     };
 
     const res = await fetch('/.netlify/functions/create-checkout-session', {
@@ -355,13 +408,25 @@ function updateSummary() {
   }
   sumHosting.textContent = hostingLabel;
 
+    // Base package price
   sumPrice.textContent = `$${state.price.toLocaleString()} CAD`;
 
   // ✅ Tax handled by Stripe
   sumTax.textContent = "Calculated at checkout";
 
+  // Extra pages
+  const pagesCost = (state.extraPages || 0) * 299;
+  if (state.extraPages > 0) {
+    extraPagesPrice.textContent = `x${state.extraPages} — $${pagesCost.toLocaleString()} CAD`;
+  } else {
+    extraPagesPrice.textContent = "—";
+  }
+
+  // ✅ Tax handled by Stripe
+  sumTax.textContent = "Calculated at checkout";
+
   // Total = just subtotal (package + first month hosting)
-  const todayDue = (state.price || 0) + (state.hostingPrice || 0);
+  const todayDue = (state.price || 0) + (state.hostingPrice || 0) + pagesCost;
   sumTotal.textContent = `$${todayDue.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
 }
 
@@ -725,6 +790,11 @@ subDashModal?.addEventListener("click", (e) => {
     subDashModal.classList.add("hidden");
     document.body.classList.remove("modal-open"); // ✅ unlock
   }
+});
+
+// Stripe cancel link
+document.getElementById("cancelSubBtn")?.addEventListener("click", () => {
+  window.location.href = "https://billing.stripe.com/p/login/test_dRm4gA3QXdx55Qc7ef5J600";
 });
 
 window.addEventListener("keydown", (e) => {

@@ -12,8 +12,8 @@ const PRICE_MAP = {
 
   // subscriptions (monthly hosting):
   "Basic Hosting": process.env.PRICE_HOST_BASIC,
-  "Boost Hosting": process.env.PRICE_HOST_GROW,
-  "Dominate Hosting": process.env.PRICE_HOST_SEO,
+  "Boost Hosting": process.env.PRICE_HOST_BOOST,
+  "Dominate Hosting": process.env.PRICE_HOST_DOMINATE,
 };
 
 export async function handler(event) {
@@ -37,8 +37,20 @@ export async function handler(event) {
     const line_items = [{ price: oneTimePriceId, quantity: 1 }];
     if (recurringPriceId) line_items.push({ price: recurringPriceId, quantity: 1 });
 
+    if (parsed.extraPages && parsed.extraPages > 0) {
+      line_items.push({ price: PRICE_MAP["Extra Page"], quantity: parsed.extraPages });
+    }
+
     // Choose mode: 'payment' for one-time only, 'subscription' if hosting included
     const mode = recurringPriceId ? "subscription" : "payment";
+
+    let subscription_data;
+    if (pkg === "Two-Page Site" && hosting === "Basic Hosting") {
+      subscription_data = { trial_period_days: 30 };
+    }
+    if (pkg === "Three-Page Site" && hosting === "Basic Hosting") {
+      subscription_data = { trial_period_days: 60 };
+    }
 
     // Create a Customer if email provided
     const customer = email
@@ -53,6 +65,8 @@ export async function handler(event) {
       billing_address_collection: "required",
       customer_update: { address: "auto" },
       allow_promotion_codes: true,
+
+      ...(subscription_data ? { subscription_data } : {}),
 
       // ✅ correctly pass brief + other info
       metadata: {

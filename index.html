@@ -23,9 +23,9 @@
   <meta name="twitter:url" content="https://snowhoneystudios.ca/">
   <meta name="twitter:title" content="Snowhoney Studios — Your Site Live In 7 Days">
   <meta name="twitter:description" content="Fast, clean websites for small businesses. 7-day turnaround guaranteed or your money back.">
-  <meta name="twitter:image" content="https://snowhoneystudios.ca/social-preview.webp">
+  <meta name="twitter:image" content="https://snowhoneystudios.ca/social-preview.webp">  
 
-  
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 </head>
 
 <!-- Google tag (gtag.js) -->
@@ -108,10 +108,14 @@
     </section>
 
 
-    <section id="packages">
+    <section id="packages" data-aos="zoom-in-up">
       <div class="container">
         <h3 class="section-title">Packages</h3>
         <p class="section-sub">Get anything you see here and more! Prices don't include tax.</p>
+        <div class="notice-bubble">
+          ℹ️ Additional pages can be added at checkout for $299 each.  
+          These do not include extra features beyond your chosen package.
+        </div>
         <div style="text-align:right; margin-bottom:10px;">
           <a href="pages.html" class="btn secondary small">What Counts as a Page?</a>
         </div>
@@ -120,7 +124,7 @@
           <!-- One Page -->
           <div class="card brand-sheen">
             <img class="dec dec-br dec-md" src="Honeypot.webp" alt="" aria-hidden="true" />
-            <div class="badge" style="margin-bottom:10px"><i></i> One-Page Site</div>
+            <div class="badge" style="margin-bottom:10px"><i></i> One-Page Package</div>
             <div class="price"><span class="old-price">$799</span><span class="new-price">$699 CAD</span></div>
             <div class="inc">7-day turnaround • 2 revisions</div>
             <ul class="list">
@@ -139,15 +143,15 @@
           <!-- Two Page -->
           <div class="card brand-sheen" style="border:2px solid var(--honey)">
             <img class="dec dec-c dec-lg" src="snowman_throw.webp" alt="" aria-hidden="true" />
-            <div class="badge" style="margin-bottom:10px"><i></i> Two-Page Site</div>
+            <div class="badge" style="margin-bottom:10px"><i></i> Two-Page Package</div>
             <div class="price"><span class="old-price">$1199</span><span class="new-price">$999 CAD</span></div>
             <div class="inc">7-day turnaround • 2 revisions per page</div>
             <ul class="list">
               <li><span class="tick">✔</span> Everything in One-Page Site</li>
               <li><span class="tick">✔</span> Extra page for services or products</li>
+              <li><span class="tick">✔</span> FREE 30 Day Trial of Basic Hosting</li>
               <li><span class="tick">✔</span> Bigger e-commerce setup (up to 20 products/services)</li>
               <li><span class="tick">✔</span> Google Maps integration</li>
-              <li><span class="tick">✔</span> 30-day free maintenance after launch</li>
             </ul>
             <div class="cta" style="margin-top:12px; justify-content:space-between">
               <button class="btn secondary small learn-more" data-plan="two-page">Learn More</button>
@@ -158,15 +162,15 @@
           <!-- Three Page -->
           <div class="card brand-sheen">
             <img class="dec dec-tr dec-lg" src="bee_topright.webp" alt="" aria-hidden="true" />
-            <div class="badge" style="margin-bottom:10px"><i></i> Three-Page Site</div>
+            <div class="badge" style="margin-bottom:10px"><i></i> Three-Page Package</div>
             <div class="price"><span class="old-price">$1699</span><span class="new-price">$1399 CAD</span></div>
             <div class="inc">7-day turnaround • 2 revisions per page</div>
             <ul class="list">
               <li><span class="tick">✔</span> Everything in Two-Page Site</li>
               <li><span class="tick">✔</span> Additional fully custom page (e.g., blog, gallery, or FAQ)</li>
+              <li><span class="tick">✔</span> FREE 60 Day Trial of Basic Hosting</li>
               <li><span class="tick">✔</span> Premium e-commerce setup (up to 50 products/services)</li>
               <li><span class="tick">✔</span> Google Analytics integration </li>
-              <li><span class="tick">✔</span> 60-day free maintenance after launch</li>
             </ul>
             <div class="cta" style="margin-top:12px; justify-content:space-between">
               <button class="btn secondary small learn-more" data-plan="three-page">Learn More</button>
@@ -198,19 +202,21 @@
               <div class="card" style="padding:16px">
                 <div class="badge"><i></i> Basic </div>
                 <div class="price"><span class="old-price">$29/mo</span><span class="new-price">$24/mo</span></div>
-                <p class="small">(Discount applies until you cancel!)</p>
+                <p class="small">(Discount applies until cancelled!)</p>
                 <div class="inc">Hosting • Uptime • 15 min edits</div>
                 <div class="cta" style="margin-top:12px; justify-content:space-between">
                   <button class="btn secondary small learn-more" data-plan="basic-hosting">Learn More</button>
                 </div>
               </div>
-              
-
+            
               <div class="card" style="padding:16px; border:2px solid var(--honey)">
                 <div class="badge"><i></i> Boost </div>
                 <div class="price"><span class="old-price">$79/mo</span><span class="new-price">$69/mo</span></div>
-                <p class="small">(Discount applies until you cancel!)</p>
-                <div class="inc">Domain Name Included • Monthly Analytics Report • 2 Content Changes per Month • 1 Business email</div>
+                <p class="small">(Discount applies until cancelled!)</p>
+                <div class="inc">• Domain Name Included</div>
+                <div class="inc">• Monthly Analytics Report</div>
+                <div class="inc">• 2 Content Changes per Month</div>
+                <div class="inc">• 1 Business email</div>
                 <div class="cta" style="margin-top:12px; justify-content:space-between">
                   <button class="btn secondary small learn-more" data-plan="boost-hosting">Learn More</button>
                 </div>
@@ -220,7 +226,10 @@
                 <div class="badge"><i></i> Dominate </div>
                 <div class="price"><span class="old-price">$149/mo</span><span class="new-price">$119/mo</span></div>
                 <p class="small">(Discount applies until you cancel!)</p>
-                <div class="inc">Domain Name Included • Unlimited Updates • 5 Business Emails • Optimized Google Profile</div>
+                <div class="inc">• Domain Name Included</div>
+                <div class="inc">• Optimized Google Profile</div>
+                <div class="inc">• Unlimited Updates</div>
+                <div class="inc">• 5 Business Emails</div>
                 <div class="cta" style="margin-top:12px; justify-content:space-between">
                   <button class="btn secondary small learn-more" data-plan="dominate-hosting">Learn More</button>
                 </div>
@@ -228,14 +237,14 @@
           </div>
         </div>
           <p class="small" style="margin-top:12px; color:var(--muted)">
-            We'll cover all hosting costs, emails and domain purchasing, no extra fees for you! (emails and domain varies per plan)
+            We'll cover all hosting costs, emails and domain purchasing specified, no extra fees for you! (emails and domain varies per plan)
           </p>
         </div>
 
       </div>
     </section>
 
-    <section id="process" style="padding-top:36px">
+    <section id="process" style="padding-top:36px" data-aos="zoom-in-up">
       <div class="container">
         <h3 class="section-title">How It Works</h3>
         <p class="section-sub">Fast, simple, transparent.</p>
@@ -265,7 +274,7 @@
     </section>
 
 
-    <section id="reviews">
+    <section id="reviews" data-aos="zoom-in-up">
       <div class="container">
         <h3 class="section-title">Check out our other clients</h3>
         <p class="section-sub">Here’s what people are saying about working with Snowhoney Studios:</p>
@@ -292,7 +301,7 @@
       </div>
     </section>
 
-    <section id="work">
+    <section id="work" data-aos="zoom-in-up">
       <div class="container">
         <h3 class="section-title">Some of our other work!</h3>
 
@@ -343,16 +352,16 @@
       </div>
     </section>
 
-    <section id="faq">
+    <section id="faq" data-aos="zoom-in-up">
       <div class="container">
         <h3 class="section-title">FAQ</h3>
         <details>
           <summary>How fast can I launch?</summary>
-          <p>7 days from your order AT MOST! If not, we guarantee a FULL refund AND your webpage - no cost! However, if you need it sooner we have a rush fee available!</p>
+          <p>7 days from your order AT MOST! If not, we guarantee a FULL refund AND your webpage - no cost!</p>
         </details>
         <details>
           <summary>What do you need from me?</summary>
-          <p>Business name, services, locations, 2–3 photos, and how you want people to contact you (call, form, booking link). You'll be prompted with a form containing all of this and more once a plan is selected!</p>
+          <p>Once you've chosen a package, you will be prompted to fill out our design form! On there, you can either give us the bare minimum (business name and email) or share as many details as you'd like. However, we will conduct our own research on your business, so if you don't share many details, we will still try our hardest to customize your site to fit your brand.</p>
         </details>
         <details>
           <summary>Who owns the website?</summary>
@@ -365,7 +374,7 @@
       </div>
     </section>
 
-    <section id="contact" style="padding-top:36px">
+    <section id="contact" style="padding-top:36px" data-aos="zoom-in-up">
       <div class="container" style="max-width:700px;">
         <h3 class="section-title">Get in Touch</h3>
         <p class="section-sub">Questions? Send us a message and we’ll reply soon!</p>
@@ -494,8 +503,7 @@
             <div class="form-disclaimer">
               Don’t feel pressured to fill in every field. We’ll do our research and design around your business.  
               You’ll always have <b>2 revisions per page</b> to adjust anything you don’t like.  
-              <br><br>
-              <b>All we really need to start:</b> your <b>company name</b>, <b>province</b> and <b>email</b>.
+              <b>All we really need to start:</b> your <b>company name</b> and <b>email</b>.
             </div>
 
             <!-- === 1. BUSINESS BASICS === -->
@@ -653,6 +661,11 @@
 
             <!-- Hosting plans -->
             <div class="hosting-options">
+            <h4 id="hostingTitle" class="form-section">Choose Hosting</h4>
+            <p id="hostingSubtitle">Select one of our managed hosting plans, or self-host if you prefer.</p>
+
+            <!-- Hosting plans -->
+            <div id="normalHostingOptions" class="hosting-options show">
               <button type="button" class="card hosting-option" onclick="selectHosting('Basic Hosting',29,this)">
                 <div class="badge">Basic Hosting</div>
                 <div class="price">$29/mo</div>
@@ -677,6 +690,33 @@
               <button type="button" class="btn secondary" onclick="selectHosting('self',0,this)">I’ll host myself</button>
             </div>
 
+              <!-- Self-host -->
+              <div class="self-host-wrap">
+                <button type="button" class="btn secondary" onclick="selectHosting('self',0,this)">I’ll host myself</button>
+              </div>
+
+            </div>
+
+            <div id="upgradeHostingOptions" class="hosting-options hidden">
+              <!-- Boost / Dominate only -->
+              <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',49,this)">
+                <div class="badge">Boost Hosting</div>
+                <div class="price">$49/mo</div>
+                <div class="inc">Domain • Monthly Report • 2 Content Changes • Email</div>
+              </button>
+
+              <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',79,this)">
+                <div class="badge">Dominate Hosting</div>
+                <div class="price">$79/mo</div>
+                <div class="inc">Domain • Unlimited Updates • 5 Emails • Google Profile</div>
+              </button>
+
+              <!-- "stick with Basic" -->
+              <div id="stickWithBasicWrap" class="self-host-wrap hidden">
+                <button type="button" class="btn secondary" onclick="stickWithBasic()">I’ll stick with Basic</button>
+              </div>
+            </div>
+            
             <!-- DOMAIN INPUT AREA -->
             <div id="domainInputs" class="hidden domain-wrap">
 
@@ -725,6 +765,17 @@
               <div class="line"><strong>Business</strong><span id="sumBusiness">—</span></div>
               <div class="line"><strong>Package</strong><span id="sumPackage">—</span></div>
               <div class="line"><strong>Hosting</strong><span id="sumHosting">Self-hosting</span></div>
+              <div class="line">
+                <strong>Extra Pages</strong>
+                <div class="opt">
+                  <div class="counter">
+                    <button type="button" onclick="changeExtraPages(-1)">−</button>
+                    <span id="extraPagesCount">0</span>
+                    <button type="button" onclick="changeExtraPages(1)">+</button>
+                  </div>
+                  <span id="extraPagesPrice" class="note">—</span>
+                </div>
+              </div>
               <div class="line"><strong>Subtotal</strong><span id="sumPrice">$0 CAD</span></div>
               <div class="line"><span class="note">Taxes</span><span id="sumTax">$0 CAD</span></div>
               <hr/>
@@ -742,6 +793,9 @@
         </div>
       </div>
     </div>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ duration: 800, once: true });</script>
   <script src="script.js"></script>
 </body>
 </html>
