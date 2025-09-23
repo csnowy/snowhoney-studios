@@ -14,10 +14,6 @@ export function buildBrandedEmail({ title, message, highlight }) {
     <div style="max-width:600px;margin:auto;background:#fff;
                 border-radius:12px;padding:24px;
                 border:1px solid #eee;">
-      <img src="https://snowhoneystudios.ca/logo.webp" 
-           alt="Snowhoney Studios" width="60" 
-           style="display:block;margin-bottom:20px;">
-
       <h2 style="color:#F5B700;margin-top:0;">${title}</h2>
       <p style="font-size:16px;line-height:1.5;">${message}</p>
 

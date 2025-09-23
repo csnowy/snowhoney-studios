@@ -1393,8 +1393,12 @@ body.modal-open {
   color: #000;
 }
 
-#wizard-step-hosting {
-  font-family: "KodeMono", monospace;
+/* Hosting card font fix */
+#wizard-step-hosting .badge,
+#wizard-step-hosting .price,
+#wizard-step-hosting .inc,
+#wizard-step-hosting button {
+  font-family: 'KodeMono', monospace !important;
 }
 
 .hidden {
@@ -1408,4 +1412,33 @@ body.modal-open {
 #wizard-step-hosting .card,
 #wizard-step-hosting .card * {
   font-family: "KodeMono", monospace;
+#stickWithBasicWrap {
+  flex-basis: 100%;     /* takes full row */
+  text-align: center;   /* center the button nicely */
+  margin-top: 12px;     /* add a bit of breathing room */
+}
+
+footer a {
+  color: #111;
+  background: rgba(255,255,255,0.05);
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin: 0 3px;
+  font-size: 0.85rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+footer a:hover {
+  background: var(--honey);
+  color: #111;
+}
+
+#faq summary {
+  cursor: pointer;
+  padding: 8px 0;
+  transition: text-shadow 0.25s ease;
+}
+
+#faq summary:hover {
+  text-shadow: 0 0 6px var(--honey), 0 0 12px rgba(245,183,0,0.5);
 }

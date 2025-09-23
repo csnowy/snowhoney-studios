@@ -17,6 +17,7 @@ function closeWizard() {
   wizard.classList.remove("show");
   wizard.classList.add("hidden");
   document.body.classList.remove("modal-open");
+  resetHostingStep();
 }
 
 function showWizardStep(index) {
@@ -54,6 +55,45 @@ function prevWizardStep() {
   }
 }
 
+function resetHostingStep() {
+  // Hide domain area + all its blocks
+  const blocks = ["domainInputs","basicDomainBlock","multiDomainBlock","ownDomainBlock"];
+  blocks.forEach(id => document.getElementById(id)?.classList.add("hidden"));
+
+  // Clear previous highlight
+  document.querySelectorAll("#wizard-step-hosting .selected")
+    .forEach(el => el.classList.remove("selected"));
+
+  // Put both option groups into a known state
+  const normal = document.getElementById("normalHostingOptions");
+  const upgrade = document.getElementById("upgradeHostingOptions");
+  normal?.classList.remove("show"); normal?.classList.add("hidden");
+  upgrade?.classList.remove("show"); upgrade?.classList.add("hidden");
+
+  // Hide the “stick with Basic” row by default
+  document.getElementById("stickWithBasicWrap")?.classList.add("hidden");
+}
+
+function syncHostingUIFromState() {
+  const hide = id => document.getElementById(id)?.classList.add("hidden");
+  const show = id => document.getElementById(id)?.classList.remove("hidden");
+
+  ["domainInputs","basicDomainBlock","multiDomainBlock","ownDomainBlock"].forEach(hide);
+
+  if (state.hosting === "Basic Hosting") {
+    show("domainInputs"); show("basicDomainBlock");
+  } else if (state.hosting === "Boost Hosting" || state.hosting === "Dominate Hosting") {
+    show("domainInputs"); show("multiDomainBlock");
+  }
+}
+
+const originalShowWizardStep = showWizardStep;
+showWizardStep = function(index){
+  originalShowWizardStep(index);
+  if (wizardSteps[index] === "wizard-step-hosting") {
+    syncHostingUIFromState(); // <-- NEW
+  }
+};
 
 // Mobile menu toggle
 const btn = document.querySelector('.menu-btn');
@@ -78,6 +118,8 @@ function startOrder(name, price) {
   openWizard();
 
 
+  resetHostingStep();
+
   const hostingTitle = document.getElementById("hostingTitle");
   const hostingSubtitle = document.getElementById("hostingSubtitle");
   const normalOpts = document.getElementById("normalHostingOptions");   // whole block
@@ -94,7 +136,7 @@ function startOrder(name, price) {
 
   hostingTitle.textContent = "Upgrade Hosting";
   hostingSubtitle.textContent =
-    "Your package includes a free trial of Basic Hosting. You can upgrade to Boost or Dominate below, or stick with Basic.";
+    "Your package includes a free trial of Basic Hosting! You can upgrade to Boost or Dominate below if you'd like, or stick with Basic.";
   } else {
     normalOpts.classList.remove("hidden");
     normalOpts.classList.add("show");
@@ -120,7 +162,7 @@ function stickWithBasic() {
 
   // Show multi-domain block (same as Boost/Dominate flow)
   document.getElementById("domainInputs").classList.remove("hidden");
-  document.getElementById("multiDomainBlock").classList.remove("hidden");
+  document.getElementById("basicDomainBlock").classList.remove("hidden");
 }
 
 function submitBrief(){
@@ -391,11 +433,18 @@ function updateSummary() {
   const sumTax     = document.getElementById('sumTax');
   const sumTotal   = document.getElementById('sumTotal');
   const sumBusiness= document.getElementById('sumBusiness');
+  const extraPagesLine = document.getElementById("extraPagesLine");
 
   if(!sumPackage) return;
 
   sumBusiness.textContent = state.brief?.businessName || '—';
   sumPackage.textContent  = state.pkg || '—';
+
+  if (state.pkg === "Mockup Only") {
+    extraPagesLine.style.display = "none";   // hide completely
+  } else {
+    extraPagesLine.style.display = "";       // show normally
+  }
 
   // Hosting display
   let hostingLabel;
@@ -586,7 +635,7 @@ const planDetails = {
       <li><b>Cancel Anytime:</b> No long-term lock-in. If you leave, we’ll send you the site files and give you steps to redeploy elsewhere.</li>
       </ul>
       <div class="modal-note">
-        <p><em>Domain Policy:</em> Boost and Dominate Hosting plans include registration of one standard domain name (up to $30 CAD/year value). We’ll purchase and manage the domain on your behalf and connect it to your website. If you ever cancel hosting, we’ll transfer the domain ownership to you at no extra charge. Domains above $30/year (such as premium or specialty TLDs like <code>.io</code>, <code>.store</code>, or <code>.tech</code>) are not included, but we’re happy to help you register one directly if you’d prefer.</p>
+        <p><em>Domain Policy:</em> Boost and Dominate Hosting plans include registration of one standard domain name (up to $50 CAD/year value). We’ll purchase and manage the domain on your behalf and connect it to your website. If you ever cancel hosting, we’ll transfer the domain ownership to you at no extra charge. Domains above $50/year (such as premium or specialty TLDs like <code>.io</code>, <code>.store</code>, or <code>.tech</code>) are not included, but we’re happy to help you register one directly if you’d prefer.</p>
       </div>
   `,
 
@@ -596,12 +645,12 @@ const planDetails = {
       <li><b>Everything in Boost Hosting.</b></li>
       <li><b>Your Domain Included! (see note)</b></li>
       <li><b>Unlimited Content Updates:</b> request as many content edits as you need each month.</li>
-      <li><b>Up to 5 Business Emails (Zoho Mail):</b> full setup in your Zoho account (or we can create one for you). We set up inboxes/aliases and hand over admin.</li>
+      <li><b>Up to 5 Business Emails (Zoho Mail):</b> we’ll set up Zoho Mail in <u>your</u> Zoho account (or create one for you), configure DNS, and hand over admin access and credentials after setup.</li>
       <li><b>Optimized Google Business Profile:</b> setup/refresh in your Google account with categories, services, hours, photos, and posting guidance. Verification is controlled by Google and can require additional steps.</li>
       <li><b>Cancel Anytime:</b> No long-term lock-in. If you leave, we’ll send you the site files and give you steps to redeploy elsewhere.</li>
     </ul>
     <div class="modal-note">
-      <p><em>Domain Policy:</em> Boost and Dominate Hosting plans include registration of one standard domain name (up to $30 CAD/year value). We’ll purchase and manage the domain on your behalf and connect it to your website. If you ever cancel hosting, we’ll transfer the domain ownership to you at no extra charge. Domains above $30/year (such as premium or specialty TLDs like <code>.io</code>, <code>.store</code>, or <code>.tech</code>) are not included, but we’re happy to help you register one directly if you’d prefer.</p>
+      <p><em>Domain Policy:</em> Boost and Dominate Hosting plans include registration of one standard domain name (up to $50 CAD/year value). We’ll purchase and manage the domain on your behalf and connect it to your website. If you ever cancel hosting, we’ll transfer the domain ownership to you at no extra charge. Domains above $50/year (such as premium or specialty TLDs like <code>.io</code>, <code>.store</code>, or <code>.tech</code>) are not included, but we’re happy to help you register one directly if you’d prefer.</p>
     </div>
   `
 };

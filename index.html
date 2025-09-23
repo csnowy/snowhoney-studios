@@ -51,7 +51,6 @@
       <nav aria-label="Primary">
         <a href="#packages">Packages</a>
         <a href="#process">Process</a>
-        <a href="#work">Reviews</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
         <a href="#" id="subscriberDashboardLink">Subscriber Dashboard</a>
@@ -65,7 +64,6 @@
     <div id="mobileMenu" class="mobile-menu hidden" role="dialog" aria-modal="true" aria-label="Mobile menu">
       <a href="#packages">Packages</a>
       <a href="#process">Process</a>
-      <a href="#work">Reviews</a>
       <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
       <a href="#" id="subscriberDashboardLinkMobile">Subscriber Dashboard</a>
@@ -82,7 +80,11 @@
         <h2 class="title hero-title">Go live in 7 days — with a webpage just like this!</h2>
 
         <div class="hero-panel">
+<<<<<<< HEAD
           <img class="dec dec-tl dec-flag" src="SaskFlag.webp" alt="Saskatchewan flag" aria-hidden="true" />
+=======
+          <img class="dec dec-tl dec-flag" src="SaskFlag.png" alt="Canada flag" aria-hidden="true" />
+>>>>>>> c89eac3 (Added extra page additions, polished order flow, added free trials on bigger packages, commented out reviews/carousel, added real stripe keys)
           <div class="hero-copy">
             <span class="badge"><i></i><span>Based in Saskatoon!</span></span>
 
@@ -111,7 +113,7 @@
     <section id="packages" data-aos="zoom-in-up">
       <div class="container">
         <h3 class="section-title">Packages</h3>
-        <p class="section-sub">Get anything you see here and more! Prices don't include tax.</p>
+        <p class="section-sub">Get anything you see on our site and more! Prices don't include tax.</p>
         <div class="notice-bubble">
           ℹ️ Additional pages can be added at checkout for $299 each.  
           These do not include extra features beyond your chosen package.
@@ -274,25 +276,22 @@
     </section>
 
 
-    <section id="reviews" data-aos="zoom-in-up">
+<!--     <section id="reviews" data-aos="zoom-in-up">
       <div class="container">
         <h3 class="section-title">Check out our other clients</h3>
         <p class="section-sub">Here’s what people are saying about working with Snowhoney Studios:</p>
 
         <div class="reviews-grid">
-          <!-- Review 1 -->
           <div class="review-card">
             <p class="review-text">“Snowhoney built us a gorgeous one-page site in less than a week! Our customers love it, and updating is so easy.”</p>
             <div class="review-author">— Sarah K., Prairie Dental</div>
           </div>
 
-          <!-- Review 2 -->
           <div class="review-card">
             <p class="review-text">“Fantastic service. They handled everything, including hosting, and our site has been flawless ever since.”</p>
             <div class="review-author">— Jamal R., FitLife Coaching</div>
           </div>
 
-          <!-- Review 3 -->
           <div class="review-card">
             <p class="review-text">“We were skeptical about the 7-day promise, but they delivered on time with a stunning design. Highly recommend!”</p>
             <div class="review-author">— Emily & Chris, Prairie Jurassic</div>
@@ -310,8 +309,8 @@
 
           <div class="work-track">
             <div class="shot">
-              <a href="http://prairiejurassic.ca/" target="_blank">
-                <img src="PrairieJurassic.webp" alt="Sample site 1" loading="lazy"/>
+              <a href="http://example1.com/" target="_blank">
+                <img src="SnowHoney.webp" alt="Sample site 1" loading="lazy"/>
               </a>
             </div>
             <div class="shot">
@@ -350,7 +349,7 @@
           <button class="work-arrow right" aria-label="Scroll right">›</button>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section id="faq" data-aos="zoom-in-up">
       <div class="container">
@@ -439,6 +438,7 @@
         <!-- Choice Menu -->
         <div id="dashboardChoices" class="dashboard-choices">
           <button id="editOptionBtn" class="btn sub-btn">✏️ Request Website Edit</button>
+<<<<<<< HEAD
           <button id="cancelSubBtn" class="btn cancel-btn">Manage Subscription</button>
           <div id="cancelEmailWrap" class="hidden" style="margin-top:16px;">
             <label for="cancelEmailInput" class="subscriber-subtitle" style="display:block; margin-bottom:6px; text-align:left;">
@@ -454,6 +454,9 @@
               Open Billing Portal →
             </button>
           </div>
+=======
+          <button id="cancelSubBtn" class="btn cancel-btn">Modify Subscription</button>
+>>>>>>> c89eac3 (Added extra page additions, polished order flow, added free trials on bigger packages, commented out reviews/carousel, added real stripe keys)
         </div>
 
         <!-- Hidden Edit Form -->
@@ -502,7 +505,8 @@
 
             <div class="form-disclaimer">
               Don’t feel pressured to fill in every field. We’ll do our research and design around your business.  
-              You’ll always have <b>2 revisions per page</b> to adjust anything you don’t like.  
+              You’ll always have <b>2 revisions per page</b> if purchasing a package,  to adjust anything you don’t like.  
+              <br><br>
               <b>All we really need to start:</b> your <b>company name</b> and <b>email</b>.
             </div>
 
@@ -746,14 +750,20 @@
               <div class="line"><strong>Hosting</strong><span id="sumHosting">Self-hosting</span></div>
               <div class="line">
                 <strong>Extra Pages</strong>
-                <div class="opt">
-                  <div class="counter">
-                    <button type="button" onclick="changeExtraPages(-1)">−</button>
-                    <span id="extraPagesCount">0</span>
-                    <button type="button" onclick="changeExtraPages(1)">+</button>
+                <div class="line" id="extraPagesLine">
+                  <strong>Extra Pages</strong>
+                  <div class="opt">
+                    <div class="counter">
+                      <button type="button" onclick="changeExtraPages(-1)">−</button>
+                      <span id="extraPagesCount">0</span>
+                      <button type="button" onclick="changeExtraPages(1)">+</button>
+                    </div>
+                    <span id="extraPagesPrice" class="note">—</span>
                   </div>
-                  <span id="extraPagesPrice" class="note">—</span>
                 </div>
+              </div>
+              <div class="notice-bubble">
+                Extra pages here don't add extra features beyond your chosen package.
               </div>
               <div class="line"><strong>Subtotal</strong><span id="sumPrice">$0 CAD</span></div>
               <div class="line"><span class="note">Taxes</span><span id="sumTax">$0 CAD</span></div>
