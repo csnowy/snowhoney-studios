@@ -1412,6 +1412,8 @@ body.modal-open {
 #wizard-step-hosting .card,
 #wizard-step-hosting .card * {
   font-family: "KodeMono", monospace;
+}
+
 #stickWithBasicWrap {
   flex-basis: 100%;     /* takes full row */
   text-align: center;   /* center the button nicely */
@@ -1441,4 +1443,11 @@ footer a:hover {
 
 #faq summary:hover {
   text-shadow: 0 0 6px var(--honey), 0 0 12px rgba(245,183,0,0.5);
+}
+
+.error-msg {
+  color: #dc2626; /* red-600 */
+  font-size: 14px;
+  margin-top: 6px;
+  text-align: center;
 }

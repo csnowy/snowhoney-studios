@@ -787,8 +787,15 @@ cancelSubBtn?.addEventListener("click", () => {
 // When user submits their email
 cancelEmailSubmit?.addEventListener("click", async () => {
   const email = cancelEmailInput.value.trim();
+  const errorEl = document.getElementById("cancelEmailError");
+
+  // Clear previous errors
+  errorEl.textContent = "";
+  errorEl.classList.add("hidden");
+
   if (!email) {
-    alert("Please enter your email.");
+    errorEl.textContent = "Please enter your email.";
+    errorEl.classList.remove("hidden");
     return;
   }
 
@@ -800,16 +807,28 @@ cancelEmailSubmit?.addEventListener("click", async () => {
     });
 
     const data = await res.json();
+
+    if (!res.ok) {
+      if (res.status === 404) {
+        errorEl.textContent = "We couldn’t find a subscription for that email. Please double-check or use the email you signed up with.";
+      } else {
+        errorEl.textContent = "Something went wrong connecting to Stripe. Please try again later.";
+      }
+      errorEl.classList.remove("hidden");
+      return;
+    }
+
+    // ✅ success → redirect
     if (data.url) {
       window.location.href = data.url;
-    } else {
-      alert("❌ Could not open billing portal: " + data.error);
     }
   } catch (err) {
-    console.error(err);
-    alert("❌ Something went wrong. Please try again.");
+    console.error("Portal session error:", err);
+    errorEl.textContent = "Unexpected error. Please try again later.";
+    errorEl.classList.remove("hidden");
   }
 });
+
 
 // Hide the cancel email input if "Request Website Edit" is pressed
 editOptionBtn?.addEventListener("click", () => {
@@ -839,11 +858,6 @@ subDashModal?.addEventListener("click", (e) => {
     subDashModal.classList.add("hidden");
     document.body.classList.remove("modal-open"); // ✅ unlock
   }
-});
-
-// Stripe cancel link
-document.getElementById("cancelSubBtn")?.addEventListener("click", () => {
-  window.location.href = "https://billing.stripe.com/p/login/test_dRm4gA3QXdx55Qc7ef5J600";
 });
 
 window.addEventListener("keydown", (e) => {

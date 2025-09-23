@@ -19,7 +19,10 @@ export async function handler(event) {
     // 🔎 Search Stripe for a customer by email
     const customers = await stripe.customers.list({ email, limit: 1 });
     if (!customers.data.length) {
-      throw new Error("No customer found for this email");
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ error: "No customer found for this email" }),
+      };
     }
 
     const customerId = customers.data[0].id;
