@@ -82,7 +82,7 @@
         <h2 class="title hero-title">Go live in 7 days — with a webpage just like this!</h2>
 
         <div class="hero-panel">
-          <img class="dec dec-tl dec-flag" src="CanadaFlag.webp" alt="Canada flag" aria-hidden="true" />
+          <img class="dec dec-tl dec-flag" src="SaskFlag.webp" alt="Saskatchewan flag" aria-hidden="true" />
           <div class="hero-copy">
             <span class="badge"><i></i><span>Based in Saskatoon!</span></span>
 
@@ -656,28 +656,21 @@
         <!-- STEP 2: HOSTING -->
         <div class="wizard-step hidden" id="wizard-step-hosting">
           <div id="hostingBlock" class="form-card">
-            <h4 class="form-section">Choose Hosting</h4>
-            <p>Select one of our managed hosting plans, or self-host if you prefer.</p>
-
-            <!-- Hosting plans -->
-            <div class="hosting-options">
             <h4 id="hostingTitle" class="form-section">Choose Hosting</h4>
             <p id="hostingSubtitle">Select one of our managed hosting plans, or self-host if you prefer.</p>
 
-            <!-- Hosting plans -->
+            <!-- Normal Hosting Options -->
             <div id="normalHostingOptions" class="hosting-options show">
               <button type="button" class="card hosting-option" onclick="selectHosting('Basic Hosting',29,this)">
                 <div class="badge">Basic Hosting</div>
                 <div class="price">$29/mo</div>
                 <div class="inc">Hosting • Uptime • Light edits</div>
               </button>
-
               <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',49,this)">
                 <div class="badge">Boost Hosting</div>
                 <div class="price">$49/mo</div>
                 <div class="inc">Domain • Monthly Report • 2 Content Changes • Email</div>
               </button>
-
               <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',79,this)">
                 <div class="badge">Dominate Hosting</div>
                 <div class="price">$79/mo</div>
@@ -685,42 +678,27 @@
               </button>
             </div>
 
-            <!-- Self-host -->
-            <div class="self-host-wrap">
-              <button type="button" class="btn secondary" onclick="selectHosting('self',0,this)">I’ll host myself</button>
-            </div>
-
-              <!-- Self-host -->
-              <div class="self-host-wrap">
-                <button type="button" class="btn secondary" onclick="selectHosting('self',0,this)">I’ll host myself</button>
-              </div>
-
-            </div>
-
+            <!-- Upgrade Options (Two/Three Page flow) -->
             <div id="upgradeHostingOptions" class="hosting-options hidden">
-              <!-- Boost / Dominate only -->
               <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',49,this)">
                 <div class="badge">Boost Hosting</div>
                 <div class="price">$49/mo</div>
                 <div class="inc">Domain • Monthly Report • 2 Content Changes • Email</div>
               </button>
-
               <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',79,this)">
                 <div class="badge">Dominate Hosting</div>
                 <div class="price">$79/mo</div>
                 <div class="inc">Domain • Unlimited Updates • 5 Emails • Google Profile</div>
               </button>
-
-              <!-- "stick with Basic" -->
-              <div id="stickWithBasicWrap" class="self-host-wrap hidden">
-                <button type="button" class="btn secondary" onclick="stickWithBasic()">I’ll stick with Basic</button>
-              </div>
             </div>
-            
-            <!-- DOMAIN INPUT AREA -->
-            <div id="domainInputs" class="hidden domain-wrap">
 
-              <!-- Basic plan domain input -->
+            <div id="stickWithBasicWrap" class="self-host-wrap hidden">
+              <button type="button" class="btn secondary" onclick="stickWithBasic()">I’ll stick with Basic</button>
+            </div>
+
+            <!-- Domain Inputs -->
+            <div id="domainInputs" class="hidden domain-wrap">
+              <!-- Basic -->
               <div id="basicDomainBlock" class="hidden">
                 <label>Your domain</label>
                 <div class="domain-inline">
@@ -730,7 +708,7 @@
                 <button type="button" class="btn primary" onclick="confirmBasicDomain()">Enter</button>
               </div>
 
-              <!-- Boost/Dominate multi-domain input -->
+              <!-- Multi (Boost/Dominate) -->
               <div id="multiDomainBlock" class="hidden">
                 <label>Enter up to 3 domains you’d like:</label>
                 <input name="domain1" placeholder="Domain #1 (required)">
@@ -742,7 +720,7 @@
                 </div>
               </div>
 
-              <!-- Single own-domain input (after clicking “already have”) -->
+              <!-- Own domain -->
               <div id="ownDomainBlock" class="hidden">
                 <label>Your existing domain</label>
                 <input name="ownDomain" placeholder="mybusiness.ca">
@@ -755,6 +733,7 @@
             <button type="button" class="btn secondary" onclick="prevWizardStep()">← Back</button>
           </div>
         </div>
+
 
 
         <!-- Step 3: Payment -->

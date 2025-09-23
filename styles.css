@@ -914,8 +914,8 @@ form.card:hover,
 
 .modal-close {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 5px;
+  right: 5px;
   background: transparent;
   border: none;
   font-size: 26px;
@@ -1101,8 +1101,8 @@ form.card:hover,
 }
 
 .cancel-btn {
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
-  color: #fff;
+  background: linear-gradient(135deg, #fff, #eee);
+  color: #111;
   padding: 14px 20px;
   border-radius: 12px;
   font-weight: 700;
@@ -1397,11 +1397,15 @@ body.modal-open {
   font-family: "KodeMono", monospace;
 }
 
-.show { display: flex; }
-
 .hidden {
   display: none !important;
 }
 .show {
   display: flex !important; /* since your hosting options use flex */
+}
+
+/* Force card content in hosting step to use KodeMono */
+#wizard-step-hosting .card,
+#wizard-step-hosting .card * {
+  font-family: "KodeMono", monospace;
 }
