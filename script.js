@@ -134,7 +134,7 @@ function startOrder(name, price) {
 
   hostingTitle.textContent = "Upgrade Hosting";
   hostingSubtitle.textContent =
-    "Your package includes a free trial of Basic Hosting! You can also upgrade to Boost or Dominate below with the added 24$ discount instead.";
+    "Your package includes a free trial of Basic Hosting! You can also upgrade to Boost or Dominate below with the added 19$ discount instead.";
   } else {
     normalOpts.classList.remove("hidden");
     normalOpts.classList.add("show");
@@ -455,8 +455,8 @@ function formatHostingSummary(pkg, hosting) {
 
   if (hosting === "Basic Hosting") {
     if (days > 0) {
-      display = `Basic Hosting — $24/mo (first ${days} days free)`;
-      note = `Your first $24 hosting payment will be on ${firstCharge}.`;
+      display = `Basic Hosting — $19/mo (first ${days} days free)`;
+      note = `Your first $19 hosting payment will be on ${firstCharge}.`;
     } else {
       display = "Basic Hosting — $24/mo";
     }
@@ -464,16 +464,16 @@ function formatHostingSummary(pkg, hosting) {
   }
 
   if (hosting === "Boost Hosting" || hosting === "Dominate Hosting") {
-    const base = hosting === "Boost Hosting" ? 69 : 119;
+    const base = hosting === "Boost Hosting" ? 69 : 99;
     const discounted = hosting === "Boost Hosting" ? 45 : 95;
 
     if (pkg === "Two-Page Site") {
       display = `${hosting} — $${base}/mo (first month $${discounted}/mo)`;
-      note = "A $24 discount applies for your first month.";
+      note = "A $19 discount applies for your first month.";
     }
     if (pkg === "Three-Page Site") {
       display = `${hosting} — $${base}/mo (first 2 months $${discounted}/mo)`;
-      note = "A $24 discount applies for your first 2 months.";
+      note = "A $19 discount applies for your first 2 months.";
     }
     return { display, note };
   }
@@ -507,7 +507,7 @@ function updateSummary() {
   sumPrice.textContent = `$${state.price.toLocaleString()} CAD`;
 
   // extra pages
-  const pagesCost = (state.extraPages || 0) * 299;
+  const pagesCost = (state.extraPages || 0) * 199;
   if (state.extraPages > 0) {
     document.getElementById("extraPagesPrice").textContent =
       `x${state.extraPages} — $${pagesCost.toLocaleString()} CAD`;
@@ -944,3 +944,87 @@ window.addEventListener("keydown", (e) => {
     document.body.classList.remove("modal-open"); // ✅ unlock
   }
 });
+
+// === Dynamic Wix vs Snowhoney Calculator (with email selector) ===
+(function(){
+  const wixMonthly = 44; // Business plan
+  const wixYear = wixMonthly * 12;
+  const wix5yr = wixYear * 5;
+
+  const domainCost = 20; // after year 1
+  const emailCost = 70;  // per email per year
+
+  // Update static base Wix values
+  document.getElementById("wix-year").textContent = `$${wixYear.toLocaleString()} CAD`;
+  document.getElementById("wix-5yr").textContent = `$${wix5yr.toLocaleString()} CAD`;
+
+  // Function to recalc Wix extras
+  function updateWixExtras(emailCount){
+    const yearWithExtras = wixYear + domainCost + (emailCost * emailCount);
+    const fiveYearWithExtras = (wixYear * 5) + (domainCost * 4) + (emailCost * 5 * emailCount);
+    document.getElementById("wix-email-count").textContent = emailCount;
+    document.getElementById("wix-5yr-real").textContent = `$${fiveYearWithExtras.toLocaleString()} CAD`;
+  }
+
+  // Init with 1 email
+  updateWixExtras(1);
+
+  // Hook up dropdown
+  document.getElementById("wix-emails").addEventListener("change", (e) => {
+    const count = parseInt(e.target.value, 10);
+    updateWixExtras(count);
+  });
+
+  // === Snowhoney Packages ===
+  const packages = {
+    "One-Page Site": { build: 699, hosting: 19, trialMonths: 0 },
+    "Two-Page Site": { build: 999, hosting: 49, trialMonths: 1 },
+    "Three-Page Site": { build: 1399, hosting: 99, trialMonths: 3 }
+  };
+
+  function updateSnowhoney(pkgName){
+    const plan = packages[pkgName] || packages["One-Page Site"];
+    const hostingYear = plan.hosting * 12;
+    const yearTotal = plan.build + hostingYear;
+    const threeYearTotal = plan.build + (plan.hosting * 12 * 5);
+
+    // Discounted Year 1 (hosting trial)
+    if(plan.trialMonths > 0){
+      const discounted = yearTotal - 19 * plan.trialMonths;
+      document.getElementById("snowhoney-discounted").style.display = "list-item";
+      document.getElementById("snowhoney-year-discounted").textContent = `$${discounted.toLocaleString()} CAD`;
+    } else {
+      document.getElementById("snowhoney-discounted").style.display = "none";
+    }
+
+    document.getElementById("snowhoney-pkg").textContent = pkgName;
+    document.getElementById("snowhoney-year").textContent = `$${yearTotal.toLocaleString()} CAD`;
+    document.getElementById("snowhoney-5yr").textContent = `$${threeYearTotal.toLocaleString()} CAD`;
+  }
+
+  // Default load
+  updateSnowhoney("One-Page Site");
+
+  // Hook into your package buttons
+  document.querySelectorAll("button.btn.primary").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const pkg = btn.textContent.includes("One-Page") ? "One-Page Site" :
+                  btn.textContent.includes("Two-Page") ? "Two-Page Site" :
+                  btn.textContent.includes("Three-Page") ? "Three-Page Site" :
+                  null;
+      if(pkg) updateSnowhoney(pkg);
+    });
+  });
+
+  // Hook into comparison buttons inside Snowhoney column
+  document.querySelectorAll(".compare-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const pkgName = btn.dataset.pkg;
+      updateSnowhoney(pkgName);
+
+      // highlight the active button
+      document.querySelectorAll(".compare-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+    });
+  });
+})();

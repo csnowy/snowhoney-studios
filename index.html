@@ -109,13 +109,90 @@
       </div>
     </section>
 
+    <section id="compare" data-aos="zoom-in-up" style="margin-top:80px;">
+      <div class="container">
+        <h3 class="section-title">Snowhoney vs Wix</h3>
+        <p class="section-sub">Real cost of ownership over 1 year and 5 years — based on the package you select.</p>
+
+        <div class="grid" style="display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:24px;">
+          <!-- Wix Column -->
+          <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <h4 style="margin-bottom:10px; text-align:center;">With Wix</h4>
+              <ul class="list">
+                <li>❌ DIY setup — you build your own site</li>
+                <li>❌ Template designs (can look like everyone else’s)</li>
+                <li>❌ Business plan: <span id="wix-year"></span>/yr → <b><span id="wix-5yr"></span>/5 yrs</b></li>
+                <li>⚠️ Extra: domain renewal after year 1 (~$20/yr)</li>
+                <li>⚠️ Extra: business email (~$70/yr per user)</li>
+                <li>❌ Time cost: hours spent editing & troubleshooting</li>
+              </ul>
+            </div>
+            <div style="margin-top:auto;">
+              <label for="wix-emails" class="small" style="display:block; margin-top:12px;">
+                Estimate Wix with how many business emails?
+              </label>
+              <select id="wix-emails" style="padding:6px; border:1px solid #ddd; border-radius:6px; width:10%;">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              <p class="small" style="margin-top:10px; color:var(--muted); text-align:center;">
+                Realistic 5-year cost (w/ domain + <span id="wix-email-count">1</span> email(s)): 
+                <b><span id="wix-5yr-real"></span></b>
+              </p>
+            </div>
+          </div>
+
+          <!-- Snowhoney Column -->
+          <div class="card snowhoney-highlight" style="display:flex; flex-direction:column; justify-content:space-between; position:relative;">
+            <div>
+              <h4 style="margin-bottom:10px; text-align:center;">With Snowhoney</h4>
+              <ul class="list">
+                <li>✔️ Done-for-you site — live in 7 days</li>
+                <li>✔️ Custom design tailored to your brand</li>
+                <li>✔️ One-time build + lower hosting</li>
+                <li>✔️ Emails + domain included (Boost & Dominate)</li>
+                <li>✔️ Ongoing support and edits</li>
+                <li>💰 Selected package: <span id="snowhoney-pkg">One-Page</span></li>
+                <li>💵 Cost: <span id="snowhoney-year"></span>/yr → <b><span id="snowhoney-5yr"></span>/5 yrs</b></li>
+                <li id="snowhoney-discounted" style="display:none; color:var(--honey); font-weight:600;">
+                  🎉 Year 1 with free hosting trial: <span id="snowhoney-year-discounted"></span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Package Toggle Buttons -->
+            <div style="margin-top:16px; text-align:center;">
+              <p class="small" style="margin-bottom:8px;">Compare different Snowhoney packages:</p>
+              <div class="btn-group" style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                <button class="btn secondary small compare-btn" data-pkg="One-Page Site">One-Page</button>
+                <button class="btn secondary small compare-btn" data-pkg="Two-Page Site">Two-Page</button>
+                <button class="btn secondary small compare-btn" data-pkg="Three-Page Site">Three-Page</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="small" style="margin-top:20px; color:var(--muted); text-align:center;">
+          Wix pricing based on published rates as of Sept 2025. Wix is a registered trademark of Wix.com Ltd. 
+          Snowhoney Studios is not affiliated with or endorsed by Wix. Comparisons are for informational purposes only.
+        </p>
+      </div>
+    </section>
+
+
+
 
     <section id="packages" data-aos="zoom-in-up">
       <div class="container">
         <h3 class="section-title">Packages</h3>
         <p class="section-sub">Get anything you see on our site and more! Prices don't include tax.</p>
         <div class="notice-bubble">
-          ℹ️ Additional pages can be added at checkout for $299 each.  
+          ℹ️ Additional pages can be added at checkout for $199 each.  
           These do not include extra features beyond your chosen package.
         </div>
         <div style="text-align:right; margin-bottom:10px;">
@@ -151,13 +228,15 @@
             <ul class="list">
               <li><span class="tick">✔</span> Everything in One-Page Site</li>
               <li><span class="tick">✔</span> Extra page for services or products</li>
-              <li><span class="tick">✔</span> FREE 30 Day Trial of Basic Hosting</li>
               <li><span class="tick">✔</span> Bigger e-commerce setup (up to 20 products/services)</li>
               <li><span class="tick">✔</span> Google Maps integration</li>
             </ul>
             <div class="cta" style="margin-top:12px; justify-content:space-between">
               <button class="btn secondary small learn-more" data-plan="two-page">Learn More</button>
               <button class="btn primary" onclick="startOrder('Two-Page Site',999)">Buy Two-Page →</button>
+            </div>
+            <div class="bonus">
+              🎁 Bonus: 30 Days of Free Basic Hosting!
             </div>
           </div>
 
@@ -170,13 +249,15 @@
             <ul class="list">
               <li><span class="tick">✔</span> Everything in Two-Page Site</li>
               <li><span class="tick">✔</span> Additional fully custom page (e.g., blog, gallery, or FAQ)</li>
-              <li><span class="tick">✔</span> FREE 60 Day Trial of Basic Hosting</li>
               <li><span class="tick">✔</span> Premium e-commerce setup (up to 50 products/services)</li>
               <li><span class="tick">✔</span> Google Analytics integration </li>
             </ul>
             <div class="cta" style="margin-top:12px; justify-content:space-between">
               <button class="btn secondary small learn-more" data-plan="three-page">Learn More</button>
               <button class="btn primary" onclick="startOrder('Three-Page Site',1399)">Buy Three-Page →</button>
+            </div>
+            <div class="bonus">
+              🎁 Bonus: 90 Days of Free Basic Hosting!
             </div>
           </div>
         </div>
@@ -203,7 +284,7 @@
             <div class="grid cols-3" style="margin-top:16px">
               <div class="card" style="padding:16px">
                 <div class="badge"><i></i> Basic </div>
-                <div class="price"><span class="old-price">$29/mo</span><span class="new-price">$24/mo</span></div>
+                <div class="price"><span class="old-price">$24/mo</span><span class="new-price">$19/mo</span></div>
                 <p class="small">(Discount applies until cancelled!)</p>
                 <div class="inc">Hosting • Uptime • 15 min edits</div>
                 <div class="cta" style="margin-top:12px; justify-content:space-between">
@@ -213,7 +294,7 @@
             
               <div class="card" style="padding:16px; border:2px solid var(--honey)">
                 <div class="badge"><i></i> Boost </div>
-                <div class="price"><span class="old-price">$79/mo</span><span class="new-price">$69/mo</span></div>
+                <div class="price"><span class="old-price">$69/mo</span><span class="new-price">$49/mo</span></div>
                 <p class="small">(Discount applies until cancelled!)</p>
                 <div class="inc">• Domain Name Included</div>
                 <div class="inc">• Monthly Analytics Report</div>
@@ -226,7 +307,7 @@
 
               <div class="card" style="padding:16px">
                 <div class="badge"><i></i> Dominate </div>
-                <div class="price"><span class="old-price">$149/mo</span><span class="new-price">$119/mo</span></div>
+                <div class="price"><span class="old-price">$129/mo</span><span class="new-price">$99/mo</span></div>
                 <p class="small">(Discount applies until you cancel!)</p>
                 <div class="inc">• Domain Name Included</div>
                 <div class="inc">• Optimized Google Profile</div>
@@ -664,48 +745,48 @@
 
             <!-- Normal Hosting Options -->
             <div id="normalHostingOptions" class="hosting-options show">
-              <button type="button" class="card hosting-option" onclick="selectHosting('Basic Hosting',24,this)">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Basic Hosting',19,this)">
                 <div class="badge">Basic Hosting</div>
-                <div class="price"><span class="old-price">$29/mo</span><span class="new-price">$24/mo</span></div>
+                <div class="price"><span class="old-price">$24/mo</span><span class="new-price">$24/mo</span></div>
                 <div class="inc">Hosting • Uptime • Light edits</div>
               </button>
-              <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',69,this)">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',49,this)">
                 <div class="badge">Boost Hosting</div>
-                <div class="price"><span class="old-price">$79/mo</span><span class="new-price">$69/mo</span></div>
+                <div class="price"><span class="old-price">$69/mo</span><span class="new-price">$49/mo</span></div>
                 <div class="inc">Domain • Monthly Report • 2 Content Changes • Email</div>
               </button>
-              <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',119,this)">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',99,this)">
                 <div class="badge">Dominate Hosting</div>
-                <div class="price"><span class="old-price">$149/mo</span><span class="new-price">$119/mo</span></div>
+                <div class="price"><span class="old-price">$129/mo</span><span class="new-price">$99/mo</span></div>
                 <div class="inc">Domain • Unlimited Updates • 5 Emails • Google Profile</div>
               </button>
             </div>
 
             <!-- Upgrade Options (Two/Three Page flow) -->
             <div id="upgradeHostingOptions" class="hosting-options hidden">
-              <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',69,this)">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',49,this)">
                 <div class="badge">Boost Hosting</div>
                 <div class="price">
-                  <span class="mid-price">$69/mo</span>
-                  <span class="trial-price">$45/mo*</span>
+                  <span class="mid-price">$49/mo</span>
+                  <span class="trial-price">$30/mo*</span>
                 </div>
                 <div class="inc">• Domain Name Included</div>
                 <div class="inc">• Monthly Analytics Report</div>
                 <div class="inc">• 2 Content Changes per Month</div>
                 <div class="inc">• 1 Business email</div>
-                <p class="note">*$24 off for your first <span id="trialDaysText"></span> days.</p>
+                <p class="note">*$19 off for your first <span id="trialDaysText"></span> days.</p>
               </button>
-              <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',119,this)">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',99,this)">
                 <div class="badge">Dominate Hosting</div>
                 <div class="price">
-                  <span class="mid-price">$119/mo</span>
-                  <span class="trial-price">$95/mo*</span>
+                  <span class="mid-price">$99/mo</span>
+                  <span class="trial-price">$80/mo*</span>
                 </div>
                 <div class="inc">• Domain Name Included</div>
                 <div class="inc">• Optimized Google Profile</div>
                 <div class="inc">• Unlimited Updates</div>
                 <div class="inc">• 5 Business Emails</div>
-                <p class="note">*$24 off for your first <span id="trialDaysText"></span> days.</p>
+                <p class="note">*$19 off for your first <span id="trialDaysText"></span> days.</p>
               </button>
             </div>
 
