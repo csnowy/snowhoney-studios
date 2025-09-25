@@ -67,6 +67,7 @@
       <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
       <a href="#" id="subscriberDashboardLinkMobile">Subscriber Dashboard</a>
+      
     </div>
   </header>
 
@@ -92,6 +93,9 @@
               <li>📝 Order a mockup first — no big commitment</li>
               <li>⏱ Our timer starts ticking as soon as you checkout!</li>
             </ul>
+            <button class="btn secondary small test" onclick="startOrder('Webhook Test', 0)">
+              🔧 Test Webhook
+            </button>
 
             <div class="cta">
               <a class="btn primary" href="#packages">View Packages →</a>
@@ -527,9 +531,9 @@
               <div>
                 <label>Main call-to-action</label>
                 <select name="cta">
+                  <option value="email">Email us</option>
                   <option value="call">Call now</option>
                   <option value="book">Book online</option>
-                  <option value="email">Email us</option>
                 </select>
               </div>
             </div>
@@ -541,7 +545,7 @@
               <div><label>Locations</label><textarea name="locations" maxlength="800" placeholder="Where you operate"></textarea></div>
             </div>
             <div class="row">
-              <div><label>Brand colors</label><input name="colors" maxlength="200" placeholder="Or, leave that to us!" /></div>
+              <div><label>Brand colors</label><input name="colors" maxlength="200" placeholder="Magenta, #1234ff, etc.!" /></div>
               <div><label>Fonts</label><input name="fonts" maxlength="200" placeholder="e.g., Inter, Source Sans" /></div>
             </div>
             <div class="row">
@@ -647,7 +651,9 @@
 
             <div class="note">If you missed anything, feel free to email us later!</div>          
           </form>
-          <div class="cta" style="margin-top: 40px;"><button type="button" class="btn primary" onclick="submitBrief()">Next →</button></div>
+          <div class="wizard-nav">
+            <button type="button" class="btn primary" onclick="submitBrief()">Next →</button>
+          </div>
         </div>
 
         <!-- STEP 2: HOSTING -->
@@ -658,34 +664,48 @@
 
             <!-- Normal Hosting Options -->
             <div id="normalHostingOptions" class="hosting-options show">
-              <button type="button" class="card hosting-option" onclick="selectHosting('Basic Hosting',29,this)">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Basic Hosting',24,this)">
                 <div class="badge">Basic Hosting</div>
-                <div class="price">$29/mo</div>
+                <div class="price"><span class="old-price">$29/mo</span><span class="new-price">$24/mo</span></div>
                 <div class="inc">Hosting • Uptime • Light edits</div>
               </button>
-              <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',49,this)">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',69,this)">
                 <div class="badge">Boost Hosting</div>
-                <div class="price">$49/mo</div>
+                <div class="price"><span class="old-price">$79/mo</span><span class="new-price">$69/mo</span></div>
                 <div class="inc">Domain • Monthly Report • 2 Content Changes • Email</div>
               </button>
-              <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',79,this)">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',119,this)">
                 <div class="badge">Dominate Hosting</div>
-                <div class="price">$79/mo</div>
+                <div class="price"><span class="old-price">$149/mo</span><span class="new-price">$119/mo</span></div>
                 <div class="inc">Domain • Unlimited Updates • 5 Emails • Google Profile</div>
               </button>
             </div>
 
             <!-- Upgrade Options (Two/Three Page flow) -->
             <div id="upgradeHostingOptions" class="hosting-options hidden">
-              <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',49,this)">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Boost Hosting',69,this)">
                 <div class="badge">Boost Hosting</div>
-                <div class="price">$49/mo</div>
-                <div class="inc">Domain • Monthly Report • 2 Content Changes • Email</div>
+                <div class="price">
+                  <span class="mid-price">$69/mo</span>
+                  <span class="trial-price">$45/mo*</span>
+                </div>
+                <div class="inc">• Domain Name Included</div>
+                <div class="inc">• Monthly Analytics Report</div>
+                <div class="inc">• 2 Content Changes per Month</div>
+                <div class="inc">• 1 Business email</div>
+                <p class="note">*$24 off for your first <span id="trialDaysText"></span> days.</p>
               </button>
-              <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',79,this)">
+              <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',119,this)">
                 <div class="badge">Dominate Hosting</div>
-                <div class="price">$79/mo</div>
-                <div class="inc">Domain • Unlimited Updates • 5 Emails • Google Profile</div>
+                <div class="price">
+                  <span class="mid-price">$119/mo</span>
+                  <span class="trial-price">$95/mo*</span>
+                </div>
+                <div class="inc">• Domain Name Included</div>
+                <div class="inc">• Optimized Google Profile</div>
+                <div class="inc">• Unlimited Updates</div>
+                <div class="inc">• 5 Business Emails</div>
+                <p class="note">*$24 off for your first <span id="trialDaysText"></span> days.</p>
               </button>
             </div>
 
@@ -741,6 +761,7 @@
               <div class="line"><strong>Business</strong><span id="sumBusiness">—</span></div>
               <div class="line"><strong>Package</strong><span id="sumPackage">—</span></div>
               <div class="line"><strong>Hosting</strong><span id="sumHosting">Self-hosting</span></div>
+              <p class="note" id="trialNote" style="display:none; margin-top:6px"></p>
               <div class="line">
                 <strong>Extra Pages</strong>
                 <div class="line" id="extraPagesLine">
@@ -762,8 +783,10 @@
               <div class="line"><span class="note">Taxes</span><span id="sumTax">$0 CAD</span></div>
               <hr/>
               <div class="line"><strong>Total due today</strong><span id="sumTotal">$0 CAD</span></div>
+              <div class="line hidden" id="sumNext"><strong>Total due in 7 days</strong><span id="sumNextValue">—</span></div>
+              <p class="note" id="sumNextNote" style="display:none; margin-top:4px"></p>
               <p class="note" style="margin-top:10px">
-                If you selected a hosting plan, you will be charged <b>that hosting amount monthly</b> starting today.
+                If you selected a hosting plan, you will be charged <b>that hosting amount monthly</b> starting 1 week from today.
                 You can cancel anytime.
               </p>
             </div>

@@ -116,8 +116,6 @@ function startOrder(name, price) {
   state.pkg = name; 
   state.price = price;
   openWizard();
-
-
   resetHostingStep();
 
   const hostingTitle = document.getElementById("hostingTitle");
@@ -136,7 +134,7 @@ function startOrder(name, price) {
 
   hostingTitle.textContent = "Upgrade Hosting";
   hostingSubtitle.textContent =
-    "Your package includes a free trial of Basic Hosting! You can upgrade to Boost or Dominate below if you'd like, or stick with Basic.";
+    "Your package includes a free trial of Basic Hosting! You can also upgrade to Boost or Dominate below with the added 24$ discount instead.";
   } else {
     normalOpts.classList.remove("hidden");
     normalOpts.classList.add("show");
@@ -148,7 +146,6 @@ function startOrder(name, price) {
     hostingSubtitle.textContent =
       "Select one of our managed hosting plans, or self-host if you prefer.";
   }
-
   openWizard();
 }
 
@@ -178,7 +175,6 @@ function submitBrief(){
 
   const data = new FormData(form);
   state.brief = Object.fromEntries(data.entries());
-
   updateSummary();
 
   // 🚨 NEW: if package is "Mockup Only", skip hosting
@@ -426,59 +422,140 @@ async function goCheckout(){
   }
 }
 
-function updateSummary() {
-  const sumPackage = document.getElementById('sumPackage');
-  const sumHosting = document.getElementById('sumHosting');
-  const sumPrice   = document.getElementById('sumPrice');
-  const sumTax     = document.getElementById('sumTax');
-  const sumTotal   = document.getElementById('sumTotal');
-  const sumBusiness= document.getElementById('sumBusiness');
-  const extraPagesLine = document.getElementById("extraPagesLine");
-
-  if(!sumPackage) return;
-
-  sumBusiness.textContent = state.brief?.businessName || '—';
-  sumPackage.textContent  = state.pkg || '—';
-
-  if (state.pkg === "Mockup Only") {
-    extraPagesLine.style.display = "none";   // hide completely
-  } else {
-    extraPagesLine.style.display = "";       // show normally
-  }
-
-  // Hosting display
-  let hostingLabel;
-  if (state.pkg === "Mockup Only") {
-    hostingLabel = "— / Not included";
-  } else if (state.hosting) {
-    hostingLabel = `${state.hosting}${state.hostingPrice ? ` ($${state.hostingPrice}/mo)` : ''}`;
-  } else {
-    hostingLabel = "Self-hosting";
-  }
-  sumHosting.textContent = hostingLabel;
-
-    // Base package price
-  sumPrice.textContent = `$${state.price.toLocaleString()} CAD`;
-
-  // ✅ Tax handled by Stripe
-  sumTax.textContent = "Calculated at checkout";
-
-  // Extra pages
-  const pagesCost = (state.extraPages || 0) * 299;
-  if (state.extraPages > 0) {
-    extraPagesPrice.textContent = `x${state.extraPages} — $${pagesCost.toLocaleString()} CAD`;
-  } else {
-    extraPagesPrice.textContent = "—";
-  }
-
-  // ✅ Tax handled by Stripe
-  sumTax.textContent = "Calculated at checkout";
-
-  // Total = just subtotal (package + first month hosting)
-  const todayDue = (state.price || 0) + (state.hostingPrice || 0) + pagesCost;
-  sumTotal.textContent = `$${todayDue.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
+function getTrialDays(pkg, hosting) {
+  if (pkg === "Two-Page Site" && hosting === "Basic Hosting") return 30;
+  if (pkg === "Three-Page Site" && hosting === "Basic Hosting") return 60;
+  if (pkg === "Two-Page Site") return 30;  // Boost/Dominate
+  if (pkg === "Three-Page Site") return 60;
+  return 0;
 }
 
+function getFirstChargeDate(pkg, hosting) {
+  const days = getTrialDays(pkg, hosting);
+  if (!days) return null;
+
+  const d = new Date();
+  d.setDate(d.getDate() + days + 7); // add trial days + 7 day build buffer
+  return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+}
+
+document.querySelectorAll("#trialDaysText").forEach(el => {
+  el.textContent = getTrialDays(state.pkg, state.hosting);
+});
+
+function formatHostingSummary(pkg, hosting) {
+  let display = "";
+  let note = "";
+  const days = getTrialDays(pkg, hosting);
+  const firstCharge = getFirstChargeDate(pkg, hosting);
+
+  if (!hosting || hosting === "self") {
+    return { display: "Self-hosting", note: "" };
+  }
+
+  if (hosting === "Basic Hosting") {
+    if (days > 0) {
+      display = `Basic Hosting — $24/mo (first ${days} days free)`;
+      note = `Your first $24 hosting payment will be on ${firstCharge}.`;
+    } else {
+      display = "Basic Hosting — $24/mo";
+    }
+    return { display, note };
+  }
+
+  if (hosting === "Boost Hosting" || hosting === "Dominate Hosting") {
+    const base = hosting === "Boost Hosting" ? 69 : 119;
+    const discounted = hosting === "Boost Hosting" ? 45 : 95;
+
+    if (pkg === "Two-Page Site") {
+      display = `${hosting} — $${base}/mo (first month $${discounted}/mo)`;
+      note = "A $24 discount applies for your first month.";
+    }
+    if (pkg === "Three-Page Site") {
+      display = `${hosting} — $${base}/mo (first 2 months $${discounted}/mo)`;
+      note = "A $24 discount applies for your first 2 months.";
+    }
+    return { display, note };
+  }
+}
+
+function updateSummary() {
+  const sumBusiness = document.getElementById("sumBusiness");
+  const sumPackage  = document.getElementById("sumPackage");
+  const sumHosting  = document.getElementById("sumHosting");
+  const sumPrice    = document.getElementById("sumPrice");
+  const sumTax      = document.getElementById("sumTax");
+  const sumTotal    = document.getElementById("sumTotal");
+  const trialNote   = document.getElementById("trialNote");
+
+  if (!sumPackage) return;
+
+  sumBusiness.textContent = state.brief?.businessName || "—";
+  sumPackage.textContent  = state.pkg || "—";
+
+  // unified hosting summary
+  const { display, note } = formatHostingSummary(state.pkg, state.hosting);
+  sumHosting.textContent = display;
+  if (note) {
+    trialNote.textContent = note;
+    trialNote.style.display = "block";
+  } else {
+    trialNote.style.display = "none";
+  }
+
+  // package price
+  sumPrice.textContent = `$${state.price.toLocaleString()} CAD`;
+
+  // extra pages
+  const pagesCost = (state.extraPages || 0) * 299;
+  if (state.extraPages > 0) {
+    document.getElementById("extraPagesPrice").textContent =
+      `x${state.extraPages} — $${pagesCost.toLocaleString()} CAD`;
+  } else {
+    document.getElementById("extraPagesPrice").textContent = "—";
+  }
+
+  // tax note
+  sumTax.textContent = "Calculated at checkout";
+
+    // Total due today
+  const todayDue = (state.price || 0) + pagesCost;
+  sumTotal.textContent = `$${todayDue.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
+
+  // Total due in 7 days (hosting first charge)
+  const sumNext = document.getElementById("sumNext");
+  const sumNextValue = document.getElementById("sumNextValue");
+
+  if (state.hosting && state.hosting !== "self") {
+    let amount = 0;
+    let note = "";
+
+    if (state.hosting === "Basic Hosting") {
+      amount = 0;
+      note = "First hosting payment is waived during your free trial.";
+    } else if (state.hosting === "Boost Hosting" || state.hosting === "Dominate Hosting") {
+      if (state.pkg === "Two-Page Site") {
+        amount = (state.hosting === "Boost Hosting") ? 45 : 95;
+        note = "Discounted rate applies for your first month.";
+      }
+      if (state.pkg === "Three-Page Site") {
+        amount = (state.hosting === "Boost Hosting") ? 45 : 95;
+        note = "Discounted rate applies for your first 2 months.";
+      }
+    }
+
+    sumNext.querySelector("strong").textContent = "Total due in 7 days";
+    sumNextValue.textContent = `$${amount.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
+
+    sumNext.classList.remove("hidden");
+    sumNextNote.style.display = "block";
+    sumNextNote.textContent = note;
+  } else {
+    sumNext.classList.add("hidden");
+    sumNextNote.style.display = "none";
+  }
+
+}
 
 function togglePlanFields(plan) {
   document.getElementById("twoPageFields").classList.add("hidden");

@@ -4,11 +4,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2024-06-
 
 // Map your UI strings to Price IDs you created in the Dashboard
 const PRICE_MAP = {
+  "Test": process.env.PRICE_TEST, // for testing
+
   // one-time site builds:
   "One-Page Site": process.env.PRICE_ONEPAGE,
   "Two-Page Site": process.env.PRICE_TWOPAGE,
   "Three-Page Site": process.env.PRICE_THREEPAGE,
   "Mockup Only": process.env.PRICE_MOCKUP,
+  "Extra Page": process.env.PRICE_EXTRAPAGE,
 
   // subscriptions (monthly hosting):
   "Basic Hosting": process.env.PRICE_HOST_BASIC,
@@ -23,7 +26,7 @@ export async function handler(event) {
     }
 
     const parsed = JSON.parse(event.body || "{}");
-    const { pkg, hosting, email, businessName, domains, brief } = parsed;
+    const { pkg, hosting, email, businessName, domains, brief, extraPages } = parsed;
 
     if (!pkg || !PRICE_MAP[pkg]) {
       return { statusCode: 400, body: JSON.stringify({ error: "Unknown package selection" }) };
@@ -36,20 +39,41 @@ export async function handler(event) {
     // Build line items
     const line_items = [{ price: oneTimePriceId, quantity: 1 }];
     if (recurringPriceId) line_items.push({ price: recurringPriceId, quantity: 1 });
-
-    if (parsed.extraPages && parsed.extraPages > 0) {
-      line_items.push({ price: PRICE_MAP["Extra Page"], quantity: parsed.extraPages });
+    if (extraPages && extraPages > 0) {
+      line_items.push({ price: PRICE_MAP["Extra Page"], quantity: extraPages });
     }
 
     // Choose mode: 'payment' for one-time only, 'subscription' if hosting included
     const mode = recurringPriceId ? "subscription" : "payment";
 
+    // ==========================
+    // Trial logic
+    // ==========================
     let subscription_data;
-    if (pkg === "Two-Page Site" && hosting === "Basic Hosting") {
-      subscription_data = { trial_period_days: 30 };
+    if (recurringPriceId) {
+      let trialDays = 7; // default build buffer
+
+      if (pkg === "Two-Page Site" && hosting === "Basic Hosting") {
+        trialDays = 30 + 7;
+      }
+      if (pkg === "Three-Page Site" && hosting === "Basic Hosting") {
+        trialDays = 60 + 7;
+      }
+
+      subscription_data = { trial_period_days: trialDays };
     }
-    if (pkg === "Three-Page Site" && hosting === "Basic Hosting") {
-      subscription_data = { trial_period_days: 60 };
+
+    // ==========================
+    // Discount logic
+    // ==========================
+    const discounts = [];
+    if (hosting === "Boost Hosting" || hosting === "Dominate Hosting") {
+      if (pkg === "Two-Page Site") {
+        discounts.push({ coupon: process.env.COUPON_24_OFF_1M });
+      }
+      if (pkg === "Three-Page Site") {
+        discounts.push({ coupon: process.env.COUPON_24_OFF_2M });
+      }
     }
 
     // Create a Customer if email provided
@@ -67,6 +91,7 @@ export async function handler(event) {
       allow_promotion_codes: true,
 
       ...(subscription_data ? { subscription_data } : {}),
+      ...(discounts.length ? { discounts } : {}),
 
       // ✅ correctly pass brief + other info
       metadata: {
