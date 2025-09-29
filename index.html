@@ -118,49 +118,41 @@
           <!-- Wix Column -->
           <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
             <div>
-              <h4 style="margin-bottom:10px; text-align:center;">With Wix</h4>
+              <h4 style="margin-bottom:10px; text-align:center; font-size: large;">With Wix</h4>
+              
               <ul class="list">
-                <li>❌ DIY setup — you build your own site</li>
-                <li>❌ Template designs (can look like everyone else’s)</li>
-                <li>❌ Business plan: <span id="wix-year"></span>/yr → <b><span id="wix-5yr"></span>/5 yrs</b></li>
-                <li>⚠️ Extra: domain renewal after year 1 (~$20/yr)</li>
-                <li>⚠️ Extra: business email (~$70/yr per user)</li>
-                <li>❌ Time cost: hours spent editing & troubleshooting</li>
+                <li>• DIY setup — you must build your own site</li>
+                <li>• Template designs</li>
+                <li>⚠️ Domain renewal after year 1 (~$30/yr)</li>
+                <li>⚠️ Business emails (~$84/yr per user)</li>
+                <li>• Time cost: hours spent editing & troubleshooting on your own</li>
               </ul>
             </div>
-            <div style="margin-top:auto;">
-              <label for="wix-emails" class="small" style="display:block; margin-top:12px;">
-                Estimate Wix with how many business emails?
-              </label>
-              <select id="wix-emails" style="padding:6px; border:1px solid #ddd; border-radius:6px; width:10%;">
-                <option value="1" selected>1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              <p class="small" style="margin-top:10px; color:var(--muted); text-align:center;">
-                Realistic 5-year cost (w/ domain + <span id="wix-email-count">1</span> email(s)): 
-                <b><span id="wix-5yr-real"></span></b>
-              </p>
+              <p class="small" style="margin-bottom:8px; text-align:center;">Choose a Wix subscription:</p>
+                <div class="btn-group" style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                  <button class="btn secondary small wix-plan-btn" data-plan="Core">Core</button>
+                  <button class="btn secondary small wix-plan-btn selected" data-plan="Business">Business</button>
+                  <button class="btn secondary small wix-plan-btn" data-plan="Business Elite">Business Elite</button>
+                </div>
+            <div style="margin: top 22px; text-align: center;">
+              <ul class="list" style="margin-top:10px; color:var(--muted); text-align: center;">
+                <li>🌐 Plan selected: <span id="wix-plan">Business</span></li>
+                <li>💵 Cost:<span id="wix-year"></span>/yr → <b><span id="wix-5yr-real"></span>/5yrs</b></li>
+                <li>**Cost includes domain and 3 business emails/year</li>
+              </ul>
             </div>
           </div>
 
           <!-- Snowhoney Column -->
           <div class="card snowhoney-highlight" style="display:flex; flex-direction:column; justify-content:space-between; position:relative;">
             <div>
-              <h4 style="margin-bottom:10px; text-align:center;">With Snowhoney</h4>
+              <h4 style="margin-bottom:10px; text-align:center; font-size: large;">With Snowhoney</h4>
               <ul class="list">
                 <li>✔️ Done-for-you site — live in 7 days</li>
                 <li>✔️ Custom design tailored to your brand</li>
                 <li>✔️ One-time build + lower hosting</li>
-                <li>✔️ Emails + domain included (Boost & Dominate)</li>
+                <li>✔️ Emails + domain included (Boost/ Dominate)</li>
                 <li>✔️ Ongoing support and edits</li>
-                <li>💰 Selected package: <span id="snowhoney-pkg">One-Page</span></li>
-                <li>💵 Cost: <span id="snowhoney-year"></span>/yr → <b><span id="snowhoney-5yr"></span>/5 yrs</b></li>
-                <li id="snowhoney-discounted" style="display:none; color:var(--honey); font-weight:600;">
-                  🎉 Year 1 with free hosting trial: <span id="snowhoney-year-discounted"></span>
-                </li>
               </ul>
             </div>
 
@@ -168,15 +160,31 @@
             <div style="margin-top:16px; text-align:center;">
               <p class="small" style="margin-bottom:8px;">Compare different Snowhoney packages:</p>
               <div class="btn-group" style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                <button class="btn secondary small compare-btn" data-pkg="One-Page Site">One-Page</button>
+                <button class="btn secondary small compare-btn selected" data-pkg="One-Page Site">One-Page</button>
                 <button class="btn secondary small compare-btn" data-pkg="Two-Page Site">Two-Page</button>
                 <button class="btn secondary small compare-btn" data-pkg="Three-Page Site">Three-Page</button>
               </div>
             </div>
+            <!-- Hosting Toggle Buttons -->
+            <div style="margin-top:16px; text-align:center;">
+              <p class="small" style="margin-bottom:8px;">Choose a hosting plan:</p>
+              <div class="btn-group">
+                <button class="btn secondary small hosting-btn selected" data-hosting="Basic Hosting">Basic</button>
+                <button class="btn secondary small hosting-btn" data-hosting="Boost Hosting">Boost</button>
+                <button class="btn secondary small hosting-btn" data-hosting="Dominate Hosting">Dominate</button>
+              </div>
+            </div>
+            <div style="margin-top:auto;">
+              <ul class="list" style="margin-top:10px; color:var(--muted); text-align: center;">
+                <li>💰 Selected package: <span id="snowhoney-pkg">One-Page</span></li>
+                <li>🌐 Hosting Plan: <span id="snowhoney-hosting">Basic Hosting</span></li>
+                <li>💵 Cost:<span id="snowhoney-year"></span>/yr →<b><span id="snowhoney-5yr"></span>/5yrs</b></li>
+                <li id="snowhoney-discounted" style="display:none; color:var(--honey); font-weight:600;">
+                  🎉 Year 1 with free hosting trial: <span id="snowhoney-year-discounted"></span>
+                </li>
+            </div>
           </div>
-
         </div>
-
         <p class="small" style="margin-top:20px; color:var(--muted); text-align:center;">
           Wix pricing based on published rates as of Sept 2025. Wix is a registered trademark of Wix.com Ltd. 
           Snowhoney Studios is not affiliated with or endorsed by Wix. Comparisons are for informational purposes only.
@@ -267,8 +275,9 @@
             <img class="dec dec-cl dec-lg" src="bee_at_desk.webp" alt="" aria-hidden="true" />
           <div class="badge" style="margin-bottom:10px"><i></i> Mockup Only</div>
           <div class="price"><span class="old-price">$149</span><span class="new-price">$99 CAD</span></div>
-          <div class="inc">1–2 day turnaround • PDF preview</div>
+          <div class="inc">1–2 day turnaround • Preview of Mobile AND Desktop view</div>
           <p class="small">Get a visual draft of your site before committing to a full build.</p>
+          <p class="small">If you proceed with a site package, we'll take the cost of your mockup off!</p>
           <div class="cta" style="margin-top:12px; justify-content:left">
             <button class="btn secondary small learn-more" data-plan="mockup">Learn More</button>
             <button class="btn primary" onclick="startOrder('Mockup Only',99)">Buy Mockup →</button>
@@ -626,7 +635,7 @@
               <div><label>Locations</label><textarea name="locations" maxlength="800" placeholder="Where you operate"></textarea></div>
             </div>
             <div class="row">
-              <div><label>Brand colors</label><input name="colors" maxlength="200" placeholder="Magenta, #1234ff, etc.!" /></div>
+              <div><label>Brand colors</label><input name="colors" maxlength="200" placeholder="Magenta, #1234ff, etc." /></div>
               <div><label>Fonts</label><input name="fonts" maxlength="200" placeholder="e.g., Inter, Source Sans" /></div>
             </div>
             <div class="row">
@@ -638,7 +647,7 @@
             <h4 class="form-section">Online Presence</h4>
             <div class="row">
               <div><label>Social links</label><input name="social" maxlength="200" placeholder="Facebook, Instagram..." /></div>
-              <div><label>Booking link</label><input name="booking" maxlength="200" placeholder="Calendly, Square, etc." /></div>
+              <div><label>Booking link</label><input name="booking" maxlength="200" placeholder="OpenTable, Square, etc." /></div>
             </div>
             <div class="row">
               <div><label>Competitors / inspirations</label><textarea name="inspo" maxlength="600" placeholder="Paste 2–4 URLs you like"></textarea></div>
@@ -647,7 +656,7 @@
 
             <!-- === 4. E-COMMERCE (optional) === -->
             <h4 class="form-section selling-header">
-              Want to sell products or services on this site?
+              Want to sell products or services DIRECTLY from your site?
               <input type="checkbox" id="sellingCheckbox" name="sellingOnline" value="yes" />
             </h4>
 
@@ -760,6 +769,15 @@
                 <div class="price"><span class="old-price">$129/mo</span><span class="new-price">$99/mo</span></div>
                 <div class="inc">Domain • Unlimited Updates • 5 Emails • Google Profile</div>
               </button>
+              <button type="button" class="card hosting-option" onclick="selectHosting('Self-hosting',0,this)">
+                <div class="badge">Self-hosting</div>
+                <div class="price"><span class="new-price">Free</span></div>
+                <div class="inc">You handle your own hosting & domain</div>
+              </button>
+              <div class="self-host-wrap hidden" id="selfHostOption">
+                <p>You can host your own site. We’ll provide all files.</p>
+                <button type="button" class="btn primary" onclick="proceedSelfHosting()">Proceed without Hosting →</button>
+              </div>
             </div>
 
             <!-- Upgrade Options (Two/Three Page flow) -->
@@ -774,7 +792,7 @@
                 <div class="inc">• Monthly Analytics Report</div>
                 <div class="inc">• 2 Content Changes per Month</div>
                 <div class="inc">• 1 Business email</div>
-                <p class="note">*$19 off for your first <span id="trialDaysText"></span> days.</p>
+                <p class="note">*$19 off your <span class="trialMonths"></span>.</p>
               </button>
               <button type="button" class="card hosting-option" onclick="selectHosting('Dominate Hosting',99,this)">
                 <div class="badge">Dominate Hosting</div>
@@ -786,7 +804,7 @@
                 <div class="inc">• Optimized Google Profile</div>
                 <div class="inc">• Unlimited Updates</div>
                 <div class="inc">• 5 Business Emails</div>
-                <p class="note">*$19 off for your first <span id="trialDaysText"></span> days.</p>
+                <p class="note">*$19 off your <span class="trialMonths"></span>.</p>
               </button>
             </div>
 
@@ -841,40 +859,52 @@
             <div class="summary">
               <div class="line"><strong>Business</strong><span id="sumBusiness">—</span></div>
               <div class="line"><strong>Package</strong><span id="sumPackage">—</span></div>
-              <div class="line"><strong>Hosting</strong><span id="sumHosting">Self-hosting</span></div>
-              <p class="note" id="trialNote" style="display:none; margin-top:6px"></p>
-              <div class="line">
-                <strong>Extra Pages</strong>
-                <div class="line" id="extraPagesLine">
+              <div class="line"><strong>Package Price</strong><span id="sumPrice">—</span></div>
+              <div id="hostingSummaryGroup">
+                <div class="line"><strong>Hosting</strong><span id="sumHostingPlan">Self-hosting</span></div>
+                <div class="line">
+                  <strong>Hosting Cost</strong>
+                  <span id="sumHostingCost">
+                    <span class="old-price" style="text-decoration:line-through; color:var(--muted); display:none"></span>
+                    <span class="new-price"></span>
+                  </span>
+                </div>
+                <p class="note" id="trialNote" style="display:none; margin-top:6px"></p>
+              </div>
+
+              <div id="extraPagesGroup">
+                <div class="line">
                   <strong>Extra Pages</strong>
-                  <div class="opt">
-                    <div class="counter">
-                      <button type="button" onclick="changeExtraPages(-1)">−</button>
-                      <span id="extraPagesCount">0</span>
-                      <button type="button" onclick="changeExtraPages(1)">+</button>
+                  <div class="line" id="extraPagesLine">
+                    <div class="opt">
+                      <div class="counter">
+                        <button type="button" onclick="changeExtraPages(-1)">−</button>
+                        <span id="extraPagesCount">0</span>
+                        <button type="button" onclick="changeExtraPages(1)">+</button>
+                      </div>
+                      <span id="extraPagesPrice" class="note">—</span>
                     </div>
-                    <span id="extraPagesPrice" class="note">—</span>
                   </div>
                 </div>
+                <div class="notice-bubble">
+                  Extra pages here don't add extra features beyond your chosen package.
+                </div>
               </div>
-              <div class="notice-bubble">
-                Extra pages here don't add extra features beyond your chosen package.
-              </div>
-              <div class="line"><strong>Subtotal</strong><span id="sumPrice">$0 CAD</span></div>
-              <div class="line"><span class="note">Taxes</span><span id="sumTax">$0 CAD</span></div>
-              <hr/>
+
               <div class="line"><strong>Total due today</strong><span id="sumTotal">$0 CAD</span></div>
               <div class="line hidden" id="sumNext"><strong>Total due in 7 days</strong><span id="sumNextValue">—</span></div>
               <p class="note" id="sumNextNote" style="display:none; margin-top:4px"></p>
-              <p class="note" style="margin-top:10px">
-                If you selected a hosting plan, you will be charged <b>that hosting amount monthly</b> starting 1 week from today.
-                You can cancel anytime.
-              </p>
-            </div>
+
+              <div id="paymentRecurringNote">
+                <p class="note" style="margin-top:10px">
+                  If you selected a hosting plan, you will be charged <b>that hosting amount monthly</b> starting 1 week from today, or once your trial expires.
+                  You can cancel anytime through the subscriber dashboard.
+                </p>
+              </div>
           </div>
           <div class="cta" style="margin-top:40px">
             <button type="button" class="btn secondary" onclick="prevWizardStep()">← Back</button>
-            <button type="button" class="btn primary" onclick="goCheckout()">Pay with Stripe →</button>
+            <button type="button" class="btn primary" onclick="goCheckout()">Checkout →</button>
           </div>
         </div>
       </div>

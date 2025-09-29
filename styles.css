@@ -663,7 +663,7 @@ a:focus-visible {
 .dec-br { bottom: 60px; right: 10px; }
 .dec-tc { top: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
 .dec-bc { bottom: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
-.dec-cl { top: 2%; left: 800px; transform: translateX(-50%) rotate(var(--r, 0deg)) scale(var(--s, 1)); }
+.dec-cl { top: 2%; left: 800px; transform: translateX(-20%) rotate(var(--r, 0deg)) scale(var(--s, 1)); }
 .dec-cr { top: 10%; right: 130px; transform: translateY(-10%) rotate(var(--r, 0deg)) scale(var(--s, 0.9)); }
 .dec-c { top: 30%; left: 20%; transform: rotate(var(--r, 0deg)) scale(var(--s, 0.7)); }
 
@@ -1541,3 +1541,229 @@ footer a:hover {
   text-align: center;
   box-shadow: 0 2px 6px rgba(245,183,0,0.2);
 }
+
+/* --- Wix card: frozen completely --- */
+#compare .card:not(.snowhoney-highlight) {
+  border: 1px solid var(--border, #ddd) !important;
+  transform: none !important;
+  transition: none !important;
+}
+#compare .card:not(.snowhoney-highlight):hover {
+  border-color: var(--border, #ddd) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* --- Snowhoney card: stronger gold highlight + gentle scale --- */
+#compare .card.snowhoney-highlight {
+  border: 2px solid var(--honey) !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+#compare .card.snowhoney-highlight:hover {
+  border: 2px solid var(--honey) !important;
+  box-shadow: 0 0 16px rgba(245,183,0,0.75) !important;
+  transform: scale(1.06); /* gentle upscale */
+}
+
+/* =======================
+   MOBILE REFINEMENTS
+   ======================= */
+@media (max-width: 768px) {
+  /* General section spacing */
+  section { padding: 18px 0; }
+
+  /* Hero */
+  .hero-title {
+    transform: none;
+    white-space: normal;
+    font-size: clamp(14px, 5vw, 20px);
+    text-align: center;
+  }
+  .hero-subtitle { font-size: clamp(12px, 4vw, 16px); }
+  .hero-points { font-size: 12px; }
+  .hero-panel {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    grid-template-columns: 1fr; /* stack text + logo vertically */
+    text-align: center;
+  }
+  .hero-panel .hero-img {
+    margin: 0 auto;
+    max-width: 140px;
+  }
+
+  .hero-panel .dec-flag {
+    max-width: 120px;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(var(--r, 10deg)) scale(var(--s, 1));
+  }
+
+  /* Comparison section (Wix vs Snowhoney) */
+  #compare .grid {
+    grid-template-columns: 1fr !important;
+  }
+  #compare .list li {
+    font-size: 12px;
+    line-height: 1.4;
+    padding: 4px 0;
+  }
+  #compare p.small {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  /* Subtitles */
+  .section-sub {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  /* Cards (packages, hosting, etc.) */
+  .grid.cols-3 {
+    grid-template-columns: 1fr; /* single column everywhere */
+    gap: 14px;
+  }
+  .card {
+    min-width: auto;
+    flex: 1 1 auto;
+    padding: 12px;
+    font-size: 12px;
+  }
+  .price { font-size: 16px; }
+  .inc { font-size: 11px; }
+  .btn {
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  /* Footer */
+  footer, footer .small, footer a {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  /* Mobile nav dropdown */
+  .mobile-menu {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    margin: 10px;
+    padding: 10px 0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  .mobile-menu a {
+    display: block;
+    padding: 12px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+    color: var(--honey);
+    text-decoration: none;
+    text-shadow: 0 0 6px rgba(245,183,0,0.7), 0 0 12px rgba(245,183,0,0.5);
+  }
+  .mobile-menu a:hover {
+    color: var(--honey-deep);
+    text-shadow: 0 0 8px rgba(245,183,0,0.9), 0 0 14px rgba(245,183,0,0.6);
+  }
+  .mobile-menu a:last-child {
+    border-bottom: none;
+  }
+  /* Force all package card art into top-right corner */
+  #packages .card img.dec {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
+    left: auto !important;   /* cancel center/left positions */
+    bottom: auto !important; /* cancel bottom anchors */
+    width: 90px;            /* make them bigger */
+    height: auto;
+    opacity: 0.35;           /* subtle so text is still legible */
+    transform: none !important;
+  }
+
+  /* Hosting options */
+  #wizard-step-hosting .hosting-options {
+    flex-direction: column;   /* stack cards neatly */
+    gap: 12px;
+  }
+  #wizard-step-hosting .hosting-option {
+    padding: 10px;
+    font-size: 12px;
+  }
+  #wizard-step-payment .summary .line {
+    font-size: 12px;
+  }
+  #wizard-step-hosting .badge {
+    font-size: 13px;
+  }
+  #wizard-step-hosting .price {
+    font-size: 16px;
+  }
+  #wizard-step-hosting .inc {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  /* Domain input blocks */
+  .domain-wrap {
+    padding: 12px;
+    margin-top: 12px;
+  }
+  .domain-wrap input {
+    font-size: 13px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+  }
+  .domain-inline {
+    flex-direction: column;   /* stack input + button */
+    gap: 8px;
+  }
+  .domain-inline button {
+    width: 100%;              /* button full width */
+    font-size: 13px;
+    padding: 10px;
+  }
+  .domain-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .domain-actions button {
+    width: 100%;
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  /* Payment summary */
+  #wizard-step-payment .form-card {
+    padding: 16px;
+  }
+  #wizard-step-payment .summary .line {
+    font-size: 13px;
+  }
+  #wizard-step-payment .summary strong {
+    font-size: 13px;
+  }
+  #wizard-step-payment .notice-bubble,
+  #wizard-step-payment .note {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  /* Payment buttons */
+  #wizard-step-payment .btn {
+    font-size: 13px;
+    min-height: 38px;
+    padding: 8px 12px;
+  }
+
+  .scroll-bg {
+    background-attachment: fixed; /* pins it */
+    background-position: center top;
+  }
+}
+
+
+
