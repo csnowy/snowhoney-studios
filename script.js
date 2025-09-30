@@ -403,7 +403,7 @@ async function goCheckout(){
       domains: state.domains || [],
       email: state.brief?.contactEmail || '',
       businessName: state.brief?.businessName || '',
-      extraPages: state.extraPages || 0
+      extraPages: state.extraPages || 0,
     };
 
     const res = await fetch('/.netlify/functions/create-checkout-session', {
@@ -499,7 +499,7 @@ function proceedSelfHosting(){
   nextWizardStep(); // straight to payment
 }
 
-function updateSummary() {
+async function updateSummary() {
   const sumBusiness = document.getElementById("sumBusiness");
   const sumPackage  = document.getElementById("sumPackage");
   const sumPrice    = document.getElementById("sumPrice");
@@ -514,11 +514,49 @@ function updateSummary() {
   const sumNextValue         = document.getElementById("sumNextValue");
   const sumNextNote          = document.getElementById("sumNextNote");
 
+  // For mockup credit
+  let mockupLine = document.getElementById("mockupCreditLine");
+  if (!mockupLine) {
+    const summary = document.querySelector("#wizard-step-payment .summary");
+    mockupLine = document.createElement("div");
+    mockupLine.className = "line";
+    mockupLine.id = "mockupCreditLine";
+    summary.insertBefore(mockupLine, sumTotal.parentElement); // insert before total
+  }
+
   // Always set business + package + price + tax
   if (sumBusiness) sumBusiness.textContent = state.brief?.businessName || "—";
   if (sumPackage)  sumPackage.textContent  = state.pkg || "—";
   if (sumPrice)    sumPrice.textContent    = `$${state.price.toLocaleString()} CAD`;
   if (sumTax)      sumTax.textContent      = "Calculated at checkout";
+
+  // === Check mockup credit from backend ===
+  let mockupCredit = 0;
+  if (state.brief?.contactEmail && state.pkg !== "Mockup Only") {
+    try {
+      const res = await fetch("/.netlify/functions/check-mockup-credit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: state.brief.contactEmail }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.hasMockup) {
+          mockupCredit = 99;
+        }
+      }
+    } catch (err) {
+      console.error("Mockup check failed:", err);
+    }
+  }
+
+  // Show/hide line
+  if (mockupCredit > 0) {
+    mockupLine.innerHTML = `<strong>Mockup Credit</strong><span>−$${mockupCredit} CAD</span>`;
+    mockupLine.style.display = "flex";
+  } else {
+    mockupLine.style.display = "none";
+  }
 
   document.querySelectorAll(".trialMonths").forEach(el => {
     if (state.pkg === "Two-Page Site") {
@@ -624,8 +662,10 @@ function updateSummary() {
   }
 
   // --- Total today ---
-  const todayDue = (state.price || 0) + pagesCost;
-  if (sumTotal) sumTotal.textContent = `$${todayDue.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
+  const todayDue = (state.price || 0) + pagesCost - mockupCredit;
+  if (sumTotal) {
+    sumTotal.textContent = `$${todayDue.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
+  }
 
   // --- Total due in 7 days (hosting first charge) ---
   if (state.hosting && state.hosting !== "Self-hosting") {

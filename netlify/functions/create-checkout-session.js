@@ -2,9 +2,8 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2024-06-20" });
 
-// Map your UI strings to Price IDs you created in the Dashboard
 const PRICE_MAP = {
-  "Test": process.env.PRICE_TEST, // for testing
+  "Test": process.env.PRICE_TEST,
 
   // one-time site builds:
   "One-Page Site": process.env.PRICE_ONEPAGE,
@@ -13,7 +12,7 @@ const PRICE_MAP = {
   "Mockup Only": process.env.PRICE_MOCKUP,
   "Extra Page": process.env.PRICE_EXTRAPAGE,
 
-  // subscriptions (monthly hosting):
+  // subscriptions:
   "Basic Hosting": process.env.PRICE_HOST_BASIC,
   "Boost Hosting": process.env.PRICE_HOST_BOOST,
   "Dominate Hosting": process.env.PRICE_HOST_DOMINATE,
@@ -26,7 +25,7 @@ export async function handler(event) {
     }
 
     const parsed = JSON.parse(event.body || "{}");
-    const { pkg, hosting, email, businessName, domains, brief, extraPages } = parsed;
+    const { pkg, hosting, email, businessName, domains, brief, extraPages, mockupCredit } = parsed;
 
     if (!pkg || !PRICE_MAP[pkg]) {
       return { statusCode: 400, body: JSON.stringify({ error: "Unknown package selection" }) };
@@ -43,29 +42,19 @@ export async function handler(event) {
       line_items.push({ price: PRICE_MAP["Extra Page"], quantity: extraPages });
     }
 
-    // Choose mode: 'payment' for one-time only, 'subscription' if hosting included
+    // Mode
     const mode = recurringPriceId ? "subscription" : "payment";
 
-    // ==========================
     // Trial logic
-    // ==========================
     let subscription_data;
     if (recurringPriceId) {
-      let trialDays = 7; // default build buffer
-
-      if (pkg === "Two-Page Site" && hosting === "Basic Hosting") {
-        trialDays = 30 + 7;
-      }
-      if (pkg === "Three-Page Site" && hosting === "Basic Hosting") {
-        trialDays = 60 + 7;
-      }
-
+      let trialDays = 7;
+      if (pkg === "Two-Page Site" && hosting === "Basic Hosting") trialDays = 30 + 7;
+      if (pkg === "Three-Page Site" && hosting === "Basic Hosting") trialDays = 60 + 7;
       subscription_data = { trial_period_days: trialDays };
     }
 
-    // ==========================
-    // Discount logic
-    // ==========================
+    // Discount logic (Boost/Dominate auto-discounts)
     const discounts = [];
     if (hosting === "Boost Hosting" || hosting === "Dominate Hosting") {
       if (pkg === "Two-Page Site") {
@@ -76,11 +65,45 @@ export async function handler(event) {
       }
     }
 
-    // Create a Customer if email provided
-    const customer = email
-      ? await stripe.customers.create({ email, name: businessName })
-      : undefined;
+    // Ensure customer exists
+    let customer;
+    if (email) {
+      const existing = await stripe.customers.list({ email, limit: 1 });
+      if (existing.data.length) {
+        customer = existing.data[0];
+      } else {
+        customer = await stripe.customers.create({ email, name: businessName });
+      }
+    }
 
+    // ✅ Check if they already bought a mockup
+    let hasMockup = false;
+    if (customer) {
+      const invoices = await stripe.invoices.list({ customer: customer.id, limit: 10 });
+      for (const inv of invoices.data) {
+        // Only consider paid invoices
+        if (inv.status === "paid" && inv.lines?.data) {
+          for (const line of inv.lines.data) {
+            if (line.price?.id === PRICE_MAP["Mockup Only"]) {
+              hasMockup = true;
+              break;
+            }
+          }
+        }
+        if (hasMockup) break;
+      }
+    }
+
+    // ✅ Apply credit if they actually purchased a mockup
+    if (hasMockup) {
+      await stripe.customers.createBalanceTransaction(customer.id, {
+        amount: -9900, // $99 in cents
+        currency: "cad",
+        description: "Mockup credit applied",
+      });
+    }
+
+    // Create checkout session
     const session = await stripe.checkout.sessions.create({
       mode,
       customer: customer?.id,
@@ -88,12 +111,10 @@ export async function handler(event) {
       automatic_tax: { enabled: true },
       billing_address_collection: "required",
       customer_update: { address: "auto" },
-      allow_promotion_codes: true,
 
       ...(subscription_data ? { subscription_data } : {}),
-      ...(discounts.length ? { discounts } : {}),
+      ...(discounts.length ? { discounts } : { allow_promotion_codes: true }),
 
-      // ✅ correctly pass brief + other info
       metadata: {
         pkg,
         hosting,

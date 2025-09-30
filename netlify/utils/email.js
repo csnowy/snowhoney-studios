@@ -9,7 +9,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
  */
 export function buildBrandedEmail({ title, message, highlight }) {
   return `
-  <div style="font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  <div style="font-family:'KodeMono',Roboto,Helvetica,Arial,sans-serif;
               background:#f9fafb; padding:24px; color:#111827">
     <div style="max-width:600px;margin:auto;background:#fff;
                 border-radius:12px;padding:24px;

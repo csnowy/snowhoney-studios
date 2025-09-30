@@ -1765,5 +1765,9 @@ footer a:hover {
   }
 }
 
+#orderWizard.show {
+  max-height: 100vh;
+  overflow-y: auto;
+}
 
 
