@@ -21,12 +21,9 @@
     <div class="card brand-sheen" style="max-width:600px; margin:0 auto; padding:40px">
       <img src="bee_at_desk.png" alt="" style="max-width:120px; margin-bottom:20px" />
       <h2 class="title">Thank you for your order! 🎉</h2>
-      <p class="lead" style="margin:18px 0">
-        Your payment was successful. <br/>
-        You’ll receive an email confirmation shortly with your order details.
-      </p>
-      <p style="color:var(--muted); margin-bottom:28px">
-        We’re excited to start building your site, our 7 day timer has started ticking. Welcome to the Snowhoney family!
+      <p id="orderMessage" class="lead" style="margin:12px 0; color:#475569"></p>
+      <p id="orderDetails" class="lead" style="margin:18px 0">
+        Loading your order details...
       </p>
       <a href="index.html" class="btn primary">← Back to Home</a>
     </div>
@@ -38,4 +35,50 @@
     </div>
   </footer>
 </body>
+<script>
+  async function loadOrder() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get("session_id");
+    if (!sessionId) return;
+
+    try {
+      const res = await fetch(`/.netlify/functions/get-session?session_id=${sessionId}`);
+      const data = await res.json();
+
+      const pkg = data.metadata.pkg;
+      const hosting = data.metadata.hosting || "—";
+      const domains = data.metadata.domains || "—";
+
+      let eta;
+      if (pkg === "Mockup Only") {
+        eta = "1–2 days";
+      } else if (pkg === "Hosting Only") {
+        eta = "Hosting setup within 24 hours";
+      } else {
+        eta = "7 days";
+      }
+
+      document.getElementById("orderDetails").innerHTML = `
+        <b>Package:</b> ${pkg}<br/>
+        <b>Hosting:</b> ${hosting}<br/>
+        <b>Domains:</b> ${domains}<br/>
+        <b>Estimated delivery:</b> ${eta}
+      `;
+    } catch (err) {
+      document.getElementById("orderDetails").textContent = "⚠️ Could not load order details.";
+      console.error(err);
+    }
+  }
+  loadOrder();
+
+  const messageEl = document.getElementById("orderMessage");
+
+  if (pkg === "Hosting Only") {
+    messageEl.textContent = "Thanks for choosing Snowhoney Studios to host your site! We’ll connect your domain and activate your hosting plan within 24 hours.";
+  } else if (pkg === "Mockup Only") {
+    messageEl.textContent = "We’ll deliver your design mockup within 1–2 days!";
+  } else {
+    messageEl.textContent = "We’ll begin building your site right away and launch within 7 days.";
+  }
+</script>
 </html>

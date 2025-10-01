@@ -36,24 +36,58 @@ export async function handler(event) {
         // -----------------------------
         // 1) Internal notification
         // -----------------------------
-        const messageText = `
-✅ New Paid Order
-───────────────────────────────
-Package: ${session.metadata.pkg}
-Hosting: ${session.metadata.hosting}
-Business: ${briefData.businessName || "—"}
-Email: ${briefData.contactEmail || "—"}
+        let messageText;
+          if (pkg === "Hosting Only") {
+            messageText = `
+          🧾 New Hosting Subscription
+          ───────────────────────────────
+          Customer: ${customerDetails.name || businessName || "—"}
+          Email: ${customerDetails.email}
 
-Domains: ${session.metadata.domains || "—"}
+          Hosting Plan: ${session.metadata.hosting}
+          Domains: ${session.metadata.domains || "—"}
 
-Full Brief:
-${JSON.stringify(briefData, null, 2)}
-        `;
+          Session: ${session.id}
+            `;
+          } else if (pkg === "Mockup Only") {
+            messageText = `
+          🎨 New Mockup Order
+          ───────────────────────────────
+          Customer: ${customerDetails.name || businessName || "—"}
+          Email: ${customerDetails.email}
+
+          Package: Mockup Only
+          Session: ${session.id}
+            `;
+          } else {
+            messageText = `
+          ✨ New Website Order
+          ───────────────────────────────
+          Customer: ${customerDetails.name || businessName || "—"}
+          Email: ${customerDetails.email}
+
+          Package: ${pkg}
+          Hosting: ${session.metadata.hosting}
+          Domains: ${session.metadata.domains || "—"}
+
+          Session: ${session.id}
+            `;
+          }
+
+
+        let subjectLine;
+        if (session.metadata.pkg === "Hosting Only") {
+          subjectLine = `🖥️ New Hosting Subscription: ${session.metadata.hosting}`;
+        } else if (session.metadata.pkg === "Mockup Only") {
+          subjectLine = "🎨 New Mockup Order";
+        } else {
+          subjectLine = `✨ New Site Order: ${session.metadata.pkg}`;
+        }
 
         await sgMail.send({
           to: process.env.SENDGRID_TO,
           from: `"Snowhoney Studios" <noreply@snowhoneystudios.ca>`,
-          subject: `New Order: ${session.metadata.pkg}`,
+          subject: subjectLine,
           text: messageText,
           html: `<pre>${messageText}</pre>`,
         });
@@ -66,44 +100,86 @@ ${JSON.stringify(briefData, null, 2)}
         if (session.customer_details?.email) {
           const customerEmail = session.customer_details.email;
           const pkg = session.metadata.pkg;
+          const hosting = session.metadata.hosting;
+          const domains = session.metadata.domains || "—";
 
-          const customerText = `
-Hi ${briefData.businessName || "there"},
+          let customerText, customerHtml;
 
-Thank you for your purchase with Snowhoney Studios! 🐝❄️
+          if (pkg === "Hosting Only") {
+            customerText = `
+          Hi ${briefData.businessName || "there"},
 
-Your order details:
-- Package: ${pkg}
-- Hosting: ${session.metadata.hosting}
-- Domains: ${session.metadata.domains || "—"}
+          Thanks for choosing Snowhoney Studios to host your website! 🐝❄️
 
-We’ll review your brief and start your project within the next 24 hours.  
-You’ll receive updates by email as we progress.
+          Your order details:
+          - Hosting Plan: ${hosting}
+          - Domains: ${domains}
 
-— The Snowhoney Studios Team
-          `;
+          We’ll connect your domain(s) and activate hosting within 24 hours.  
+          You’ll receive an email when everything is live and ready.
 
-          const customerHtml = `
-            <div style="font-family: Arial, sans-serif; color:#222; line-height:1.6;">
-              <h2 style="color:#F5B700;">Thanks for your order with Snowhoney Studios! 🐝❄️</h2>
-              <p>Hi ${briefData.businessName || "there"},</p>
-              <p>We’re excited to get started on your new website. Here’s a summary of your order:</p>
-              <ul style="margin:16px 0; padding-left:18px; color:#333;">
-                <li><b>Package:</b> ${pkg}</li>
-                <li><b>Hosting:</b> ${session.metadata.hosting}</li>
-                <li><b>Domains:</b> ${session.metadata.domains || "—"}</li>
-              </ul>
-              <p style="margin:16px 0; padding:12px; background:#FFF8E1; border-left:4px solid #F5B700; border-radius:6px;">
-                We’ll review your brief and begin work within 24 hours.  
-                Expect updates by email as we progress. 🛠️
-              </p>
-              <p style="margin-top:20px;">
-                Thanks again for trusting <b>Snowhoney Studios</b> — where ideas drip with honey and sparkle with snow. ✨
-              </p>
-              <br/>
-              <p>— The Snowhoney Studios Team</p>
-            </div>
-          `;
+          — The Snowhoney Studios Team
+            `;
+
+            customerHtml = `
+              <div style="font-family: Arial, sans-serif; color:#222; line-height:1.6;">
+                <h2 style="color:#F5B700;">Hosting setup in progress! 🐝❄️</h2>
+                <p>Hi ${briefData.businessName || "there"},</p>
+                <p>Thanks for choosing Snowhoney Studios to host your site. Here’s what we have on file:</p>
+                <ul style="margin:16px 0; padding-left:18px; color:#333;">
+                  <li><b>Hosting Plan:</b> ${hosting}</li>
+                  <li><b>Domains:</b> ${domains}</li>
+                </ul>
+                <p style="margin:16px 0; padding:12px; background:#E0F7FA; border-left:4px solid #2D7F84; border-radius:6px;">
+                  We’ll get your hosting set up within 24 hours and notify you once it’s active.
+                </p>
+                <p style="margin-top:20px;">
+                  Thanks again for trusting <b>Snowhoney Studios</b> with your hosting.  
+                  We’ll keep your site fast, reliable, and humming 🐝❄️.
+                </p>
+                <br/>
+                <p>— The Snowhoney Studios Team</p>
+              </div>
+            `;
+          } else {
+            customerText = `
+          Hi ${briefData.businessName || "there"},
+
+          Thank you for your purchase with Snowhoney Studios! 🐝❄️
+
+          Your order details:
+          - Package: ${pkg}
+          - Hosting: ${hosting}
+          - Domains: ${domains}
+
+          We’ll review your brief and start your project within the next 24 hours.  
+          You’ll receive updates by email as we progress.
+
+          — The Snowhoney Studios Team
+            `;
+
+            customerHtml = `
+              <div style="font-family: Arial, sans-serif; color:#222; line-height:1.6;">
+                <h2 style="color:#F5B700;">Thanks for your order with Snowhoney Studios! 🐝❄️</h2>
+                <p>Hi ${briefData.businessName || "there"},</p>
+                <p>We’re excited to get started on your new website. Here’s a summary of your order:</p>
+                <ul style="margin:16px 0; padding-left:18px; color:#333;">
+                  <li><b>Package:</b> ${pkg}</li>
+                  <li><b>Hosting:</b> ${hosting}</li>
+                  <li><b>Domains:</b> ${domains}</li>
+                </ul>
+                <p style="margin:16px 0; padding:12px; background:#FFF8E1; border-left:4px solid #F5B700; border-radius:6px;">
+                  We’ll review your brief and begin work within 24 hours.  
+                  Expect updates by email as we progress. 🛠️
+                </p>
+                <p style="margin-top:20px;">
+                  Thanks again for trusting <b>Snowhoney Studios</b> — where ideas drip with honey and sparkle with snow. ✨
+                </p>
+                <br/>
+                <p>— The Snowhoney Studios Team</p>
+              </div>
+            `;
+          }
 
           await sgMail.send({
             to: customerEmail,

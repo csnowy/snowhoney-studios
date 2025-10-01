@@ -5,17 +5,20 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2024-06-
 const PRICE_MAP = {
   "Test": process.env.PRICE_TEST,
 
-  // one-time site builds:
+  // one-time site builds
   "One-Page Site": process.env.PRICE_ONEPAGE,
   "Two-Page Site": process.env.PRICE_TWOPAGE,
   "Three-Page Site": process.env.PRICE_THREEPAGE,
   "Mockup Only": process.env.PRICE_MOCKUP,
   "Extra Page": process.env.PRICE_EXTRAPAGE,
 
-  // subscriptions:
+  // subscriptions
   "Basic Hosting": process.env.PRICE_HOST_BASIC,
   "Boost Hosting": process.env.PRICE_HOST_BOOST,
   "Dominate Hosting": process.env.PRICE_HOST_DOMINATE,
+
+  // NEW
+  "Hosting Only": null,
 };
 
 export async function handler(event) {
@@ -25,38 +28,49 @@ export async function handler(event) {
     }
 
     const parsed = JSON.parse(event.body || "{}");
-    const { pkg, hosting, email, businessName, domains, brief, extraPages, mockupCredit } = parsed;
+    const { pkg, hosting, email, businessName, domains, brief, extraPages } = parsed;
 
-    if (!pkg || !PRICE_MAP[pkg]) {
+    if (pkg !== "Hosting Only" && !PRICE_MAP[pkg]) {
       return { statusCode: 400, body: JSON.stringify({ error: "Unknown package selection" }) };
     }
 
-    const oneTimePriceId = PRICE_MAP[pkg];
+    // Decide hosting product
     const isManagedHosting = hosting && hosting !== "self";
     const recurringPriceId = isManagedHosting ? PRICE_MAP[hosting] : null;
 
     // Build line items
-    const line_items = [{ price: oneTimePriceId, quantity: 1 }];
-    if (recurringPriceId) line_items.push({ price: recurringPriceId, quantity: 1 });
-    if (extraPages && extraPages > 0) {
+    const line_items = [];
+
+    // If not hosting-only, add the site build one-time charge
+    if (pkg !== "Hosting Only") {
+      line_items.push({ price: PRICE_MAP[pkg], quantity: 1 });
+    }
+
+    // Add hosting subscription (required if Hosting Only, optional otherwise)
+    if (recurringPriceId) {
+      line_items.push({ price: recurringPriceId, quantity: 1 });
+    }
+
+    // Extra pages for builds
+    if (extraPages && extraPages > 0 && pkg !== "Hosting Only") {
       line_items.push({ price: PRICE_MAP["Extra Page"], quantity: extraPages });
     }
 
-    // Mode
-    const mode = recurringPriceId ? "subscription" : "payment";
+    // Mode: Hosting Only or any subscription → "subscription"
+    const mode = (pkg === "Hosting Only" || recurringPriceId) ? "subscription" : "payment";
 
-    // Trial logic
+    // Subscription trial logic (only applies if also a site build)
     let subscription_data;
-    if (recurringPriceId) {
+    if (recurringPriceId && pkg !== "Hosting Only") {
       let trialDays = 7;
       if (pkg === "Two-Page Site" && hosting === "Basic Hosting") trialDays = 30 + 7;
       if (pkg === "Three-Page Site" && hosting === "Basic Hosting") trialDays = 60 + 7;
       subscription_data = { trial_period_days: trialDays };
     }
 
-    // Discount logic (Boost/Dominate auto-discounts)
+    // Discounts (only for Boost/Dominate w/ builds)
     const discounts = [];
-    if (hosting === "Boost Hosting" || hosting === "Dominate Hosting") {
+    if (pkg !== "Hosting Only" && (hosting === "Boost Hosting" || hosting === "Dominate Hosting")) {
       if (pkg === "Two-Page Site") {
         discounts.push({ coupon: process.env.COUPON_24_OFF_1M });
       }
@@ -76,12 +90,11 @@ export async function handler(event) {
       }
     }
 
-    // ✅ Check if they already bought a mockup
-    let hasMockup = false;
-    if (customer) {
+    // Mockup credit logic (only for builds)
+    if (customer && pkg !== "Hosting Only") {
       const invoices = await stripe.invoices.list({ customer: customer.id, limit: 10 });
+      let hasMockup = false;
       for (const inv of invoices.data) {
-        // Only consider paid invoices
         if (inv.status === "paid" && inv.lines?.data) {
           for (const line of inv.lines.data) {
             if (line.price?.id === PRICE_MAP["Mockup Only"]) {
@@ -92,15 +105,13 @@ export async function handler(event) {
         }
         if (hasMockup) break;
       }
-    }
-
-    // ✅ Apply credit if they actually purchased a mockup
-    if (hasMockup) {
-      await stripe.customers.createBalanceTransaction(customer.id, {
-        amount: -9900, // $99 in cents
-        currency: "cad",
-        description: "Mockup credit applied",
-      });
+      if (hasMockup) {
+        await stripe.customers.createBalanceTransaction(customer.id, {
+          amount: -9900, // $99 in cents
+          currency: "cad",
+          description: "Mockup credit applied",
+        });
+      }
     }
 
     // Create checkout session

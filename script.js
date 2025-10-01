@@ -552,8 +552,10 @@ async function updateSummary() {
 
   // Show/hide line
   if (mockupCredit > 0) {
-    mockupLine.innerHTML = `<strong>Mockup Credit</strong><span>−$${mockupCredit} CAD</span>`;
-    mockupLine.style.display = "flex";
+    mockupLine.innerHTML = `<strong>Mockup Credit</strong>
+      <span class="discount">−$${mockupCredit.toLocaleString(undefined,{minimumFractionDigits:2})} CAD</span>
+      <p class="note">Applied automatically because you previously purchased a mockup.</p>`;
+    mockupLine.style.display = "block";
   } else {
     mockupLine.style.display = "none";
   }
@@ -1187,3 +1189,156 @@ if (window.innerWidth <= 600) {
     });
   }
 }
+
+let portalToken = null;
+let verifiedEmail = null;
+
+async function sendCode() {
+  const email = document.getElementById("portalEmail").value.trim();
+  const err = document.getElementById("emailError");
+  err.classList.add("hidden");
+
+  if (!email) {
+    err.textContent = "Please enter your email.";
+    err.classList.remove("hidden");
+    return;
+  }
+
+  const res = await fetch("/.netlify/functions/send-portal-code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    err.textContent = data.error || "Something went wrong.";
+    err.classList.remove("hidden");
+    return;
+  }
+
+  portalToken = data.token;
+  verifiedEmail = null;
+
+  document.getElementById("emailForm").classList.add("hidden");
+  document.getElementById("codeForm").classList.remove("hidden");
+  alert("✅ Code sent to your email!");
+}
+
+async function verifyCode() {
+  const code = document.getElementById("portalCode").value.trim();
+  const err = document.getElementById("codeError");
+  err.classList.add("hidden");
+
+  if (!code) {
+    err.textContent = "Enter the code from your email.";
+    err.classList.remove("hidden");
+    return;
+  }
+
+  const res = await fetch("/.netlify/functions/verify-portal-code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code, token: portalToken }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    err.textContent = data.error || "Invalid code.";
+    err.classList.remove("hidden");
+    return;
+  }
+
+  verifiedEmail = data.email;
+  verifiedToken = data.token;
+  portalToken = null;
+
+  document.getElementById("codeForm").classList.add("hidden");
+  document.getElementById("subscriberDashboard").classList.remove("hidden");
+  document.getElementById("dashboardEmail").textContent = verifiedEmail;
+  document.getElementById("subscriberEmailField").value = verifiedEmail;
+}
+
+function resendCode() {
+  document.getElementById("emailForm").classList.remove("hidden");
+  document.getElementById("codeForm").classList.add("hidden");
+}
+
+document.getElementById("manageSubBtn")?.addEventListener("click", async () => {
+  if (!verifiedToken) return alert("Please verify your email first.");
+
+  const res = await fetch("/.netlify/functions/create-portal-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ verifiedToken }),
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+    alert(data.error || "Could not open portal.");
+    return;
+  }
+  if (data.url) {
+    window.location.href = data.url;
+  }
+});
+
+async function checkMockupCredit(email) {
+  try {
+    const res = await fetch("/.netlify/functions/check-mockup-credit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    return data.hasMockup === true;
+  } catch (err) {
+    console.error("Mockup credit check failed:", err);
+    return false;
+  }
+}
+
+let selectedHostOnly = null;
+
+function openHostOnly(plan) {
+  selectedHostOnly = plan;
+  const modal = document.getElementById("hostOnlyModal");
+  modal.classList.remove("hidden");
+  modal.classList.add("show");
+  document.body.classList.add("modal-open");
+}
+
+function closeHostOnly() {
+  const modal = document.getElementById("hostOnlyModal");
+  modal.classList.remove("show");
+  modal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
+}
+
+document.getElementById("hostOnlyForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const payload = {
+    pkg: "Hosting Only",
+    hosting: selectedHostOnly,
+    email: formData.get("contactEmail"),
+    businessName: formData.get("businessName"),
+    domains: [formData.get("domain")].filter(Boolean),
+  };
+
+  try {
+    const res = await fetch("/.netlify/functions/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Checkout failed");
+
+    const stripe = Stripe(data.publishableKey);
+    await stripe.redirectToCheckout({ sessionId: data.sessionId });
+  } catch (err) {
+    alert("❌ Checkout failed: " + err.message);
+  }
+});

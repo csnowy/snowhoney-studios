@@ -112,7 +112,7 @@
     <section id="compare" data-aos="zoom-in-up" style="margin-top:80px;">
       <div class="container">
         <h3 class="section-title">Snowhoney vs Wix</h3>
-        <p class="section-sub">Real cost of ownership over 1 year and 5 years — based on the package you select.</p>
+        <p class="section-sub">Here's how we compare to the industry leader , Wix.</p>
 
         <div class="grid" style="display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:24px;">
           <!-- Wix Column -->
@@ -295,9 +295,12 @@
                 <div class="badge"><i></i> Basic </div>
                 <div class="price"><span class="old-price">$24/mo</span><span class="new-price">$19/mo</span></div>
                 <p class="small">(Discount applies until cancelled!)</p>
-                <div class="inc">Hosting • Uptime • 15 min edits</div>
+                <div class="inc">• Hosting</div>
+                <div class="inc">• Uptime</div>
+                <div class="inc">• 15 min edits</div>
                 <div class="cta" style="margin-top:12px; justify-content:space-between">
                   <button class="btn secondary small learn-more" data-plan="basic-hosting">Learn More</button>
+                  <button class="btn primary small" onclick="openHostOnly('Basic Hosting')">Host Only →</button>
                 </div>
               </div>
             
@@ -311,6 +314,7 @@
                 <div class="inc">• 1 Business email</div>
                 <div class="cta" style="margin-top:12px; justify-content:space-between">
                   <button class="btn secondary small learn-more" data-plan="boost-hosting">Learn More</button>
+                  <button class="btn primary small" onclick="openHostOnly('Basic Hosting')">Host Only →</button>
                 </div>
               </div>
 
@@ -324,6 +328,7 @@
                 <div class="inc">• 5 Business Emails</div>
                 <div class="cta" style="margin-top:12px; justify-content:space-between">
                   <button class="btn secondary small learn-more" data-plan="dominate-hosting">Learn More</button>
+                  <button class="btn primary small" onclick="openHostOnly('Basic Hosting')">Host Only →</button>
                 </div>
               </div>
           </div>
@@ -517,70 +522,104 @@
     </div>
   </div>
 
-  <!-- Client Dashboard Modal -->
+    <!-- Client Dashboard Modal -->
     <div id="subscriberModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="subscriberModalTitle">
       <div class="modal-content subscriber-card">
         <span class="modal-close" aria-label="Close">&times;</span>
 
         <h2 id="subscriberModalTitle" class="subscriber-title">Subscriber Dashboard</h2>
-        <p class="subscriber-subtitle">Welcome back, valued subscriber ✨</p>
+        <p class="subscriber-subtitle">Welcome back ✨</p>
 
-        <!-- Choice Menu -->
-        <div id="dashboardChoices" class="dashboard-choices">
-          <button id="editOptionBtn" class="btn sub-btn">✏️ Request Website Edit</button>
-          <button id="cancelSubBtn" class="btn cancel-btn">Manage Subscription</button>
-          <div id="cancelEmailWrap" class="hidden" style="margin-top:16px;">
-            <label for="cancelEmailInput" class="subscriber-subtitle" style="display:block; margin-bottom:6px; text-align:left;">
-              Enter the email you used at checkout
-            </label>
-            <input 
-              id="cancelEmailInput" 
-              type="email" 
-              placeholder="you@example.com"
-              class="cancel-email-input"
-            />
-            <button id="cancelEmailSubmit" class="btn sub-btn" style="margin-top:12px; width:100%;">
-              Open Billing Portal →
-            </button>
-            <p id="cancelEmailError" class="error-msg hidden"></p>
-          </div>
+        <!-- STEP 1: Email input -->
+        <div id="emailForm">
+          <label for="portalEmail" class="subscriber-subtitle" style="display:block; margin-bottom:6px; text-align:left;">
+            Enter the email you used at checkout - we'll send you a code to sign in
+          </label>
+          <input id="portalEmail" type="email" placeholder="you@example.com" class="cancel-email-input" />
+          <button onclick="sendCode()" class="btn sub-btn" style="margin-top:12px; width:100%;">Send Code →</button>
+          <p id="emailError" class="error-msg hidden"></p>
         </div>
 
-        <!-- Hidden Edit Form -->
-        <form id="subscriberForm" class="hidden subscriber-form">
-          <h3 class="form-heading">Request an Edit</h3>
+        <!-- STEP 2: Code input -->
+        <div id="codeForm" class="hidden">
+          <label for="portalCode" class="subscriber-subtitle" style="display:block; margin-bottom:6px; text-align:left;">
+            Enter the 6-digit code we emailed you
+          </label>
+          <input id="portalCode" type="text" placeholder="123456" class="cancel-email-input" />
+          <div style="display:flex; gap:10px; justify-content:center; margin-top:12px;">
+            <button onclick="resendCode()" class="btn cancel-btn">Send Again</button>
+            <button onclick="verifyCode()" class="btn sub-btn">Enter →</button>
+          </div>
+          <p id="codeError" class="error-msg hidden"></p>
+        </div>
 
-          <label>Business Name</label>
-          <input type="text" name="businessName" required maxlength="100">
+        <!-- STEP 3: Authenticated Dashboard -->
+        <div id="subscriberDashboard" class="hidden">
+          <p class="subscriber-subtitle">Signed in as <span id="dashboardEmail"></span></p>
 
-          <label>Email</label>
-          <input type="email" name="contactEmail" required maxlength="120">
+          <!-- Choice Menu -->
+          <div id="dashboardChoices" class="dashboard-choices">
+            <button id="editOptionBtn" class="btn sub-btn">✏️ Request Website Edit</button>
+            <button id="manageSubBtn" class="btn cancel-btn">Manage Subscription</button>
+          </div>
 
-          <label>Request Type</label>
-          <select name="requestType" required>
-            <option value="">Select one</option>
-            <option value="text">Text Update</option>
-            <option value="image">Image/Graphic Swap</option>
-            <option value="pricing">Pricing Change</option>
-            <option value="newSection">New Section</option>
-          </select>
+          <!-- Hidden Edit Form -->
+          <form id="subscriberForm" class="hidden subscriber-form">
+            <h3 class="form-heading">Request an Edit</h3>
 
-          <label>Details</label>
-          <textarea name="requestDetails" required minlength="20" maxlength="1000"></textarea>
+            <label>Business Name</label>
+            <input type="text" name="businessName" required maxlength="100">
 
-          <label>Attach Files (max 3 × 5MB)</label>
-          <input type="file" name="upload" multiple accept=".jpg,.jpeg,.png,.pdf">
+            <!-- 👇 Email auto-filled and hidden -->
+            <input type="hidden" name="contactEmail" id="subscriberEmailField">
 
-          <div class="cta">
-            <button type="submit" class="btn sub-btn">🚀 Submit Request</button>
-            <button type="button" id="backBtn" class="btn back-btn">⬅ Back</button>
+            <label>Request Type</label>
+            <select name="requestType" required>
+              <option value="">Select one</option>
+              <option value="text">Text Update</option>
+              <option value="image">Image/Graphic Swap</option>
+              <option value="pricing">Pricing Change</option>
+              <option value="newSection">New Section</option>
+            </select>
+
+            <label>Details</label>
+            <textarea name="requestDetails" required minlength="20" maxlength="1000"></textarea>
+
+            <label>Attach Files (max 3 × 5MB)</label>
+            <input type="file" name="upload" multiple accept=".jpg,.jpeg,.png,.pdf">
+
+            <div class="cta">
+              <button type="submit" class="btn sub-btn">🚀 Submit Request</button>
+              <button type="button" id="backBtn" class="btn back-btn">⬅ Back</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Host Only Modal -->
+    <div id="hostOnlyModal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeHostOnly()" aria-label="Close">×</button>
+        <h3>Start Hosting with Snowhoney</h3>
+        <form id="hostOnlyForm">
+          <label>Business name <span style="color:red">*</span></label>
+          <input name="businessName" required maxlength="100" />
+
+          <label>Contact email <span style="color:red">*</span></label>
+          <input type="email" name="contactEmail" required maxlength="120" />
+
+          <label>Your domain</label>
+          <input name="domain" placeholder="yourbusiness.ca" />
+
+          <div class="cta" style="margin-top:20px">
+            <button type="submit" class="btn primary">Checkout →</button>
           </div>
         </form>
       </div>
     </div>
 
     <!-- Order Wizard Modal -->
-    <!-- ===== ORDER WIZARD MODAL ===== -->
     <div id="orderWizard" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="orderWizardTitle">
       <div class="modal-content">
         <button class="modal-close" onclick="closeWizard()" aria-label="Close">×</button>
@@ -870,6 +909,9 @@
                   </span>
                 </div>
                 <p class="note" id="trialNote" style="display:none; margin-top:6px"></p>
+              </div>
+              <div class="line hidden" id="mockupCreditLine">
+                <strong>Mockup Credit</strong><span class="discount">−$99 CAD</span>
               </div>
 
               <div id="extraPagesGroup">
