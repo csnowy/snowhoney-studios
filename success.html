@@ -11,7 +11,7 @@
   <header>
     <div class="container nav">
       <a class="brand" href="index.html" aria-label="Snowhoney Studios home">
-        <img class="logo" src="icon.png" alt="Snowhoney Studios logo" />
+        <img class="logo" src="images/icon.webp" alt="Snowhoney Studios logo" />
         <h1>Snowhoney Studios</h1>
       </a>
     </div>
@@ -19,7 +19,7 @@
 
   <main style="padding:80px 20px; text-align:center">
     <div class="card brand-sheen" style="max-width:600px; margin:0 auto; padding:40px">
-      <img src="bee_at_desk.png" alt="" style="max-width:120px; margin-bottom:20px" />
+      <img src="images/bee_at_desk.webp" alt="" style="max-width:120px; margin-bottom:20px" />
       <h2 class="title">Thank you for your order! 🎉</h2>
       <p id="orderMessage" class="lead" style="margin:12px 0; color:#475569"></p>
       <p id="orderDetails" class="lead" style="margin:18px 0">
@@ -55,7 +55,7 @@
       } else if (pkg === "Hosting Only") {
         eta = "Hosting setup within 24 hours";
       } else {
-        eta = "7 days";
+        eta = "10 days";
       }
 
       document.getElementById("orderDetails").innerHTML = `
@@ -78,7 +78,7 @@
   } else if (pkg === "Mockup Only") {
     messageEl.textContent = "We’ll deliver your design mockup within 1–2 days!";
   } else {
-    messageEl.textContent = "We’ll begin building your site right away and launch within 7 days.";
+    messageEl.textContent = "We’ll begin building your site right away and launch within 10 days.";
   }
 </script>
 </html>

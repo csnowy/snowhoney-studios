@@ -43,7 +43,7 @@ section[id]{scroll-margin-top:84px}
   z-index: -1;
   pointer-events: none;
 
-  background: url("background.webp") no-repeat center top;
+  background: url("images/background.webp") no-repeat center top;
   background-size: cover;       /* stretches across width */
   background-attachment: scroll; /* scrolls with page */
   opacity: 0.1;                /* extra subtle */
@@ -658,14 +658,14 @@ a:focus-visible {
 
 /* Corner anchors (tweak the 10px gutters as you like) */
 .dec-tl { top: 50px; right: 600px; transform: rotate(var(--r, 8deg)) scale(var(--s, 1.1));}
-.dec-tr { top: 10px; right: 10px; transform: rotate(var(--r, -4deg)) scale(var(--s, 0.9));}
+.dec-tr { top: 20px; right: 20px; transform: rotate(var(--r, -4deg)) scale(var(--s, 0.9));}
 .dec-bl { bottom: 10px; left: 30px; }
 .dec-br { bottom: 60px; right: 10px; }
 .dec-tc { top: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
 .dec-bc { bottom: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
 .dec-cl { top: 2%; left: 800px; transform: translateX(-20%) rotate(var(--r, 0deg)) scale(var(--s, 1)); }
 .dec-cr { top: 10%; right: 130px; transform: translateY(-10%) rotate(var(--r, 0deg)) scale(var(--s, 0.9)); }
-.dec-c { top: 30%; left: 20%; transform: rotate(var(--r, 0deg)) scale(var(--s, 0.7)); }
+.dec-c { top: 30%; left: 45%; transform: rotate(var(--r, 0deg)) scale(var(--s, 0.7)); }
 
 /* Quick size helpers */
 .dec-xs { --w: 22px; }
@@ -777,7 +777,7 @@ a:focus-visible {
   content: "";
   position: absolute;
   inset: 0;
-  background: url('Honeycomb.webp') repeat;
+  background: url('images/Honeycomb.webp') repeat;
   background-size: 20px;
   opacity: 0.1;   /* 👈 independent control */
   z-index: 0;
@@ -1769,5 +1769,3 @@ footer a:hover {
   max-height: 100vh;
   overflow-y: auto;
 }
-
-

@@ -36,6 +36,12 @@ export async function handler(event) {
         // -----------------------------
         // 1) Internal notification
         // -----------------------------
+        const pkg = session.metadata.pkg;
+        const hosting = session.metadata.hosting;
+        const domains = session.metadata.domains || "—";
+        const customerDetails = session.customer_details || {};
+        const businessName = (JSON.parse(session.metadata.brief || "{}").businessName) || "";
+
         let messageText;
           if (pkg === "Hosting Only") {
             messageText = `

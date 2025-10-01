@@ -62,9 +62,9 @@ export async function handler(event) {
     // Subscription trial logic (only applies if also a site build)
     let subscription_data;
     if (recurringPriceId && pkg !== "Hosting Only") {
-      let trialDays = 7;
-      if (pkg === "Two-Page Site" && hosting === "Basic Hosting") trialDays = 30 + 7;
-      if (pkg === "Three-Page Site" && hosting === "Basic Hosting") trialDays = 60 + 7;
+      let trialDays = 10;
+      if (pkg === "Two-Page Site" && hosting === "Basic Hosting") trialDays = 30 + 10;
+      if (pkg === "Three-Page Site" && hosting === "Basic Hosting") trialDays = 60 + 10;
       subscription_data = { trial_period_days: trialDays };
     }
 

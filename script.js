@@ -451,7 +451,7 @@ function getFirstChargeDate(pkg, hosting) {
   if (!days) return null;
 
   const d = new Date();
-  d.setDate(d.getDate() + days + 7); // add trial days + 7 day build buffer
+  d.setDate(d.getDate() + days + 10); // add trial days + 10 day build buffer
   return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
 
@@ -669,7 +669,7 @@ async function updateSummary() {
     sumTotal.textContent = `$${todayDue.toLocaleString(undefined,{minimumFractionDigits:2})} CAD`;
   }
 
-  // --- Total due in 7 days (hosting first charge) ---
+  // --- Total due in 10 days (hosting first charge) ---
   if (state.hosting && state.hosting !== "Self-hosting") {
     let amount = state.hostingPrice; // default
     let noteMsg = "";
@@ -793,8 +793,8 @@ const planDetails = {
       <li><b>Baseline Feature Set (like this page):</b> Includes basic displays, contact form, simple e-commerce (up to 5 products/services) and smooth site navigation, as well as responsive layout across phone, tablet, and desktop. <b>note:</b> We will need </li>
       <li><b>Design & Graphics:</b> We’ll style the page with your brand and, if needed, create a handful of supporting graphics so the page feels complete—without a full brand redesign.</li>
       <li><b>Basic SEO Optimization:</b> page titles & meta descriptions, image alt text, XML sitemap and robots.txt so your site gets noticed by the internet!.</li>
-      <li><b>Revisions (2 rounds):</b> within 7 days of your order, you get two rounds of changes, if needed. A “round” is a single consolidated list of edits (copy tweaks, image swaps, section order, reasonable layout adjustments).</li>
-      <li><b>Turnaround:</b> we target delivery in 7 calendar days for the scoped site (barring delays waiting on your content/approvals).</li>
+      <li><b>Revisions (2 rounds):</b> within 10 days of your order, you get two rounds of changes, if needed. A “round” is a single consolidated list of edits (copy tweaks, image swaps, section order, reasonable layout adjustments).</li>
+      <li><b>Turnaround:</b> we target delivery in 10 calendar days for the scoped site (barring delays waiting on your content/approvals).</li>
     </ul>
     <div class="modal-note">
       <p><em>Note:</em> For implementing e-commerce, we’ll wire checkout with Stripe. <u>Stripe must be created in your name</u>; You may grant us the access we need to configure products, prices, basic taxes, and test mode. Payouts go directly to you; you manage orders/refunds in Stripe. We’ll guide you through setup and provide a simple handover checklist.</p>
@@ -809,7 +809,7 @@ const planDetails = {
       <li><b>Google Maps:</b> We'll add Google Maps to your website (if desired), so your customers know exactly where to find you.</li>
       <li><b>E-commerce:</b> Up to 20 products/services, we’ll wire checkout with Stripe (see note). </li>
       <li><b>Revisions (2 rounds per page):</b> two rounds of revisions for each page.</li>
-      <li><b>Turnaround:</b> we target delivery in 7 calendar days for the scoped site (barring delays waiting on your content/approvals).</li>
+      <li><b>Turnaround:</b> we target delivery in 10 calendar days for the scoped site (barring delays waiting on your content/approvals).</li>
     </ul>
     <div class="modal-note">
       <p><em>Note:</em> For implementing e-commerce, we’ll wire checkout with Stripe. <u>Stripe must be created in your name</u>; You may grant us the access we need to configure products, prices, basic taxes, and test mode. Payouts go directly to you; you manage orders/refunds in Stripe. We’ll guide you through setup and provide a simple handover checklist.</p>
@@ -824,7 +824,7 @@ const planDetails = {
       <li><b>Google Analytics (GA4):</b> we connect your page to GA4 so you can see visits, top pages, traffic sources, devices, and locations.</li>
       <li><b>Premium E-commerce:</b>  Up to 50 products/services, an expanded catalog with categories/variants as needed. We'll wire checkout with Stripe (see note).</li>
       <li><b>Revisions (2 rounds per page):</b> two rounds for each of the three pages.</li>
-      <li><b>Turnaround:</b> we target delivery in 7 calendar days for the scoped site (barring delays waiting on your content/approvals).</li>
+      <li><b>Turnaround:</b> we target delivery in 10 calendar days for the scoped site (barring delays waiting on your content/approvals).</li>
     </ul>
     <div class="modal-note">
       <p><em>Note:</em> For implementing e-commerce, we’ll wire checkout with Stripe. <u>Stripe must be created in your name</u>; You may grant us the access we need to configure products, prices, basic taxes, and test mode. Payouts go directly to you; you manage orders/refunds in Stripe. We’ll guide you through setup and provide a simple handover checklist.</p>
@@ -1315,15 +1315,37 @@ function closeHostOnly() {
   document.body.classList.remove("modal-open");
 }
 
-document.getElementById("hostOnlyForm").addEventListener("submit", async (e) => {
+document.getElementById("hostOnlyForm")?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
+
+  let domains = [];
+  if (!needDomainWrap.classList.contains("hidden")) {
+    // Need Snowhoney to provide a domain
+    const d1 = formData.get("domain1")?.trim();
+    const d2 = formData.get("domain2")?.trim();
+    const d3 = formData.get("domain3")?.trim();
+    if (!d1) {
+      alert("Please enter at least one domain preference.");
+      return;
+    }
+    domains = ["REQUEST_NEW_DOMAIN", d1, d2, d3].filter(Boolean);
+  } else {
+    // Own domain flow
+    const own = formData.get("ownDomain")?.trim();
+    if (!own) {
+      alert("Please enter your domain.");
+      return;
+    }
+    domains = [own];
+  }
+
   const payload = {
     pkg: "Hosting Only",
     hosting: selectedHostOnly,
     email: formData.get("contactEmail"),
     businessName: formData.get("businessName"),
-    domains: [formData.get("domain")].filter(Boolean),
+    domains
   };
 
   try {
@@ -1332,7 +1354,6 @@ document.getElementById("hostOnlyForm").addEventListener("submit", async (e) => 
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Checkout failed");
 
@@ -1341,4 +1362,51 @@ document.getElementById("hostOnlyForm").addEventListener("submit", async (e) => 
   } catch (err) {
     alert("❌ Checkout failed: " + err.message);
   }
+});
+
+// Toggle domain fields inside Host Only modal
+document.querySelectorAll('#hostOnlyForm input[name="domainOption"]').forEach(radio => {
+  radio.addEventListener('change', e => {
+    const ownField = document.getElementById("ownDomainField");
+    const needFields = document.getElementById("needDomainFields");
+
+    if (e.target.value === "own") {
+      ownField.classList.remove("hidden");
+      needFields.classList.add("hidden");
+      ownField.querySelector("input").required = true;
+      needFields.querySelector("input[name='domain1']").required = false;
+    }
+    else if (e.target.value === "need") {
+      ownField.classList.add("hidden");
+      needFields.classList.remove("hidden");
+      ownField.querySelector("input").required = false;
+      needFields.querySelector("input[name='domain1']").required = true;
+    }
+    else { // later
+      ownField.classList.add("hidden");
+      needFields.classList.add("hidden");
+      ownField.querySelector("input").required = false;
+      needFields.querySelector("input[name='domain1']").required = false;
+    }
+  });
+});
+
+// Toggle domain input modes in Host Only modal
+const ownDomainWrap = document.getElementById("ownDomainWrap");
+const needDomainWrap = document.getElementById("needDomainWrap");
+const ownDomainInput = document.getElementById("ownDomainInput");
+const domain1Input = document.getElementById("domain1");
+
+document.getElementById("needDomainBtn")?.addEventListener("click", () => {
+  ownDomainWrap.classList.add("hidden");
+  needDomainWrap.classList.remove("hidden");
+  ownDomainInput.required = false;
+  domain1Input.required = true;
+});
+
+document.getElementById("backToOwnBtn")?.addEventListener("click", () => {
+  needDomainWrap.classList.add("hidden");
+  ownDomainWrap.classList.remove("hidden");
+  ownDomainInput.required = true;
+  domain1Input.required = false;
 });
