@@ -345,11 +345,14 @@ function confirmDomains(){
   const d2 = document.querySelector('input[name="domain2"]').value.trim();
   const d3 = document.querySelector('input[name="domain3"]').value.trim();
 
-  if(!d1){
+  const domains = [d1, d2, d3].filter(Boolean);
+
+  if (domains.length === 0) {
     alert('Please enter at least one domain.');
     return;
   }
-  state.domains = [d1,d2,d3].filter(Boolean);
+
+  state.domains = domains;
   updateSummary();
   nextWizardStep();
 }
@@ -1306,7 +1309,18 @@ function openHostOnly(plan) {
   modal.classList.remove("hidden");
   modal.classList.add("show");
   document.body.classList.add("modal-open");
+
+  // Reset domain inputs properly
+  ownDomainWrap.classList.remove("hidden");
+  needDomainWrap.classList.add("hidden");
+  ownDomainInput.required = true;
+  domain1Input.required = false;
+  const ownDomainInput = document.getElementById("hostOnlyDomainInput");
+  const domain1Input = document.getElementById("hostOnlyDomain1");
+  document.querySelector('input[name="domain2"]').value = "";
+  document.querySelector('input[name="domain3"]').value = "";
 }
+
 
 function closeHostOnly() {
   const modal = document.getElementById("hostOnlyModal");
@@ -1322,9 +1336,9 @@ document.getElementById("hostOnlyForm")?.addEventListener("submit", async (e) =>
   let domains = [];
   if (!needDomainWrap.classList.contains("hidden")) {
     // Need Snowhoney to provide a domain
-    const d1 = formData.get("domain1")?.trim();
-    const d2 = formData.get("domain2")?.trim();
-    const d3 = formData.get("domain3")?.trim();
+    const d1 = formData.get("hostOnlyDomain1")?.trim();
+    const d2 = formData.get("hostOnlyDomain2")?.trim();
+    const d3 = formData.get("hostOnlyDomain3")?.trim();
     if (!d1) {
       alert("Please enter at least one domain preference.");
       return;
@@ -1332,7 +1346,7 @@ document.getElementById("hostOnlyForm")?.addEventListener("submit", async (e) =>
     domains = ["REQUEST_NEW_DOMAIN", d1, d2, d3].filter(Boolean);
   } else {
     // Own domain flow
-    const own = formData.get("ownDomain")?.trim();
+    const own = formData.get("hostOnlyOwnDomain")?.trim();
     if (!own) {
       alert("Please enter your domain.");
       return;

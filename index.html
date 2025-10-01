@@ -50,8 +50,8 @@
       </a>
       <nav aria-label="Primary">
         <a href="#packages">Packages</a>
-        <a href="#process">Process</a>
-        <a href="#faq">FAQ</a>
+        <a href="#hosting">Hosting</a>
+        <a href="#process">FAQ</a>
         <a href="#contact">Contact</a>
         <a href="#" id="subscriberDashboardLink">Subscriber Dashboard</a>
       </nav>
@@ -63,8 +63,8 @@
     </div>
     <div id="mobileMenu" class="mobile-menu hidden" role="dialog" aria-modal="true" aria-label="Mobile menu">
       <a href="#packages">Packages</a>
-      <a href="#process">Process</a>
-      <a href="#faq">FAQ</a>
+      <a href="#hosting">Hosting</a>
+      <a href="#process">FAQ</a>
       <a href="#contact">Contact</a>
       <a href="#" id="subscriberDashboardLinkMobile">Subscriber Dashboard</a>
       
@@ -109,10 +109,159 @@
       </div>
     </section>
 
-    <section id="compare" data-aos="zoom-in-up" style="margin-top:80px;">
+    <section id="packages" data-aos="zoom-in-up">
+      <div class="container">
+        <h3 class="section-title">Packages</h3>
+        <p class="section-sub">Get anything you see on our site and more! Prices don't include tax.</p>
+        <div class="notice-bubble">
+          ℹ️ Additional pages can be added at checkout for $199 each.  
+          These do not include extra features beyond your chosen package.
+        </div>
+        <div style="text-align:right; margin-bottom:10px;">
+          <a href="pages.html" class="btn secondary small">What Counts as a Page?</a>
+        </div>
+        <div class="grid cols-3">
+
+          <!-- One Page -->
+          <div class="card brand-sheen">
+            <img class="dec dec-tr dec-sm" src="images/onepage.webp" alt="" aria-hidden="true" />
+            <div class="badge" style="margin-bottom:10px"><i></i> One-Page Package</div>
+            <div class="price"><span class="old-price">$799</span><span class="new-price">$699 CAD</span></div>
+            <div class="inc">10-day turnaround • 2 revisions</div>
+            <ul class="list">
+              <li><span class="tick">✔</span> Mobile-friendly layout</li>
+              <li><span class="tick">✔</span> Graphic design with your branding</li>
+              <li><span class="tick">✔</span> Any features we have on this website</li>
+              <li><span class="tick">✔</span> Basic SEO</li>
+              <li><span class="tick">✔</span> 7-day free maintenance after launch</li>
+            </ul>
+            <div class="cta" style="margin-top:12px; justify-content:space-between">
+              <button class="btn secondary small learn-more" data-plan="one-page">Learn More</button>
+              <button class="btn primary" onclick="startOrder('One-Page Site',699)">Buy One-Page →</button>
+            </div>
+          </div>
+
+          <!-- Two Page -->
+          <div class="card brand-sheen" style="border:2px solid var(--honey)">
+            <img class="dec dec-tr dec-md" src="images/twopage.webp" alt="" aria-hidden="true" />
+            <div class="badge" style="margin-bottom:10px"><i></i> Two-Page Package</div>
+            <div class="price"><span class="old-price">$1199</span><span class="new-price">$999 CAD</span></div>
+            <div class="inc">10-day turnaround • 2 revisions per page</div>
+            <ul class="list">
+              <li><span class="tick">✔</span> Everything in One-Page Site</li>
+              <li><span class="tick">✔</span> Extra page for services or products</li>
+              <li><span class="tick">✔</span> Bigger e-commerce setup (up to 20 products/services)</li>
+              <li><span class="tick">✔</span> Google Maps integration</li>
+            </ul>
+            <div class="cta" style="margin-top:12px; justify-content:space-between">
+              <button class="btn secondary small learn-more" data-plan="two-page">Learn More</button>
+              <button class="btn primary" onclick="startOrder('Two-Page Site',999)">Buy Two-Page →</button>
+            </div>
+            <div class="bonus">
+              🎁 Bonus: 30 Days of Free Basic Hosting!
+            </div>
+          </div>
+
+          <!-- Three Page -->
+          <div class="card brand-sheen">
+            <img class="dec dec-tr dec-lg" src="images/threepage.webp" alt="" aria-hidden="true" />
+            <div class="badge" style="margin-bottom:10px"><i></i> Three-Page Package</div>
+            <div class="price"><span class="old-price">$1699</span><span class="new-price">$1399 CAD</span></div>
+            <div class="inc">10-day turnaround • 2 revisions per page</div>
+            <ul class="list">
+              <li><span class="tick">✔</span> Everything in Two-Page Site</li>
+              <li><span class="tick">✔</span> Additional fully custom page (e.g., blog, gallery, or FAQ)</li>
+              <li><span class="tick">✔</span> Premium e-commerce setup (up to 50 products/services)</li>
+              <li><span class="tick">✔</span> Google Analytics integration </li>
+            </ul>
+            <div class="cta" style="margin-top:12px; justify-content:space-between">
+              <button class="btn secondary small learn-more" data-plan="three-page">Learn More</button>
+              <button class="btn primary" onclick="startOrder('Three-Page Site',1399)">Buy Three-Page →</button>
+            </div>
+            <div class="bonus">
+              🎁 Bonus: 90 Days of Free Basic Hosting!
+            </div>
+          </div>
+        </div>
+
+        <!-- Mockup -->
+        <div class="card brand-sheen" style="margin-top:14px; border:4px solid var(--icy)">
+            <img class="dec dec-cl dec-xl" src="images/bee_at_desk.webp" alt="" aria-hidden="true" />
+          <div class="badge" style="margin-bottom:10px"><i></i> Mockup Only</div>
+          <div class="price"><span class="old-price">$149</span><span class="new-price">$99 CAD</span></div>
+          <div class="inc">1–2 day turnaround • Preview of Mobile AND Desktop view</div>
+          <p class="small">Get a visual draft of your site before committing to a full build.</p>
+          <p class="small">If you proceed with a site package, we'll take the cost of your mockup off!</p>
+          <div id="hosting" class="cta" style="margin-top:12px; justify-content:left">
+            <button class="btn secondary small learn-more" data-plan="mockup">Learn More</button>
+            <button class="btn primary" onclick="startOrder('Mockup Only',99)">Buy Mockup →</button>
+          </div>
+        </div>
+
+        <!-- Hosting Plans -->
+        <div class="grid" style="grid-template-columns:minmax(0, 1320px); justify-content:center; margin-top:100px">
+          <div class="bigcard" style="padding:24px">
+            <h4 style="margin:0 0 10px; font-size:22px">Want to let us handle <b>ALL</b> the website stuff?</h4>
+            <p class="section-sub">Let <b>Snowhoney Studios</b> host your site! (Options available at checkout)</p>
+
+            <div class="grid cols-3" style="margin-top:16px">
+              <div class="card" style="padding:16px">
+                <img class="dec dec-c dec-md" src="images/bee_topright.webp" alt="" aria-hidden="true" />
+                <div class="badge"><i></i> Basic </div>
+                <div class="price"><span class="old-price">$24/mo</span><span class="new-price">$19/mo</span></div>
+                <p class="small">(Discount applies until cancelled!)</p>
+                <div class="inc">• Hosting</div>
+                <div class="inc">• Uptime</div>
+                <div class="inc">• 15 min edits</div>
+                <div class="cta" style="margin-top:12px; justify-content:space-between">
+                  <button class="btn secondary small learn-more" data-plan="basic-hosting">Learn More</button>
+                  <button class="btn primary small" onclick="openHostOnly('Basic Hosting')">Host Only →</button>
+                </div>
+              </div>
+            
+              <div class="card" style="padding:16px; border:2px solid var(--honey)">
+                <img class="dec dec-c dec-md" src="images/BoostBee.webp" alt="" aria-hidden="true" />
+                <div class="badge"><i></i> Boost </div>
+                <div class="price"><span class="old-price">$69/mo</span><span class="new-price">$49/mo</span></div>
+                <p class="small">(Discount applies until cancelled!)</p>
+                <div class="inc">• Domain Name Included</div>
+                <div class="inc">• Monthly Analytics Report</div>
+                <div class="inc">• 2 Content Changes per Month</div>
+                <div class="inc">• 1 Business email</div>
+                <div class="cta" style="margin-top:12px; justify-content:space-between">
+                  <button class="btn secondary small learn-more" data-plan="boost-hosting">Learn More</button>
+                  <button class="btn primary small" onclick="openHostOnly('Basic Hosting')">Host Only →</button>
+                </div>
+              </div>
+
+              <div class="card" style="padding:16px">
+                <img class="dec dec-c dec-md" src="images/DominateBee.webp" alt="" aria-hidden="true" />
+                <div class="badge"><i></i> Dominate </div>
+                <div class="price"><span class="old-price">$129/mo</span><span class="new-price">$99/mo</span></div>
+                <p class="small">(Discount applies until you cancel!)</p>
+                <div class="inc">• Domain Name Included</div>
+                <div class="inc">• Optimized Google Profile</div>
+                <div class="inc">• Unlimited Updates</div>
+                <div class="inc">• 5 Business Emails</div>
+                <div class="cta" style="margin-top:12px; justify-content:space-between">
+                  <button class="btn secondary small learn-more" data-plan="dominate-hosting">Learn More</button>
+                  <button class="btn primary small" onclick="openHostOnly('Basic Hosting')">Host Only →</button>
+                </div>
+              </div>
+          </div>
+        </div>
+          <p class="small" style="margin-top:12px; color:var(--muted)">
+            We'll cover all hosting costs, emails and domain purchasing specified, no extra fees for you! (emails and domain varies per plan)
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+        <section id="compare" data-aos="zoom-in-up" style="margin-top:80px;">
       <div class="container">
         <h3 class="section-title">Snowhoney vs Wix</h3>
-        <p class="section-sub">Here's how we compare to the industry leader, Wix.</p>
+        <p class="section-sub">Curious how we compare to Wix? Take a peek below!</p>
 
         <div class="grid" style="display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:24px;">
           <!-- Wix Column -->
@@ -189,158 +338,6 @@
           Wix pricing based on published rates as of Sept 2025. Wix is a registered trademark of Wix.com Ltd. 
           Snowhoney Studios is not affiliated with or endorsed by Wix. Comparisons are for informational purposes only.
         </p>
-      </div>
-    </section>
-
-
-
-
-    <section id="packages" data-aos="zoom-in-up">
-      <div class="container">
-        <h3 class="section-title">Packages</h3>
-        <p class="section-sub">Get anything you see on our site and more! Prices don't include tax.</p>
-        <div class="notice-bubble">
-          ℹ️ Additional pages can be added at checkout for $199 each.  
-          These do not include extra features beyond your chosen package.
-        </div>
-        <div style="text-align:right; margin-bottom:10px;">
-          <a href="pages.html" class="btn secondary small">What Counts as a Page?</a>
-        </div>
-        <div class="grid cols-3">
-
-          <!-- One Page -->
-          <div class="card brand-sheen">
-            <img class="dec dec-tr dec-sm" src="images/onepage.png" alt="" aria-hidden="true" />
-            <div class="badge" style="margin-bottom:10px"><i></i> One-Page Package</div>
-            <div class="price"><span class="old-price">$799</span><span class="new-price">$699 CAD</span></div>
-            <div class="inc">10-day turnaround • 2 revisions</div>
-            <ul class="list">
-              <li><span class="tick">✔</span> Mobile-friendly layout</li>
-              <li><span class="tick">✔</span> Graphic design with your branding</li>
-              <li><span class="tick">✔</span> Any features we have on this website</li>
-              <li><span class="tick">✔</span> Basic SEO</li>
-              <li><span class="tick">✔</span> 7-day free maintenance after launch</li>
-            </ul>
-            <div class="cta" style="margin-top:12px; justify-content:space-between">
-              <button class="btn secondary small learn-more" data-plan="one-page">Learn More</button>
-              <button class="btn primary" onclick="startOrder('One-Page Site',699)">Buy One-Page →</button>
-            </div>
-          </div>
-
-          <!-- Two Page -->
-          <div class="card brand-sheen" style="border:2px solid var(--honey)">
-            <img class="dec dec-tr dec-md" src="images/twopage.png" alt="" aria-hidden="true" />
-            <div class="badge" style="margin-bottom:10px"><i></i> Two-Page Package</div>
-            <div class="price"><span class="old-price">$1199</span><span class="new-price">$999 CAD</span></div>
-            <div class="inc">10-day turnaround • 2 revisions per page</div>
-            <ul class="list">
-              <li><span class="tick">✔</span> Everything in One-Page Site</li>
-              <li><span class="tick">✔</span> Extra page for services or products</li>
-              <li><span class="tick">✔</span> Bigger e-commerce setup (up to 20 products/services)</li>
-              <li><span class="tick">✔</span> Google Maps integration</li>
-            </ul>
-            <div class="cta" style="margin-top:12px; justify-content:space-between">
-              <button class="btn secondary small learn-more" data-plan="two-page">Learn More</button>
-              <button class="btn primary" onclick="startOrder('Two-Page Site',999)">Buy Two-Page →</button>
-            </div>
-            <div class="bonus">
-              🎁 Bonus: 30 Days of Free Basic Hosting!
-            </div>
-          </div>
-
-          <!-- Three Page -->
-          <div class="card brand-sheen">
-            <img class="dec dec-tr dec-md" src="images/threepage.png" alt="" aria-hidden="true" />
-            <div class="badge" style="margin-bottom:10px"><i></i> Three-Page Package</div>
-            <div class="price"><span class="old-price">$1699</span><span class="new-price">$1399 CAD</span></div>
-            <div class="inc">10-day turnaround • 2 revisions per page</div>
-            <ul class="list">
-              <li><span class="tick">✔</span> Everything in Two-Page Site</li>
-              <li><span class="tick">✔</span> Additional fully custom page (e.g., blog, gallery, or FAQ)</li>
-              <li><span class="tick">✔</span> Premium e-commerce setup (up to 50 products/services)</li>
-              <li><span class="tick">✔</span> Google Analytics integration </li>
-            </ul>
-            <div class="cta" style="margin-top:12px; justify-content:space-between">
-              <button class="btn secondary small learn-more" data-plan="three-page">Learn More</button>
-              <button class="btn primary" onclick="startOrder('Three-Page Site',1399)">Buy Three-Page →</button>
-            </div>
-            <div class="bonus">
-              🎁 Bonus: 90 Days of Free Basic Hosting!
-            </div>
-          </div>
-        </div>
-
-        <!-- Mockup -->
-        <div class="card brand-sheen" style="margin-top:14px; border:4px solid var(--icy)">
-            <img class="dec dec-cl dec-lg" src="images/bee_at_desk.webp" alt="" aria-hidden="true" />
-          <div class="badge" style="margin-bottom:10px"><i></i> Mockup Only</div>
-          <div class="price"><span class="old-price">$149</span><span class="new-price">$99 CAD</span></div>
-          <div class="inc">1–2 day turnaround • Preview of Mobile AND Desktop view</div>
-          <p class="small">Get a visual draft of your site before committing to a full build.</p>
-          <p class="small">If you proceed with a site package, we'll take the cost of your mockup off!</p>
-          <div class="cta" style="margin-top:12px; justify-content:left">
-            <button class="btn secondary small learn-more" data-plan="mockup">Learn More</button>
-            <button class="btn primary" onclick="startOrder('Mockup Only',99)">Buy Mockup →</button>
-          </div>
-        </div>
-
-        <!-- Hosting Plans -->
-        <div class="grid" style="grid-template-columns:minmax(0, 1320px); justify-content:center; margin-top:100px">
-          <div class="bigcard" style="padding:24px">
-            <h4 style="margin:0 0 10px; font-size:22px">Want to let us handle <b>ALL</b> the website stuff?</h4>
-            <p class="section-sub">Let <b>Snowhoney Studios</b> host your site! (Options available at checkout)</p>
-
-            <div class="grid cols-3" style="margin-top:16px">
-              <div class="card" style="padding:16px">
-                <img class="dec dec-c dec-md" src="images/bee_topright.webp" alt="" aria-hidden="true" />
-                <div class="badge"><i></i> Basic </div>
-                <div class="price"><span class="old-price">$24/mo</span><span class="new-price">$19/mo</span></div>
-                <p class="small">(Discount applies until cancelled!)</p>
-                <div class="inc">• Hosting</div>
-                <div class="inc">• Uptime</div>
-                <div class="inc">• 15 min edits</div>
-                <div class="cta" style="margin-top:12px; justify-content:space-between">
-                  <button class="btn secondary small learn-more" data-plan="basic-hosting">Learn More</button>
-                  <button class="btn primary small" onclick="openHostOnly('Basic Hosting')">Host Only →</button>
-                </div>
-              </div>
-            
-              <div class="card" style="padding:16px; border:2px solid var(--honey)">
-                <img class="dec dec-c dec-md" src="images/BoostBee.png" alt="" aria-hidden="true" />
-                <div class="badge"><i></i> Boost </div>
-                <div class="price"><span class="old-price">$69/mo</span><span class="new-price">$49/mo</span></div>
-                <p class="small">(Discount applies until cancelled!)</p>
-                <div class="inc">• Domain Name Included</div>
-                <div class="inc">• Monthly Analytics Report</div>
-                <div class="inc">• 2 Content Changes per Month</div>
-                <div class="inc">• 1 Business email</div>
-                <div class="cta" style="margin-top:12px; justify-content:space-between">
-                  <button class="btn secondary small learn-more" data-plan="boost-hosting">Learn More</button>
-                  <button class="btn primary small" onclick="openHostOnly('Basic Hosting')">Host Only →</button>
-                </div>
-              </div>
-
-              <div class="card" style="padding:16px">
-                <img class="dec dec-c dec-md" src="images/DominateBee.png" alt="" aria-hidden="true" />
-                <div class="badge"><i></i> Dominate </div>
-                <div class="price"><span class="old-price">$129/mo</span><span class="new-price">$99/mo</span></div>
-                <p class="small">(Discount applies until you cancel!)</p>
-                <div class="inc">• Domain Name Included</div>
-                <div class="inc">• Optimized Google Profile</div>
-                <div class="inc">• Unlimited Updates</div>
-                <div class="inc">• 5 Business Emails</div>
-                <div class="cta" style="margin-top:12px; justify-content:space-between">
-                  <button class="btn secondary small learn-more" data-plan="dominate-hosting">Learn More</button>
-                  <button class="btn primary small" onclick="openHostOnly('Basic Hosting')">Host Only →</button>
-                </div>
-              </div>
-          </div>
-        </div>
-          <p class="small" style="margin-top:12px; color:var(--muted)">
-            We'll cover all hosting costs, emails and domain purchasing specified, no extra fees for you! (emails and domain varies per plan)
-          </p>
-        </div>
-
       </div>
     </section>
 
@@ -633,7 +630,7 @@
           <div id="ownDomainWrap">
             <label>Your domain <span style="color:red">*</span></label>
             <div style="display:flex; gap:8px;">
-              <input name="ownDomain" id="ownDomainInput" placeholder="yourbusiness.ca" required />
+              <input name="hostOnlyOwnDomain" id="hostOnlyDomainInput" placeholder="yourbusiness.ca" />
               <button type="button" class="btn secondary small" id="needDomainBtn">I need a domain</button>
             </div>
           </div>
@@ -641,9 +638,9 @@
           <!-- Need domain preferences (hidden by default) -->
           <div id="needDomainWrap" class="hidden">
             <label>Domain preferences</label>
-            <input name="domain1" id="domain1" placeholder="Domain #1 (required)">
-            <input name="domain2" placeholder="Domain #2 (optional)">
-            <input name="domain3" placeholder="Domain #3 (optional)">
+            <input name="hostOnlyDomain1" id="hostOnlyDomain1" placeholder="Domain #1 (required)">
+            <input name="hostOnlyDomain2" placeholder="Domain #2 (optional)">
+            <input name="hostOnlyDomain3" placeholder="Domain #3 (optional)">
             <button type="button" class="btn secondary small" id="backToOwnBtn">← Back</button>
           </div>
 

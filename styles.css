@@ -658,7 +658,7 @@ a:focus-visible {
 
 /* Corner anchors (tweak the 10px gutters as you like) */
 .dec-tl { top: 50px; right: 600px; transform: rotate(var(--r, 8deg)) scale(var(--s, 1.1));}
-.dec-tr { top: 20px; right: 20px; transform: rotate(var(--r, -4deg)) scale(var(--s, 0.9));}
+.dec-tr { top: 30px; right: 30px; transform: rotate(var(--r, -4deg)) scale(var(--s, 0.9));}
 .dec-bl { bottom: 10px; left: 30px; }
 .dec-br { bottom: 60px; right: 10px; }
 .dec-tc { top: 10px; left: 50%; transform: translateX(-50%) rotate(var(--r, -4deg)) scale(var(--s, 1)); }
@@ -671,7 +671,8 @@ a:focus-visible {
 .dec-xs { --w: 22px; }
 .dec-sm { --w: 88px; }
 .dec-md { --w: 160px; }
-.dec-lg { --w: 236px; }
+.dec-lg { --w: 200px; }
+.dec-xl { --w: 236px; }
 .dec-flag { --w: 200px; }
 
 /* Hover brighten + tiny lift */
