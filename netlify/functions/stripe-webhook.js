@@ -91,7 +91,7 @@ export async function handler(event) {
         }
 
         await sgMail.send({
-          to: process.env.SENDGRID_TO,
+          to: process.env.SENDGRID_TO || "support@snowhoneystudios.ca",
           from: `"Snowhoney Studios" <noreply@snowhoneystudios.ca>`,
           subject: subjectLine,
           text: messageText,

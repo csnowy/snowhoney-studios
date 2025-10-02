@@ -1566,10 +1566,32 @@ footer a:hover {
   transform: scale(1.06); /* gentle upscale */
 }
 
+/* ========== HOSTING CARDS ========== */
+
+#packages .card img.dec.dec-c.dec-md[src*="bee_topright"] {
+  top: 140px !important;
+  right: 0px !important;
+  width: 110px;
+  transform: rotate(5deg) !important;
+}
+
+#packages .card img.dec.dec-c.dec-md[src*="BoostBee"] {
+  top: 20px !important;
+  right: 0px !important;
+  width: 130px;
+  transform: rotate(9deg) !important;
+}
+#packages .card img.dec.dec-c.dec-md[src*="DominateBee"] {
+  top: 70px !important;
+  right: 20px !important;
+  width: 180px;
+  transform: rotate(0deg) !important;
+}
+
 /* =======================
    MOBILE REFINEMENTS
    ======================= */
-@media (max-width: 768px) {
+@media (max-width: 820px) {
   /* General section spacing */
   section { padding: 18px 0; }
 
@@ -1612,7 +1634,7 @@ footer a:hover {
     padding: 4px 0;
   }
   #compare p.small {
-    font-size: 11px;
+    font-size: 8px;
     line-height: 1.3;
   }
 
@@ -1672,18 +1694,70 @@ footer a:hover {
   .mobile-menu a:last-child {
     border-bottom: none;
   }
-  /* Force all package card art into top-right corner */
-  #packages .card img.dec {
-    position: absolute !important;
-    top: 10px !important;
-    right: 10px !important;
-    left: auto !important;   /* cancel center/left positions */
-    bottom: auto !important; /* cancel bottom anchors */
-    width: 90px;            /* make them bigger */
-    height: auto;
-    opacity: 0.35;           /* subtle so text is still legible */
-    transform: none !important;
-  }
+
+  /* ========== PACKAGE CARDS ========== */
+
+/* Reset */
+#packages .card img.dec {
+  position: absolute !important;
+  left: auto !important;
+  bottom: auto !important;
+  opacity: 0.35;
+  height: auto;
+}
+
+/* One-Page */
+#packages .card img.dec.dec-sm {
+  top: 30px !important;
+  right: 50px !important;
+  width: 70px;
+  transform: rotate(-5deg);
+}
+
+/* Two-Page */
+#packages .card img.dec.dec-md[src*="twopage"] {
+  top: 20px !important;
+  right: 25px !important;
+  width: 110px;
+}
+
+/* Three-Page */
+#packages .card img.dec.dec-lg[src*="threepage"] {
+  top: 10px !important;
+  right: 10px !important;
+  width: 140px;
+}
+
+/* ========= MOCKUP CARD ========= */
+#packages .card img.dec.dec-cl.dec-xl[src*="bee_at_desk"] {
+  position: absolute !important;
+  top: 5px !important;
+  right: 35px !important;
+  width: 90px;
+  transform: rotate(5deg) !important; /* tilt the bee */
+}
+
+/* ========== HOSTING CARDS ========== */
+
+#packages .card img.dec.dec-c.dec-md[src*="bee_topright"] {
+  top: 0px !important;
+  right: 10px !important;
+  width: 110px;
+  transform: rotate(5deg) !important;
+}
+
+#packages .card img.dec.dec-c.dec-md[src*="BoostBee"] {
+  top: 0px !important;
+  right: 10px !important;
+  width: 130px;
+  transform: rotate(9deg) !important;
+}
+#packages .card img.dec.dec-c.dec-md[src*="DominateBee"] {
+  top: 40px !important;
+  right: 20px !important;
+  width: 180px;
+  transform: rotate(0deg) !important;
+}
 
   /* Hosting options */
   #wizard-step-hosting .hosting-options {
