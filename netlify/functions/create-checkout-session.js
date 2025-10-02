@@ -124,7 +124,7 @@ export async function handler(event) {
       customer_update: { address: "auto" },
 
       ...(subscription_data ? { subscription_data } : {}),
-      ...(discounts.length ? { discounts } : { allow_promotion_codes: true }),
+      ...(discounts.length ? { discounts } : { allow_promotion_codes: false }),
 
       metadata: {
         pkg,
