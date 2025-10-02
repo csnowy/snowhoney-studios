@@ -41,6 +41,9 @@ export async function handler(event) {
         const domains = session.metadata.domains || "—";
         const customerDetails = session.customer_details || {};
         const businessName = (JSON.parse(session.metadata.brief || "{}").businessName) || "";
+        const formFields = Object.entries(briefData)
+          .map(([key, val]) => `${key}: ${val}`)
+          .join("\n");
 
         let messageText;
           if (pkg === "Hosting Only") {
@@ -73,8 +76,10 @@ export async function handler(event) {
           Email: ${customerDetails.email}
 
           Package: ${pkg}
-          Hosting: ${session.metadata.hosting}
-          Domains: ${session.metadata.domains || "—"}
+          Hosting: ${hosting}
+          Domains: ${domains || "—"}
+
+          ${formFields || "No form data submitted"}
 
           Session: ${session.id}
             `;
@@ -109,80 +114,105 @@ export async function handler(event) {
           const hosting = session.metadata.hosting;
           const domains = session.metadata.domains || "—";
 
+          // Build list of form fields
+          const formFieldsHtml = Object.entries(briefData)
+            .map(([key, val]) => `<li><b>${key}:</b> ${val}</li>`)
+            .join("");
+
           let customerText, customerHtml;
 
           if (pkg === "Hosting Only") {
             customerText = `
-          Hi ${briefData.businessName || "there"},
+        Hi ${briefData.businessName || "there"},
 
-          Thanks for choosing Snowhoney Studios to host your website! 🐝❄️
+        Thanks for choosing Snowhoney Studios to host your website! 🐝❄️
 
-          Your order details:
-          - Hosting Plan: ${hosting}
-          - Domains: ${domains}
+        Your order details:
+        - Hosting Plan: ${hosting}
+        - Domains: ${domains}
 
-          We’ll connect your domain(s) and activate hosting within 24 hours.  
-          You’ll receive an email when everything is live and ready.
+        We’ll connect your domain(s) and activate hosting within 24 hours.  
+        You’ll receive an email when everything is live and ready.
 
-          — The Snowhoney Studios Team
+        — The Snowhoney Studios Team
             `;
 
             customerHtml = `
-              <div style="font-family: Arial, sans-serif; color:#222; line-height:1.6;">
-                <h2 style="color:#F5B700;">Hosting setup in progress! 🐝❄️</h2>
-                <p>Hi ${briefData.businessName || "there"},</p>
-                <p>Thanks for choosing Snowhoney Studios to host your site. Here’s what we have on file:</p>
-                <ul style="margin:16px 0; padding-left:18px; color:#333;">
+              <div style="font-family: 'Kode Mono', Arial, sans-serif; color:#29343b; background:#f9fbfc; padding:30px; border-radius:12px; max-width:600px; margin:0 auto;">
+                <div style="text-align:center; margin-bottom:20px;">
+                  <img src="https://snowhoneystudios.ca/icon.png" alt="Snowhoney Studios Logo" style="max-width:80px;">
+                  <h2 style="color:#2D7F84; font-family:'Freckle Face', cursive; margin:10px 0;">🐝❄️ Hosting setup in progress!</h2>
+                </div>
+
+                <p style="font-size:16px;">Hi ${briefData.businessName || "there"},</p>
+                <p>Thanks for choosing Snowhoney Studios to host your website! Here’s what we have on file:</p>
+
+                <ul style="list-style:none; padding:0; margin:20px 0; font-size:15px;">
                   <li><b>Hosting Plan:</b> ${hosting}</li>
                   <li><b>Domains:</b> ${domains}</li>
+                  ${formFieldsHtml}
                 </ul>
-                <p style="margin:16px 0; padding:12px; background:#E0F7FA; border-left:4px solid #2D7F84; border-radius:6px;">
-                  We’ll get your hosting set up within 24 hours and notify you once it’s active.
+
+                <div style="background:#E0F7FA; padding:15px; border-radius:8px; margin:20px 0;">
+                  <p style="margin:0; font-weight:bold; color:#2D7F84;">Next steps</p>
+                  <p style="margin:5px 0 0;">We’ll connect your domain(s) and activate hosting within 24 hours. You’ll receive another email when everything is live.</p>
+                </div>
+
+                <p style="margin-top:20px; font-size:14px; color:#555;">
+                  Thanks again for trusting <b style="color:#2D7F84;">Snowhoney Studios</b> with your hosting. We’ll keep your site fast, reliable, and humming 🐝❄️.
                 </p>
-                <p style="margin-top:20px;">
-                  Thanks again for trusting <b>Snowhoney Studios</b> with your hosting.  
-                  We’ll keep your site fast, reliable, and humming 🐝❄️.
+
+                <p style="font-size:13px; color:#999; text-align:center; margin-top:40px;">
+                  © ${new Date().getFullYear()} Snowhoney Studios — Made with 🍯 & ❄️
                 </p>
-                <br/>
-                <p>— The Snowhoney Studios Team</p>
               </div>
             `;
           } else {
             customerText = `
-          Hi ${briefData.businessName || "there"},
+        Hi ${briefData.businessName || "there"},
 
-          Thank you for your purchase with Snowhoney Studios! 🐝❄️
+        Thank you for your purchase with Snowhoney Studios! 🐝❄️
 
-          Your order details:
-          - Package: ${pkg}
-          - Hosting: ${hosting}
-          - Domains: ${domains}
+        Your order details:
+        - Package: ${pkg}
+        - Hosting: ${hosting}
+        - Domains: ${domains}
 
-          We’ll review your brief and start your project within the next 24 hours.  
-          You’ll receive updates by email as we progress.
+        We’ll review your brief and start your project within the next 24 hours.  
+        You’ll receive updates by email as we progress.
 
-          — The Snowhoney Studios Team
+        — The Snowhoney Studios Team
             `;
 
             customerHtml = `
-              <div style="font-family: Arial, sans-serif; color:#222; line-height:1.6;">
-                <h2 style="color:#F5B700;">Thanks for your order with Snowhoney Studios! 🐝❄️</h2>
-                <p>Hi ${briefData.businessName || "there"},</p>
+              <div style="font-family: 'Kode Mono', Arial, sans-serif; color:#29343b; background:#f9fbfc; padding:30px; border-radius:12px; max-width:600px; margin:0 auto;">
+                <div style="text-align:center; margin-bottom:20px;">
+                  <img src="https://snowhoneystudios.ca/icon.png" alt="Snowhoney Studios Logo" style="max-width:80px;">
+                  <h2 style="color:#d54830; font-family:'Freckle Face', cursive; margin:10px 0;">🐝❄️ Thank you for your order!</h2>
+                </div>
+
+                <p style="font-size:16px;">Hi ${briefData.businessName || "there"},</p>
                 <p>We’re excited to get started on your new website. Here’s a summary of your order:</p>
-                <ul style="margin:16px 0; padding-left:18px; color:#333;">
+
+                <ul style="list-style:none; padding:0; margin:20px 0; font-size:15px;">
                   <li><b>Package:</b> ${pkg}</li>
                   <li><b>Hosting:</b> ${hosting}</li>
                   <li><b>Domains:</b> ${domains}</li>
+                  ${formFieldsHtml}
                 </ul>
-                <p style="margin:16px 0; padding:12px; background:#FFF8E1; border-left:4px solid #F5B700; border-radius:6px;">
-                  We’ll review your brief and begin work within 24 hours.  
-                  Expect updates by email as we progress. 🛠️
+
+                <div style="background:#FFF8E1; padding:15px; border-radius:8px; margin:20px 0;">
+                  <p style="margin:0; font-weight:bold; color:#d54830;">What happens next?</p>
+                  <p style="margin:5px 0 0;">We’ll review your brief and begin work within 24 hours. Expect updates by email as we progress 🛠️.</p>
+                </div>
+
+                <p style="margin-top:20px; font-size:14px; color:#555;">
+                  Thanks again for trusting <b style="color:#d54830;">Snowhoney Studios</b> — where ideas drip with honey and sparkle with snow ✨.
                 </p>
-                <p style="margin-top:20px;">
-                  Thanks again for trusting <b>Snowhoney Studios</b> — where ideas drip with honey and sparkle with snow. ✨
+
+                <p style="font-size:13px; color:#999; text-align:center; margin-top:40px;">
+                  © ${new Date().getFullYear()} Snowhoney Studios — Made with 🍯 & ❄️
                 </p>
-                <br/>
-                <p>— The Snowhoney Studios Team</p>
               </div>
             `;
           }
